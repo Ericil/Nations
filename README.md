@@ -1,8 +1,22 @@
-# Nations
+# Nations (Tentative)
 
-We have decided to create a game where players control cities and battle it out between each other. Players will spawn in with a city with stats generated from some random, real, country’s info. They can then build and upgrade their city, and take over surrounding empty cities. There will be a limit to how many people can spawn on each map, and if there are more players than the set amount, a new map will be created and all subsequent players will be added to this map. When players encounter other players, they can interact with each other in a variety of ways, from invading and taking over another player’s cities, to making alliances and friends.	
-We plan on making this game multiplayer, and using apis to generate a player’s starting stats. This will make it interesting because if you’re really lucky, you can get a good country’s stats, but if you’re unlucky, it’ll be much harder to start off.	
-The team:	
+Ever harbored dreams of world domination? Control cities and battle it out with others in Nations, a muti-player nation building game. Start off with a city with stats based on data from real, randomly chosen countries. Build up your city and expand by taking over neighboring cities. Interact with  players, forge alliances, wage war against other cities, and expand your lands. But don't stop there. Aim for the world.
+
+## Features
+
+1. Player may aim for world domination
+2. Player must govern all cities under his\her nation and ensure happiness of citizens
+3. Player may wage war against other nations. On success, player can integrate those nations into their own and rename all cities.
+4. Player may forge alliances with other nations, which may help in times of trouble and be a source of trade
+5. Status of cities will update in real time according to the real world country their stats are based on. 
+
+
+## Toolset
+
+Coming soon
+
+# The Team
+
 Derry Li	
 Sally Bao	
 Milo Bernfield-Millman	
