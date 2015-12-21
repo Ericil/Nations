@@ -20,5 +20,4 @@ Coming soon
 Derry Li	
 Sally Bao	
 Milo Bernfield-Millman	
-Mariya Gedrich	
 Kaizen Castanos	
