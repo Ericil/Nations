@@ -2,7 +2,10 @@
   margin: 0 auto;
   display: inline-block;
 }
-#main_container {
-  margin: 0 auto;
-  text-align: left;
+input {
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	padding: 4px 7px;
+	/*box-shadow: 2px 2px 3px #666;
+	//outline: 0;*/
 }
