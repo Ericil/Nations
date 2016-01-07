@@ -1,0 +1,61 @@
+import sqlite3
+""" TABLES:
+
+
+accounts (account_id INTEGER PRIMARY KEY, uname TEXT, pword TEXT, email TEXT)
+
+cities (city_id INTEGER PRIMARY KEY, account_id INTEGER, city_name TEXT, cx INTEGER, cy INTEGER)
+
+buildings (city_id INTEGER, bx INTEGER, by INTEGER, type INTEGER, level INTEGER)
+
+"""
+
+#+========================+#
+#+=====++ Accounts ++=====+#
+#+========================+#
+
+def unameAuth(uname):
+    conn = sqlite3.connect("Data.db")
+    c = conn.cursor()
+    accounts = c.execute("SELECT uname FROM accounts")
+    for r in accounts:
+        if r[0] == uname:
+            return True
+    return False
+
+def pwordAuth(uname, pword):
+    conn = sqlite3.connect("Data.db")
+    c = conn.cursor()
+    p = c.execute("SELECT pword FROM accounts WHERE uname = '"+uname+"';")
+    for r in p:
+        return r[0] == pword
+    return False
+
+def addAccount(uname, pword, first, last):
+    conn = sqlite3.connect("Data.db")
+    c = conn.cursor()
+    if uname.find(",") != -1: # it can't have a comma in it
+        return "This account name has a character that is not allowed (',')"
+    if uname.find("'") != -1: # it can't have an apostrophe in it
+        return "This account name has a character that is not allowed (''')"
+    accounts = c.execute("SELECT uname FROM accounts")
+    for r in accounts:
+        if r[0] == uname:
+            return "This account name already exists"
+    c.execute("INSERT INTO accounts VALUES (?, ?, ?, ?, ?, ?, ?);", (replaceAp(uname), replaceAp(pword), replaceAp(first), replaceAp(last), "", "", ""))
+    conn.commit()
+
+def changePword(uname, oldP, newP, cNewP):
+    conn = sqlite3.connect("Data.db")
+    c = conn.cursor()
+    p = c.execute("SELECT pword FROM accounts WHERE uname = '"+uname+"';")
+    for r in p:
+        result = r[0]
+    if result != oldP:
+        return "The password you input was incorrect."
+    if newP != cNewP:
+        return "The confirmed new password did not match."
+    else:
+        c.execute("UPDATE accounts SET pword = '"+replaceAp(newP)+"' WHERE uname = '"+uname+"';")
+        conn.commit()        
+        return "Password successfully updated"
