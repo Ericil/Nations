@@ -83,10 +83,24 @@ def getCitiesID(uname):
     p = c.execute("SELECT city_id FROM cities WHERE account_id = %s;", %(id))
     return p
 
+def addCity(city_name, cx, cy):
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    c.execute("INSERT INTO cities (?, ?, ?, ?)", (0, city_name, cx, cy))
+    conn.commit()
+
 #+========================+#
 #+========Buildings=======+#
 #+========================+#
 
-def getBuildingsIn(cityName):
+def getBuildingsIn(cityID):
     conn = sqlite3.connect("data.db")
-    
+    c = conn.cursor()
+    p = c.execute("SELECT FROM buildings WHERE city_id = %s;", %(cityID))
+    return p
+
+def buildIn(cityID, bx, by, type):
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    c.execute("INSERT INTO buildings (?, ?, ?, ?, ?)", (cityID, bx, by, 1))
+    conn.commit()
