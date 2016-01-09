@@ -10,19 +10,20 @@
     <link rel="shortcut icon" href="img/favicon.ico">
     
     <style>
-		#sideoptions {
-			width: 60px;
-		}
-		
-    .btn-option {
-    }
-	
-		.btn-group-vertical > button {
-			position: absolute;
-			left: 8px;
-			margin-bottom: 10px;
-			border-radius: 25px !important;
-		}
+      #sideoptions {
+      width: 60px;
+      }
+   
+      .btn-group-vertical > button {
+      position: absolute;
+      left: 8px;
+      margin-bottom: 10px;
+      border-radius: 25px !important;
+      }
+
+      .popup-form {
+
+      }
     </style>
   </head>
 
@@ -31,59 +32,61 @@
     <!-- Nav bar -->
     <nav class="navbar navbar-inverse" role="navigation">
       <div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-01">
-					<span class="sr-only">Toggle navigation</span>
-				</button>
-				<a class="navbar-brand" href="#">Obamanation</a>
+	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-01">
+	  <span class="sr-only">Toggle navigation</span>
+	</button>
+	<a class="navbar-brand" href="#">Obamanation</a>
       </div>
       <div class="collapse navbar-collapse" id="navbar-collapse-01">
-				<ul class="nav navbar-nav">
-					<li>Steel</li>
-					<li>Potatoes</li>
-				</ul>
-				<ul class="nav navbar-nav navbar-right">
-					<li class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-							<span class="glyphicon glyphicon-cog"></span> Settings</a>
-						<ul class="dropdown-menu">
-							<li><a href="/logout">Log Out</a></li>
-							<li><a href="/settings">Account</a></li>
-						</ul>
-					</li>
-				</ul>
+	<ul class="nav navbar-nav">
+	  <li>Steel</li>
+	  <li>Potatoes</li>
+	</ul>
+	<ul class="nav navbar-nav navbar-right">
+	  <li class="dropdown">
+	    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+	      <span class="glyphicon glyphicon-cog"></span> Settings</a>
+	    <ul class="dropdown-menu">
+	      <li><a href="/logout">Log Out</a></li>
+	      <li><a href="/settings">Account</a></li>
+	    </ul>
+	  </li>
+	</ul>
       </div>
     </nav>
 
-    
+    <!-- Side menu -->
     <div id="sideoptions">
-			<div class="btn-group-vertical">
-				<button id="options" class="btn btn-default" type="button">
-					<span class="glyphicon glyphicon-list"></span>
-				</button>
-				
-				<button id="message" class="btn btn-default btn-option" type="button">
-					<span class="glyphicon glyphicon-envelope"></span>
-				</button>
+      <div class="btn-group-vertical">
+	<button id="options" class="btn btn-default" type="button">
+	  <span class="glyphicon glyphicon-list"></span>
+	</button>
 	
-				<button id="overview" class="btn btn-default btn-option" type="button">
-					<span class="glyphicon glyphicon-flag"></span>
-				</button>
+	<button id="message" class="btn btn-default btn-option" type="button">
+	  <span class="glyphicon glyphicon-envelope"></span>
+	</button>
+	
+	<button id="overview" class="btn btn-default btn-option" type="button">
+	  <span class="glyphicon glyphicon-flag"></span>
+	</button>
 
-				<button id="buildinfo" class="btn btn-default btn-option" type="button">
-					<span class="glyphicon glyphicon-home"></span>
-				</button>
+	<button id="buildinfo" class="btn btn-default btn-option" type="button">
+	  <span class="glyphicon glyphicon-home"></span>
+	</button>
 
-				<button id="build" class="btn btn-default btn-option" type="button">
-					<span class="glyphicon glyphicon-wrench"></span>
-				</button>				
-		
-				
-			</div>
-		</div>
+	<button id="build" class="btn btn-default btn-option" type="button">
+	  <span class="glyphicon glyphicon-wrench"></span>
+	</button>					
+      </div>
+    </div>
+
+
+   <!-- Overview -->
+ 
     
-		<script src="dist/js/vendor/jquery.min.js"></script>
-		<script src="dist/js/flat-ui.min.js"></script>
-		<script src="../static/settings.js"></script>
+    <script src="dist/js/vendor/jquery.min.js"></script>
+    <script src="dist/js/flat-ui.min.js"></script>
+    <script src="../static/settings.js"></script>
   </body>
   
 </html>
