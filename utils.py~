@@ -12,6 +12,7 @@ messages (fromID INTEGER, toID INTEGER, message INTEGER, time INTEGER, seen INTE
 
 """
 
+
 #+========================+#
 #+=====++ Accounts ++=====+#
 #+========================+#

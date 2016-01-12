@@ -75,6 +75,7 @@ def changePword(uname, oldP, newP, cNewP):
 #+==========Cities========+#
 #+========================+#
 
+## Returns a list of city_ids of that uname
 def getCitiesID(uname):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
@@ -84,24 +85,64 @@ def getCitiesID(uname):
     p = c.execute("SELECT city_id FROM cities WHERE account_id = %s;", %(id))
     return p
 
-def addCity(city_name, cx, cy):
+## returns the cityID based on x and y
+def getCity(cx, cy):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
-    c.execute("INSERT INTO cities (?, ?, ?, ?)", (0, city_name, cx, cy))
+    p = c.execute("SELECT city_id FROM cities WHERE cx = ? AND cy = ?;", (cx, cy))
+    for r in p:
+        return r[0]
+
+## adds a city owned by no one in place cx, cy named city_name
+def addCity(cityName, cx, cy, wood, iron, gold, food):
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+
+    startPop = 100; # a constant that represents how much population the city starts with
+    startSol = 50; # a constant that represents how many soldiers the city starts with
+
+    c.execute("INSERT INTO cities (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (0, cityName, cx, cy, wood, iron, gold, food, startPop, startSol))
     conn.commit()
+
+def getResources(cityID):
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    p = c.execute("SELECT wood, iron, gold, food, population, soldiers FROM cities WHERE city_id = %s;", %(cityID))
+    for r in p:
+        return r[0]
 
 #+========================+#
 #+========Buildings=======+#
 #+========================+#
 
+# gets a list of dictionaries, gathering all info about all buildings in city with cityID
 def getBuildingsIn(cityID):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
     p = c.execute("SELECT FROM buildings WHERE city_id = %s;", %(cityID))
     return p
 
-def buildIn(cityID, bx, by, type):
+## returns the BuildingID based on city_id, bx and by
+def getBuilding(cityID, bx, by):
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    p = c.execute("SELECT building_id FROM buildings WHERE city_id = ? AND cx = ? AND cy = ?;", (cityID, bx, by))
+    for r in p:
+        return r[0]
+
+# add a building in cityID at bx, by, with type
+def addBuilding(cityID, bx, by, type):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
     c.execute("INSERT INTO buildings (?, ?, ?, ?, ?)", (cityID, bx, by, 1))
     conn.commit()
+
+# ?
+def getBuilding(buildingID):
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    
+def getmsg
+
+# getMultipliers(city_id)
+# updateResources(city_id)
