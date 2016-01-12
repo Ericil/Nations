@@ -21,20 +21,36 @@
 			border-radius: 25px !important;
     }
 
-    div#overview-popup {
-			position: absolute;
-			left: 33.33%;
-			top: 17%;
-    }
-
-		#overview-form {
-			width: 500px;
+    .modal-backdrop {
+			background: none;
 		}
     </style>
   </head>
 
   
   <body>
+		<!-- Overview -->
+		<div id="overview-popup">
+			<div class="modal fade" id="overview-form" tabindex="-1" role="dialog" aria-labelledby="overview-label">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-labelledby="close"><span aria-hidden="true">&times;</span></button>
+
+							<h4 class="modal-title" id="overview-label">City Name</h4>
+						</div>
+
+						<div class="modal-body">
+							Some text here <br>
+							And here
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		
     <!-- Nav bar: Contains resources and settings -->
     <nav class="navbar navbar-inverse" role="navigation">
       <div class="navbar-header">
@@ -87,16 +103,7 @@
     </div>
 
 
-		<!-- Overview -->
-		<div id="overview-popup">
-			<div id="overview-form" class="panel panel-info center-block">
-				<div class="panel-heading">City Name</div>
-				<div class="panel-body">
-					<p> Some Info </p>
-					<p> Some more Info </p>
-				</div>
-			</div>
-		</div> 
+
     
 		<script src="dist/js/vendor/jquery.min.js"></script>
 		<script src="dist/js/flat-ui.min.js"></script>

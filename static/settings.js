@@ -49,8 +49,12 @@ var clickOptions = function clickOptions(){
 /*Brings up the city overview screen
  */
 var showOverview = function showOverview(){
-		var form = document.getElementById("overview-popup");
-		form.style.display = "block";
+		$('#overview-form').modal();
+		
+		/*
+			var form = document.getElementById("overview-popup");
+			form.style.display = "block";
+		*/
 };
 
 
