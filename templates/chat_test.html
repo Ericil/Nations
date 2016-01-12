@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <meta charset ="UTF-8">
+  <head>
+    <title>DomiNation</title>
+    <!-- Loading Bootstrap -->
+    <link href="dist/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Loading Flat UI -->
+    <link href="dist/css/flat-ui.css" rel="stylesheet">
+    <link rel="shortcut icon" href="img/favicon.ico">
+    
+    <style> 
+      #chatbox {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      height: 300;
+      }
+      #chat-body {
+      height: calc(100vh - 500px);
+      }
+    </style>
+  </head>
+
+  
+  <body>
+    
+    
+    <div id="chatbox" class="panel panel-primary">
+      <div class="panel-heading">Bob</div>
+      <div id="chat-body" class="panel-body">Content here<br><br><br><br></div>
+      <div class="panel-footer">
+
+	<form class="form-inline" role="form">
+	  <div class="form-group">
+	    <input type="text" class="form-control input-sm"/>
+	    <button type="button" class="btn btn-default btn-sm">Send</button>
+	  </div> 
+	</form>
+
+      </div>
+    </div>
+
+
+
+    <script src="dist/js/vendor/jquery.min.js"></script>
+    <script src="dist/js/flat-ui.min.js"></script>
+    <script src="../static/settings.js"></script>
+  </body>
+  
+</html>
