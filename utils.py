@@ -71,6 +71,12 @@ def changePword(uname, oldP, newP, cNewP):
         conn.commit()        
         return "Password successfully updated"
 
+## finds the account_id with uname uname
+def findID(uname):
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+
+
 #+========================+#
 #+==========Cities========+#
 #+========================+#
@@ -130,19 +136,41 @@ def getBuilding(cityID, bx, by):
     for r in p:
         return r[0]
 
-# add a building in cityID at bx, by, with type
+## add a building in cityID at bx, by, with type
 def addBuilding(cityID, bx, by, type):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
     c.execute("INSERT INTO buildings (?, ?, ?, ?, ?)", (cityID, bx, by, 1))
     conn.commit()
 
-# ?
+## ?
 def getBuilding(buildingID):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
-    
-def getmsg
+    p = c.execute("SELECT city_id, bx, by, type, level FROM buildings WHERE building_id = %s;", %(buildingID))
+    for r in p:
+        return r[0]
+
+## returns a list of dictionaries of messages between fromUser and toUser (fromUser is logged in)
+def getmsgs(fromUser, toUser):
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    list = []
+    p = c.execute("SELECT from_id, message, time FROM messages WHERE from_user = ? AND to_user = ?;", (fromUser, toUser))
+    for r in p:
+        list.add(r)
+    p = c.execute("SELECT from_id, message, time FROM messages WHERE from_user = ? AND to_user = ?;", (toUser, fromUser))
+    for r in p:
+        list.add(r)
+    return list
+
+## gets all friends of account with uname = uname
+def getFriends(uname):
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    p = c.execute("SELECT them FROM friends WHERE you = %s;", %(uname))
+    for r in p:
+        return r[0]
 
 # getMultipliers(city_id)
 # updateResources(city_id)

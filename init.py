@@ -30,7 +30,7 @@ c.execute(q, %("cities", 'city_id INTEGER PRIMARY KEY AUTOINCREMENT, account_id 
 
 c.execute(q, %("buildings", 'building_id INTEGER PRIMARY KEY AUTOINCREMENT, city_id INTEGER, bx INTEGER, by INTEGER, type INTEGER, level INTEGER'))
 
-c.execute(q, %("messages", 'fromID INTEGER, toID INTEGER, message TEXT, time INTEGER, seen INTEGER'))
+c.execute(q, %("messages", 'from_id INTEGER, to_id INTEGER, message TEXT, time INTEGER, seen INTEGER'))
 
 c.execute(q, %("friends", 'you INTEGER, them INTEGER'))
 
