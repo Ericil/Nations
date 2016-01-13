@@ -3,73 +3,67 @@
   <meta charset ="UTF-8">
   <head>
     <title>DomiNation</title>
-		
-		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-		<link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
-		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
-		
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-		
-		
-		<!-- 
-				 <link href="dist/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-				 <link href="dist/css/flat-ui.css" rel="stylesheet">
-				 <link rel="shortcut icon" href="img/favicon.ico">-->
-
-
     
-		<style>
-		#sideoptions {
-			width: 60px;
-		}
-		
-		.btn-group-vertical > button {
-			position: absolute;
-			left: 8px;
-			margin-bottom: 10px;
-			border-radius: 25px !important;
-		}
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+ <link rel="stylesheet" href="{{url_for('static', filename='dist/css/flat-ui.min.css')}}"
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="{{url_for('static', filename='dist/js/flat-ui.min.js')}}"></script>
+     
+    <style>
+      #sideoptions {
+      width: 60px;
+      }
+      
+      .btn-group-vertical > button {
+      position: absolute;
+      left: 8px;
+      margin-bottom: 10px;
+      border-radius: 25px !important;
+      }
 
-		.modal-backdrop {
-			background: none;
-		}
+      .modal-backdrop {
+      background: none;
+      }
 
-		#chatbox {
-			position: fixed;
-			left: 0;
-			bottom: 0;
-			width: 250px;
-			display: none;
-		}
-		
-		#chat-body {
-			height: calc(100vh - 700px);
-			overflow-y: scroll;
-		}
+      #chatbox {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 250px;
+      display: none;
+      }
+      
+      #chat-body {
+      height: calc(100vh - 700px);
+      overflow-y: scroll;
+      }
 
-	
-		</style>
+      
+    </style>
   </head>
 
   
   <body>
-		<!-- Overview -->
-		{% include 'overview.html' %}
+    <!-- Overview -->
+    {% include 'overview.html' %}
 
-		
+    
     <!-- Nav bar: Contains resources and settings -->
     {% include 'navbar.html' %}
 
     <!-- Side menu -->
     {% include 'sideoptions.html' %}
-		
-		<!-- chat -->
-		{% include "chat.html" %}
+    
+    <!-- chat -->
+    {% include "chat.html" %}
 
-	
-	
-		<script src="../static/settings.js"></script>
+    
+    
+    <script src="../static/settings.js"></script>
   </body>
   
 </html>
