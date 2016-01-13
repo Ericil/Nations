@@ -3,110 +3,72 @@
   <meta charset ="UTF-8">
   <head>
     <title>DomiNation</title>
-    <!-- Loading Bootstrap -->
-    <link href="dist/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Loading Flat UI -->
-    <link href="dist/css/flat-ui.css" rel="stylesheet">
-    <link rel="shortcut icon" href="img/favicon.ico">
-    
-    <style>
-    #sideoptions {
-      width: 60px;
-    }
 		
-    .btn-group-vertical > button {
-      position: absolute;
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		
+		
+		<!-- 
+				 <link href="dist/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+				 <link href="dist/css/flat-ui.css" rel="stylesheet">
+				 <link rel="shortcut icon" href="img/favicon.ico">-->
+
+
+    
+		<style>
+		#sideoptions {
+			width: 60px;
+		}
+		
+		.btn-group-vertical > button {
+			position: absolute;
 			left: 8px;
 			margin-bottom: 10px;
 			border-radius: 25px !important;
-    }
+		}
 
-    .modal-backdrop {
+		.modal-backdrop {
 			background: none;
 		}
-    </style>
+
+		#chatbox {
+			position: fixed;
+			left: 0;
+			bottom: 0;
+			width: 250px;
+			display: none;
+		}
+		
+		#chat-body {
+			height: calc(100vh - 700px);
+			overflow-y: scroll;
+		}
+
+	
+		</style>
   </head>
 
   
   <body>
 		<!-- Overview -->
-		<div id="overview-popup">
-			<div class="modal fade" id="overview-form" tabindex="-1" role="dialog" aria-labelledby="overview-label">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-labelledby="close"><span aria-hidden="true">&times;</span></button>
+		{% include 'overview.html' %}
 
-							<h4 class="modal-title" id="overview-label">City Name</h4>
-						</div>
-
-						<div class="modal-body">
-							Some text here <br>
-							And here
-						</div>
-						
-					</div>
-				</div>
-			</div>
-		</div>
 		
     <!-- Nav bar: Contains resources and settings -->
-    <nav class="navbar navbar-inverse" role="navigation">
-      <div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-01">
-					<span class="sr-only">Toggle navigation</span>
-				</button>
-				<a class="navbar-brand" href="#">Obamanation</a>
-      </div>
-      <div class="collapse navbar-collapse" id="navbar-collapse-01">
-				<ul class="nav navbar-nav">
-					<li>Steel</li>
-					<li>Potatoes</li>
-				</ul>
-				<ul class="nav navbar-nav navbar-right">
-					<li class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-							<span class="glyphicon glyphicon-cog"></span> Settings</a>
-						<ul class="dropdown-menu">
-							<li><a href="/logout">Log Out</a></li>
-							<li><a href="/settings">Account</a></li>
-						</ul>
-					</li>
-				</ul>
-      </div>
-    </nav>
+    {% include 'navbar.html' %}
 
     <!-- Side menu -->
-    <div id="sideoptions">
-      <div class="btn-group-vertical">
-				<button id="options" class="btn btn-default" type="button">
-					<span class="glyphicon glyphicon-list"></span>
-				</button>
+    {% include 'sideoptions.html' %}
+		
+		<!-- chat -->
+		{% include "chat.html" %}
+
 	
-				<button id="message" class="btn btn-default btn-option" type="button" data-toggle="tooltip" data-placement="right" title="Message">
-					<span class="glyphicon glyphicon-envelope"></span>
-				</button>
 	
-				<button id="overview" class="btn btn-default btn-option" type="button" data-toggle="tooltip" data-placement="right" title="Stats">
-					<span class="glyphicon glyphicon-flag"></span>
-				</button>
-
-				<button id="buildinfo" class="btn btn-default btn-option" type="button" data-toggle="tooltip" data-placement="right" title="Upgrade">
-					<span class="glyphicon glyphicon-home"></span>
-				</button>
-
-				<button id="build" class="btn btn-default btn-option" type="button" data-toggle="tooltip" data-placement="right" title="Build">
-					<span class="glyphicon glyphicon-wrench"></span>
-				</button>					
-      </div>
-    </div>
-
-
-
-    
-		<script src="dist/js/vendor/jquery.min.js"></script>
-		<script src="dist/js/flat-ui.min.js"></script>
 		<script src="../static/settings.js"></script>
   </body>
   

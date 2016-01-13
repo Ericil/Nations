@@ -22,6 +22,27 @@ var hoverOptions = function hoverOptions(){
 		$('[data-toggle="tooltip"]').tooltip();
 };
 
+/*Adds closing capability
+	Adds text input to chat body
+*/
+var chatSetUp = function chatSetUp(){
+		$("#chat-close").click(function(e){
+				$("#chatbox").css("display", "none");
+		});
+		
+		var text = document.getElementById("chat-input");
+		text.addEventListener("keydown", function(e){
+				if (e.keyCode == 13){
+						e.preventDefault();
+						if (this.value && this.value.trim()){	
+								var body = document.getElementById("chat-body");
+								body.innerHTML += this.value.trim()  + '<br>';
+								this.value = "";
+								body.scrollTop = body.scrollHeight - body.clientHeight;
+						}
+				}
+		})
+};
 
 /*Adds click events to buttons
 	Run a different function depending on the button
@@ -50,13 +71,15 @@ var clickOptions = function clickOptions(){
  */
 var showOverview = function showOverview(){
 		$('#overview-form').modal();
-		
-		/*
-			var form = document.getElementById("overview-popup");
-			form.style.display = "block";
-		*/
+};
+
+
+var message = function message(){
+		var chatbox = document.getElementById("chatbox");
+		chatbox.style.display = "block";
 };
 
 
 hoverOptions();
 clickOptions();
+chatSetUp();
