@@ -29,7 +29,7 @@ def unameAuth(uname):
 def pwordAuth(uname, pword):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
-    p = c.execute("SELECT pword FROM accounts WHERE uname = '%s';", %(uname))
+    p = c.execute("SELECT pword FROM accounts WHERE uname = '%s';" %(uname))
     for r in p:
         return r[0] == pword
     return False
@@ -52,14 +52,19 @@ def addAccount(uname, pword, email):
         if r[0] == email:
             return "There is already an account associated with this email"
 
-    c.execute("INSERT INTO accounts VALUES (?, ?, ?);", (uname, pword, email))
+    c.execute("INSERT INTO accounts(uname, pword, email) VALUES (?, ?, ?);", (uname, pword, email))
     conn.commit()
+
+addAccount("milo", "123", "")
+print"Correct login: "+ str(pwordAuth("milo", "123"))
+print"Incorrect login: "+str(pwordAuth("bla bla", "321"))
+print "\n"
 
 
 def changePword(uname, oldP, newP, cNewP):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
-    p = c.execute("SELECT pword FROM accounts WHERE uname = '%s';", %(uname))
+    p = c.execute("SELECT pword FROM accounts WHERE uname = '%s';" %(uname))
     for r in p:
         result = r[0]
     if result != oldP:
@@ -75,29 +80,17 @@ def changePword(uname, oldP, newP, cNewP):
 def findID(uname):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
+    p = c.execute("SELECT account_id FROM accounts WHERE uname = '%s';" %(uname))
+    for r in p:
+        return r[0]
+    return -1
 
+print "FindID('milo'): "+str(findID("milo"))
 
 #+========================+#
 #+==========Cities========+#
 #+========================+#
 
-## Returns a list of city_ids of that uname
-def getCitiesID(uname):
-    conn = sqlite3.connect("data.db")
-    c = conn.cursor()
-    p = c.execute("SELECT account_id FROM accounts WHERE uname = '%s';", %(uname))
-    for r in p:
-        id = r[0]
-    p = c.execute("SELECT city_id FROM cities WHERE account_id = %s;", %(id))
-    return p
-
-## returns the cityID based on x and y
-def getCity(cx, cy):
-    conn = sqlite3.connect("data.db")
-    c = conn.cursor()
-    p = c.execute("SELECT city_id FROM cities WHERE cx = ? AND cy = ?;", (cx, cy))
-    for r in p:
-        return r[0]
 
 ## adds a city owned by no one in place cx, cy named city_name
 def addCity(cityName, cx, cy, wood, iron, gold, food):
@@ -110,10 +103,30 @@ def addCity(cityName, cx, cy, wood, iron, gold, food):
     c.execute("INSERT INTO cities (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (0, cityName, cx, cy, wood, iron, gold, food, startPop, startSol))
     conn.commit()
 
+## Returns a list of city_ids of that uname
+def getCitiesID(uname):
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    p = c.execute("SELECT account_id FROM accounts WHERE uname = '%s';" %(uname))
+    for r in p:
+        id = r[0]
+    p = c.execute("SELECT city_id FROM cities WHERE account_id = %s;" %(id))
+    return p
+
+## returns the cityID based on x and y
+def getCity(cx, cy):
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    p = c.execute("SELECT city_id FROM cities WHERE cx = ? AND cy = ?;", (cx, cy))
+    for r in p:
+        return r[0]
+
+
+
 def getResources(cityID):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
-    p = c.execute("SELECT wood, iron, gold, food, population, soldiers FROM cities WHERE city_id = %s;", %(cityID))
+    p = c.execute("SELECT wood, iron, gold, food, population, soldiers FROM cities WHERE city_id = %s;" %(cityID))
     for r in p:
         return r[0]
 
@@ -125,7 +138,7 @@ def getResources(cityID):
 def getBuildingsIn(cityID):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
-    p = c.execute("SELECT FROM buildings WHERE city_id = %s;", %(cityID))
+    p = c.execute("SELECT FROM buildings WHERE city_id = %s;" %(cityID))
     return p
 
 ## returns the BuildingID based on city_id, bx and by
@@ -147,7 +160,7 @@ def addBuilding(cityID, bx, by, type):
 def getBuilding(buildingID):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
-    p = c.execute("SELECT city_id, bx, by, type, level FROM buildings WHERE building_id = %s;", %(buildingID))
+    p = c.execute("SELECT city_id, bx, by, type, level FROM buildings WHERE building_id = %s;" %(buildingID))
     for r in p:
         return r[0]
 
@@ -168,9 +181,11 @@ def getmsgs(fromUser, toUser):
 def getFriends(uname):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
-    p = c.execute("SELECT them FROM friends WHERE you = %s;", %(uname))
+    p = c.execute("SELECT them FROM friends WHERE you = %s;" %(uname))
     for r in p:
         return r[0]
+
+
 
 # getMultipliers(city_id)
 # updateResources(city_id)
