@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <meta charset ="UTF-8">
+  <head>
+    <title>DomiNation</title>
+    
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{url_for('static', filename='dist/css/flat-ui.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="{{url_for('static', filename='dist/js/flat-ui.min.js')}}"></script>
+    
+    <style>
+    #sideoptions {
+      width: 60px;
+    }
+    
+    .btn-group-vertical > button {
+      position: absolute;
+      left: 8px;
+      margin-bottom: 10px;
+      border-radius: 25px !important;
+    }
+
+    .modal-backdrop {
+      background: none;
+    }
+
+    #chatbox {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 250px;
+      opacity: 0.6;
+      display: none;
+    }
+
+		#chatbox:hover {
+			opacity: 1.0;
+		}
+    
+    #chat-body {
+      height: 225px;
+      width: 246px;
+      word-wrap: break-word;
+      overflow-y: scroll;
+      font-size: small;
+    }
+
+    #chat-input {
+      resize: none;
+      width: 100%;
+      height: 100%;
+      font-size: small;
+    }
+		
+		#build-bar {
+			position: fixed;
+			bottom: 0;
+			right: 0;
+			width: 15%;
+			height: 90%;
+		}
+		
+		#build-group {
+			width: 100%;
+		}
+      
+    </style>
+  </head>
+
+
+  <body>
+		
+    <!-- Overview -->
+    {% include 'overview.html' %}
+
+    <!-- Nav bar: Contains resources and settings -->
+    {% include 'navbar.html' %}
+
+    <!-- Side menu -->
+    {% include 'sideoptions.html' %}
+   
+		
+		{% include 'build.html' %}
+
+		<!-- chat -->
+    {% include 'chat.html' %}
+
+
+    <script src="{{url_for('static', filename='build.js')}}"></script>
+		<script src="{{url_for('static', filename='overview.js')}}"></script>
+		<script src="{{url_for('static', filename='chat.js')}}"></script>
+    <script src="{{url_for('static', filename='settings.js')}}"></script>
+  </body>
+
+</html>
