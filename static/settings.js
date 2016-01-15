@@ -6,49 +6,23 @@ console.log("These are the settings");
 */
 var hoverOptions = function hoverOptions(){
     $("#options").mouseover(function(){
-	$(".btn-group-vertical button").each(function(i){
-	    if (i > 0)
-		$(this).fadeIn();
-	});
-    });
+				$("#option-group button").each(function(i){
+						if (i > 0)
+								$(this).fadeIn();
+				});
+		});
 
-    $("#sideoptions").mouseleave(function(){
-	$(".btn-group-vertical button").each(function(i){
-	    if (i > 0)
-		$(this).fadeOut();	
-	});
-    });
-    
-    $('[data-toggle="tooltip"]').tooltip();
-};
-
-var addText = function addText(e){
-		if (e.keyCode == 13){
-				e.preventDefault();
-				var input = document.getElementById("chat-input");
-				if (input.value && input.value.trim()){	
-						var body = document.getElementById("chat-body");
-						body.innerHTML += input.value.trim() + "<br/>";
-						input.value = "";
-						body.scrollTop = body.scrollHeight - body.clientHeight;
-				}
-		}
-
-};
-
-/*Adds closing capability
-	Adds text input to chat body
-*/
-var chatSetup = function chatSetup(){
-		$("#chat-close").click(function(e){
-				$("#chatbox").css("display", "none");
+		$("#sideoptions").mouseleave(function(){
+				$("#option-group button").each(function(i){
+						if (i > 0)
+								$(this).fadeOut();	
+				});
 		});
     
-		var text = document.getElementById("chat-input");
-		text.addEventListener("keydown", function(e){
-				addText(e);
-		})
+		$('[data-toggle="tooltip"]').tooltip();
 };
+
+
 
 /*Adds click events to buttons
 	Run a different function depending on the button
@@ -59,32 +33,18 @@ var clickOptions = function clickOptions(){
 				console.log(e.target.id);
 				switch(e.target.id) {
 				case "overview":
-						showOverview();
+						overview();
 						break;
 				case "message":
 						message();
 						break;
-				case "buildinfo":
-						showBuildInfo();
-						break;
 				case "build":
 						build();
+						break;
 				}
 		});
 };
 
-
-/*Brings up the city overview screen
- */
-var showOverview = function showOverview(){
-		$('#overview-form').modal();
-};
-
-
-var message = function message(){
-		var chatbox = document.getElementById("chatbox");
-		chatbox.style.display = "block";
-};
 
 
 hoverOptions();

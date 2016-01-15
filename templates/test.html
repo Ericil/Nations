@@ -14,53 +14,67 @@
     <script src="{{url_for('static', filename='dist/js/flat-ui.min.js')}}"></script>
     
     <style>
-      #sideoptions {
+    #sideoptions {
       width: 60px;
-      }
-      
-      .btn-group-vertical > button {
+    }
+    
+    .btn-group-vertical > button {
       position: absolute;
       left: 8px;
       margin-bottom: 10px;
       border-radius: 25px !important;
-      }
+    }
 
-      .modal-backdrop {
+    .modal-backdrop {
       background: none;
-      }
+    }
 
-      #chatbox {
+    #chatbox {
       position: fixed;
       left: 0;
       bottom: 0;
       width: 250px;
       opacity: 0.6;
       display: none;
-      }
-      
-      #chat-body {
+    }
+
+		#chatbox:hover {
+			opacity: 1.0;
+		}
+    
+    #chat-body {
       height: 225px;
       width: 246px;
       word-wrap: break-word;
       overflow-y: scroll;
       font-size: small;
-      }
+    }
 
-      #chat-input {
+    #chat-input {
       resize: none;
       width: 100%;
       height: 100%;
       font-size: small;
-      }
-
+    }
+		
+		#build-bar {
+			position: fixed;
+			bottom: 0;
+			right: 0;
+			width: 15%;
+			height: 90%;
+		}
+		
+		#build-group {
+			width: 100%;
+		}
       
     </style>
   </head>
 
 
   <body>
-
-{% include 'build.html' %}
+		
     <!-- Overview -->
     {% include 'overview.html' %}
 
@@ -69,14 +83,18 @@
 
     <!-- Side menu -->
     {% include 'sideoptions.html' %}
-    
-    <!-- chat -->
+   
+		
+		{% include 'build.html' %}
+
+		<!-- chat -->
     {% include 'chat.html' %}
 
 
-
-    
-    <script src="../static/settings.js"></script>
+    <script src="{{url_for('static', filename='build.js')}}"></script>
+		<script src="{{url_for('static', filename='overview.js')}}"></script>
+		<script src="{{url_for('static', filename='chat.js')}}"></script>
+    <script src="{{url_for('static', filename='settings.js')}}"></script>
   </body>
 
 </html>
