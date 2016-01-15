@@ -6,43 +6,43 @@ console.log("These are the settings");
 */
 var hoverOptions = function hoverOptions(){
     $("#options").mouseover(function(){
-				$("#option-group button").each(function(i){
-						if (i > 0)
-								$(this).fadeIn();
-				});
-		});
+	$("#option-group button").each(function(i){
+	    if (i > 0)
+		$(this).fadeIn();
+	});
+    });
 
-		$("#sideoptions").mouseleave(function(){
-				$("#option-group button").each(function(i){
-						if (i > 0)
-								$(this).fadeOut();	
-				});
-		});
+    $("#sideoptions").mouseleave(function(){
+	$("#option-group button").each(function(i){
+	    if (i > 0)
+		$(this).fadeOut();	
+	});
+    });
     
-		$('[data-toggle="tooltip"]').tooltip();
+    $('[data-toggle="tooltip"]').tooltip();
 };
 
 
 
 /*Adds click events to buttons
-	Run a different function depending on the button
+  Run a different function depending on the button
 */
 var clickOptions = function clickOptions(){
-		var options = document.getElementById("sideoptions");
-		options.addEventListener("click", function(e){
-				console.log(e.target.id);
-				switch(e.target.id) {
-				case "overview":
-						overview();
-						break;
-				case "message":
-						message();
-						break;
-				case "build":
-						build();
-						break;
-				}
-		});
+    var options = document.getElementById("sideoptions");
+    options.addEventListener("click", function(e){
+	console.log(e.target.id);
+	switch(e.target.id) {
+	case "overview":
+	    overview();
+	    break;
+	case "message":
+	    message();
+	    break;
+	case "build":
+	    build();
+	    break;
+	}
+    });
 };
 
 
