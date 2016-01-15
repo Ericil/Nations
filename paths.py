@@ -44,6 +44,23 @@ def play2:
 
 @app.route("/loginfinished/<username>", methods = ["GET", "POST"])
 def logfin:
+
+
+@app.route("/functions", methods = ["GET", "POST"])
+def functions(a):
+    if a == "resources":
+        return "resources"
+    if a = "multipliers":
+        return "multipliers
+    if a == "msgs":
+        return "msgs"
+    if a == "worldmap":
+        return "worldmap"
+    if a == "buildings":
+        return "buildings"
+    if a == "cities":
+        return "cities"
+    
     
 
 if __name__ = "__main__":
