@@ -100,8 +100,10 @@ def addCity(cityName, cx, cy, wood, iron, gold, food):
     startPop = 100; # a constant that represents how much population the city starts with
     startSol = 50; # a constant that represents how many soldiers the city starts with
 
-    c.execute("INSERT INTO cities (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (0, cityName, cx, cy, wood, iron, gold, food, startPop, startSol))
+    c.execute("INSERT INTO cities(account_id, city_name, cx, cy, wood, iron, gold, food, population, soldiers) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (0, cityName, cx, cy, wood, iron, gold, food, startPop, startSol))
     conn.commit()
+
+addCity("Milopolis", 3, 4, 100, 50, 50, 50)
 
 ## Returns a list of city_ids of that uname
 def getCitiesID(uname):
@@ -113,6 +115,8 @@ def getCitiesID(uname):
     p = c.execute("SELECT city_id FROM cities WHERE account_id = %s;" %(id))
     return p
 
+print "getCitiesID('milo'): "+str(getCitiesID("milo"))
+
 ## returns the cityID based on x and y
 def getCity(cx, cy):
     conn = sqlite3.connect("data.db")
@@ -121,7 +125,8 @@ def getCity(cx, cy):
     for r in p:
         return r[0]
 
-
+print "getCity(2, 1): "+str(getCity(2, 1))
+print "getCity(3, 4): "+str(getCity(3, 4))
 
 def getResources(cityID):
     conn = sqlite3.connect("data.db")
