@@ -6,17 +6,17 @@ console.log("These are the settings");
 */
 var hoverOptions = function hoverOptions(){
     $("#options").mouseover(function(){
-	$("#option-group button").each(function(i){
-	    if (i > 0)
-		$(this).fadeIn();
-	});
+				$("#option-group button").each(function(i){
+						if (i > 0)
+								$(this).fadeIn();
+				});
     });
 
     $("#sideoptions").mouseleave(function(){
-	$("#option-group button").each(function(i){
-	    if (i > 0)
-		$(this).fadeOut();	
-	});
+				$("#option-group button").each(function(i){
+						if (i > 0)
+								$(this).fadeOut();	
+				});
     });
     
     $('[data-toggle="tooltip"]').tooltip();
@@ -30,18 +30,18 @@ var hoverOptions = function hoverOptions(){
 var clickOptions = function clickOptions(){
     var options = document.getElementById("sideoptions");
     options.addEventListener("click", function(e){
-	console.log(e.target.id);
-	switch(e.target.id) {
-	case "overview":
-	    overview();
-	    break;
-	case "message":
-	    message();
-	    break;
-	case "build":
-	    build();
-	    break;
-	}
+				console.log(e.target.id);
+				switch(e.target.id) {
+				case "overview":
+						overview();
+						break;
+				case "message":
+						message();
+						break;
+				case "build":
+						build();
+						break;
+				}
     });
 };
 

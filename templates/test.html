@@ -11,75 +11,21 @@
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script src="{{url_for('static', filename='dist/js/flat-ui.min.js')}}"></script>
+    <!-- - <script src="{{url_for('static', filename='dist/js/flat-ui.min.js')}}"></script>-->
     
     <style>
-    #sideoptions {
-      width: 60px;
-    }
+	
     
-    .btn-group-vertical > button {
-      position: absolute;
-      left: 8px;
-      margin-bottom: 10px;
-      border-radius: 25px !important;
-    }
-
-    .modal-backdrop {
-      background: none;
-    }
-
-    #chatbox {
-      position: fixed;
-      left: 0;
-      bottom: 0;
-      width: 250px;
-      opacity: 0.6;
-      display: none;
-    }
-
-		#chatbox:hover {
-			opacity: 1.0;
-		}
-    
-    #chat-body {
-      height: 225px;
-      width: 246px;
-      word-wrap: break-word;
-      overflow-y: scroll;
-      font-size: small;
-    }
-
-    #chat-input {
-      resize: none;
-      width: 100%;
-      height: 100%;
-      font-size: small;
-    }
-		
-		#build-bar {
-			position: fixed;
-			bottom: 0;
-			right: 0;
-			width: 15%;
-			height: 90%;
-		}
-		
-		#build-group {
-			width: 100%;
-		}
-      
     </style>
   </head>
 
 
   <body>
 		
+		<!-- Nav bar: Contains resources and settings -->
+    {% include 'navbar.html' %}
     <!-- Overview -->
     {% include 'overview.html' %}
-
-    <!-- Nav bar: Contains resources and settings -->
-    {% include 'navbar.html' %}
 
     <!-- Side menu -->
     {% include 'sideoptions.html' %}
