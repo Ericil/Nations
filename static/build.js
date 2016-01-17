@@ -2,27 +2,36 @@ console.log("Here is the build");
 
 var pos = 0;
 
-
+/*Make the bar appear or disappear
+ */
 var build = function build(){
 		$("#build-bar").animate({
 				width: 'toggle'
 		});
 };
 
+
+/*Disable a button by id
+ */
 var disable = function disable(name){
 		var button = document.getElementById(name);
 		button.classList.add("disabled");
 		button.disabled = true;
 };
 
+
+/*Enable a button by id
+ */
 var enable = function enable(name){
 		var button = document.getElementById(name);
 		button.classList.remove("disabled");
 		button.disabled = false;
 };
 
-
+/*Show the previous 6 choices
+ */
 var slidePrevious = function slidePrevious(){
+		console.log("Who is the chicken now");
 		pos -= 6;
 		var panels = document.getElementsByClassName("build-panel");
 		for (var i = pos; i >= 0; i--){
@@ -34,9 +43,12 @@ var slidePrevious = function slidePrevious(){
 				disable("build-previous");
 				enable("build-next");
 		}
+		
+				//$(".build-header").slice(pos, pos + 6).show();
 };
 
-
+/*Show the next 6 choices
+ */
 var slideNext = function slideNext(){
 		pos += 6;
 		var panels = document.getElementsByClassName("build-panel");
@@ -44,6 +56,8 @@ var slideNext = function slideNext(){
 				panels[i].classList.add("next");
 		}
 		
+		//$(".build-header").slice(pos - 6, pos).hide();
+
 		if (pos + 6 >= panels.length){
 				pos = panels.length;
 				disable("build-next");
@@ -51,7 +65,8 @@ var slideNext = function slideNext(){
 		}
 };
 
-
+/*Add click events listeners to buttons
+ */
 var buildSetup = function buildSetup(){
 		var previous = document.getElementById("build-previous");
 		previous.addEventListener("click", slidePrevious);

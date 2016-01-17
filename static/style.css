@@ -18,6 +18,17 @@ body {
 
 /*------------------------------ Overview ---------------------------------*/
 
+.modal {
+		position: absolute;
+		top: 30px;
+		right: 100px;
+		bottom: 0;
+		left: 0;
+		z-index: 10040;
+		overflow: auto;
+		overflow-y: auto;
+}
+
 .modal-backdrop {
     background: none;
 }
@@ -34,7 +45,6 @@ body {
 				);
 }
 
-
 .modal-content {
 		opacity: 0.9;
 		color: #ccffff;
@@ -48,7 +58,6 @@ body {
 
 .nav-tabs > li > a:hover {
 		background-color:	#001a33;
-
 }
 
 .nav-tabs > li.active > a,
@@ -63,10 +72,21 @@ body {
 		opacity: 1;
 }
 
-.stat-item {
-		text-decoration: underline;
+ul.overview-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		border: none;
 }
 
+ul.overview-list > li {
+		border-bottom: 0.5px solid white;
+		margin: 0;
+}
+
+ul.overview-list > li span {
+		float: right;
+}
 
 /*-------------------------------- Chat -----------------------------------*/
 
@@ -104,7 +124,7 @@ body {
 		position: fixed;
 		bottom: 0;
 		right: 0;
-		width: 12%;
+		width: 10%;
 		height: 90%;
 		opacity: 0.8;
 		border-radius: 5px;
@@ -124,23 +144,24 @@ body {
 		bottom: 0;
 		left: 0;
 		right: 0;
-		width: 70%;
+		width: 80%;
 		height: 91.5%;
 		margin: auto;
 		overflow-y: hidden;
-		background-color: black; 
+		/*	background-color: black; */
 }
 
 .build-panel {
-		width: 90%;
+		width: 80%;
 		height: calc(100% / 7);
-		background-color: white;
 		margin-top: 15px;
 		margin-bottom: 15px;
 		margin-left: auto;
 		margin-right: auto;
-		
+
 		border-radius: 10px;
+		border-style: groove;
+		border-color: white;
 
 		/*Transition*/
 		-webkit-transition: all 0.5s ease;
@@ -152,6 +173,7 @@ body {
 		height: 0;
 		margin-top: 0;
 		margin-bottom: 0;
+		border-style: none;
 }
 
 .build-panel:hover {
@@ -160,13 +182,21 @@ body {
 		-moz-box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
 		box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
 }
-/*
+
+
 .build-header {
-		background-color: #2952a3;
+		/*
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		border-top-left-radius: 10px;
+		border-top-right-radius: 10px;
 		width: 100%;
-		height: 15px;
+	 */
 }
-*/
+
 #build-previous, #build-next {
 		width: 100%;
 }
