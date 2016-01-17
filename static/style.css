@@ -2,6 +2,8 @@ body {
 		background-image: url("http://www.geforce.com/sites/default/files-world/screenshots/civilization-v/screenshot2.jpg");
 }
 
+/*-------------------------------- Options -----------------------------------*/
+
 #sideoptions {
     width: 60px;
 }
@@ -13,9 +15,60 @@ body {
     border-radius: 25px !important;
 }
 
+
+/*------------------------------ Overview ---------------------------------*/
+
 .modal-backdrop {
     background: none;
 }
+
+.modal-header {
+		border-top-left-radius: 5px;
+		border-top-right-radius: 5px;
+		color: #ccffff;
+		
+		background-image:
+		linear-gradient(
+						#001a33,
+						#34495E
+				);
+}
+
+
+.modal-content {
+		opacity: 0.9;
+		color: #ccffff;
+		
+		background-image:
+		radial-gradient(
+						#34495E,
+						#001a33 
+				);
+}
+
+.nav-tabs > li > a:hover {
+		background-color:	#001a33;
+
+}
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+		color: white;
+		background-color:	#34495E;
+}
+
+.close {
+		color: white;
+		opacity: 1;
+}
+
+.stat-item {
+		text-decoration: underline;
+}
+
+
+/*-------------------------------- Chat -----------------------------------*/
 
 #chatbox {
     position: fixed;
@@ -45,6 +98,8 @@ body {
     font-size: small;
 }
 
+/*-------------------------------- Build -----------------------------------*/
+
 #build-bar {
 		position: fixed;
 		bottom: 0;
@@ -55,7 +110,7 @@ body {
 		border-radius: 5px;
 		margin-top: 15px;
 		margin-bottom: 15px;
-
+		
 		background-image:
 		radial-gradient(
 						#34495E,
@@ -64,23 +119,27 @@ body {
 }
 
 .build-group {
-		position: absolute;
+		position: relative;
 		top: 0;
 		bottom: 0;
 		left: 0;
 		right: 0;
 		width: 70%;
-		height: 90%;
+		height: 91.5%;
 		margin: auto;
-		/*background-color: black;*/
+		overflow-y: hidden;
+		background-color: black; 
 }
 
 .build-panel {
-		width: 100%;
+		width: 90%;
 		height: calc(100% / 7);
 		background-color: white;
 		margin-top: 15px;
 		margin-bottom: 15px;
+		margin-left: auto;
+		margin-right: auto;
+		
 		border-radius: 10px;
 
 		/*Transition*/
@@ -89,13 +148,25 @@ body {
 		-o-transition: all 0.5s ease;
 }
 
+.build-panel.next {
+		height: 0;
+		margin-top: 0;
+		margin-bottom: 0;
+}
+
 .build-panel:hover {
 		/*Glow*/
 		-webkit-box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
 		-moz-box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
 		box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
 }
-
+/*
+.build-header {
+		background-color: #2952a3;
+		width: 100%;
+		height: 15px;
+}
+*/
 #build-previous, #build-next {
 		width: 100%;
 }
@@ -111,3 +182,4 @@ body {
 		border-bottom-left-radius: 0px;
 		border-bottom-right-radius: 0px;
 }
+

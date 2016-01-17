@@ -46,7 +46,10 @@ var clickOptions = function clickOptions(){
 };
 
 
-
-hoverOptions();
-clickOptions();
-chatSetup();
+$(document).ready(function(){
+		console.log("ready");
+		hoverOptions();
+		clickOptions();
+		chatSetup();
+		buildSetup();
+});
