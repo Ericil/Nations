@@ -12,7 +12,7 @@ var hoverOptions = function hoverOptions(){
 				});
     });
 
-    $("#sideoptions").mouseleave(function(){
+    $("#option-group").mouseleave(function(){
 				$("#option-group button").each(function(i){
 						if (i > 0)
 								$(this).fadeOut();	

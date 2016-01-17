@@ -36,6 +36,7 @@ var slidePrevious = function slidePrevious(){
 		var panels = document.getElementsByClassName("build-panel");
 		for (var i = pos; i >= 0; i--){
 				panels[i].classList.remove("next");
+				panels[i].children[0].classList.remove("header-next");
 		}
 		
 		if (pos <= 6){
@@ -43,8 +44,6 @@ var slidePrevious = function slidePrevious(){
 				disable("build-previous");
 				enable("build-next");
 		}
-		
-				//$(".build-header").slice(pos, pos + 6).show();
 };
 
 /*Show the next 6 choices
@@ -54,10 +53,9 @@ var slideNext = function slideNext(){
 		var panels = document.getElementsByClassName("build-panel");
 		for (var i = 0; i < panels.length && i < pos; i++){
 				panels[i].classList.add("next");
+				panels[i].children[0].classList.add("header-next");
 		}
 		
-		//$(".build-header").slice(pos - 6, pos).hide();
-
 		if (pos + 6 >= panels.length){
 				pos = panels.length;
 				disable("build-next");
