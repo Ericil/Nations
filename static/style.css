@@ -110,25 +110,45 @@ ul.overview-list > li span {
 
 /*-------------------------------- Chat -----------------------------------*/
 
-#chatbox {
+.chat-box {
 		position: fixed;
 		left: 0;
 		bottom: 0;
 		width: 250px;
-		opacity: 0.7;
-		display: none;
+		height: 320px;
+		background-color: #34495E;
+		opacity: 0.8;
+		/*display: none;*/
 }
 
-#chatbox:hover {
-		opacity: 1.0;
+
+.chat-head {
+		width: 100%;
+		height: 10%;
+		background-color: white;
+		border-top-left-radius: 5px;
+		border-top-right-radius: 5px;
+		padding-left: 10px;
+		padding-right: 10px;
+		padding-bottom: 5px;
+		background-color: #001a33;
 }
 
-#chat-body {
-		height: 225px;
-		width: 246px;
+.chat-body {
+		width: 95%;
+		height: 70%;
+		border-right: 0.5px solid gray;
 		word-wrap: break-word;
 		overflow-y: scroll;
 		font-size: small;
+		color: white;
+		margin-left: 10px;
+		margin-right: 15px;
+}
+
+.chat-text {
+		width: 100%;
+		height: 20%;
 }
 
 #chat-input {
@@ -136,7 +156,18 @@ ul.overview-list > li span {
 		width: 100%;
 		height: 100%;
 		font-size: small;
+		border-radius: 0;
+		overflow: hidden;
+		opacity: 0.8;
+		border: 0.5px solid gray;
+		outline: none;
+		
+		-webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
 }
+
+
 
 /*-------------------------------- Build -----------------------------------*/
 
@@ -144,8 +175,8 @@ ul.overview-list > li span {
 		position: fixed;
 		bottom: 0;
 		right: 0;
-		width: 10%;
-		height: 90%;
+		width: 200px;
+		height: 850px;
 		opacity: 0.8;
 		border-radius: 5px;
 		margin-top: 15px;

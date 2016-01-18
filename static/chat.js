@@ -11,8 +11,9 @@ var addText = function addText(e){
 		if (e.keyCode == 13){
 				e.preventDefault();
 				var input = document.getElementById("chat-input");
+				console.log(input.value);
 				if (input.value && input.value.trim()){	
-						var body = document.getElementById("chat-body");
+						var body = document.getElementById("chatbody");
 						body.innerHTML += input.value.trim() + "<br/>";
 						input.value = "";
 						body.scrollTop = body.scrollHeight - body.clientHeight;
