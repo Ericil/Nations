@@ -1,53 +1,38 @@
-$(document).ready(function() {
-	Crafty.init();
+console.log("Hello");
 
-	Crafty.sprite(128, "images/sprite.png", {
-		grass: [0,0,1,1],
-		stone: [1,0,1,1]
-	});
-
-	iso = Crafty.isometric.init(128);
-	var z = 0;
-	for(var i = 20; i >= 0; i--) {
-		for(var y = 0; y < 20; y++) {
-			var which = Crafty.randRange(0,1);
-			var tile = Crafty.e("2D, DOM, "+ (!which ? "grass" : "stone") +", Mouse")
-			.attr('z',i+1 * y+1).areaMap([64,0],[128,32],[128,96],[64,128],[0,96],[0,32]).bind("click", function(e) {
-				//destroy on right click
-				if(e.button === 2) this.destroy();
-			}).bind("mouseover", function() {
-				if(this.has("grass")) {
-					this.sprite(0,1,1,1);
-				} else {
-					this.sprite(1,1,1,1);
-				}
-			}).bind("mouseout", function() {
-				if(this.has("grass")) {
-					this.sprite(0,0,1,1);
-				} else {
-					this.sprite(1,0,1,1);
-				}
-			});
-			
-			iso.place(i,y,0, tile);
-		}
-	}
-	
-	Crafty.addEvent(this, Crafty.stage.elem, "mousedown", function(e) {
-		if(e.button > 1) return;
-		var base = {x: e.clientX, y: e.clientY};
-
-		function scroll(e) {
-			var dx = base.x - e.clientX,
-				dy = base.y - e.clientY;
-				base = {x: e.clientX, y: e.clientY};
-			Crafty.viewport.x -= dx;
-			Crafty.viewport.y -= dy;
-		};
-
-		Crafty.addEvent(this, Crafty.stage.elem, "mousemove", scroll);
-		Crafty.addEvent(this, Crafty.stage.elem, "mouseup", function() {
-			Crafty.removeEvent(this, Crafty.stage.elem, "mousemove", scroll);
-		});
-	});
+Crafty.init(1000, 1000, document.getElementById('game'));
+//use a div with id="game", first two numbers are pixel dimensions
+Crafty.sprite(136,260, "sprites2.png", {
+    tile: [0,0,1,1],
+    building:[1,0,1,1]
 });
+var iso = Crafty.isometric.size(136);
+for(var i = 5; i >= 0; i--) {
+    for(var y = 0; y < 5; y++) {
+	var gTile = Crafty.e("2D, DOM, tile, Mouse")
+	    .attr('z', (i+1 * y+1))//makes things look pretty
+	    .attr({xCord: i, yCord: y})
+	    .areaMap([68,0],[136,32],[136,48],[68,84],[0,48],[0,32])
+	    .bind("MouseOver", function(){
+		//this.sprite(0,84,136,84);//select sprite
+	    }).bind("MouseOut", function(){
+		//this.sprite(0,0,136,84);//regular sprite
+	    }).bind("Click", function(){
+		generate(this);
+	    });
+	iso.place(i,y,0, gTile);
+    }
+}
+function generate(thingy){
+    var tile = Crafty.e("2D, DOM, building, Mouse")
+	.attr('z', (thingy.xCord+1 * thingy.yCord+1))
+	.areaMap([21,52],[116,52],[118,232],[21,232]);
+    /*
+      .bind("MouseOver", function(){
+      this.sprite(2,1,1,1);//select sprite
+      }).bind("MouseOut", function(){
+      this.sprite(2,0,1,1);//regular sprite
+      })
+    */
+    iso.place(thingy.xCord,thingy.yCord,5,tile);
+}
