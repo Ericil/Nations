@@ -2,7 +2,7 @@ console.log("Hello");
 
 Crafty.init(1000, 1000, document.getElementById('game'));
 //use a div with id="game", first two numbers are pixel dimensions
-Crafty.sprite(136,260, "sprites2.png", {
+Crafty.sprite(136,260, "http://i.imgur.com/g8V3KVU.png", {
     tile: [0,0,1,1],
     building:[1,0,1,1]
 });

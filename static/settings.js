@@ -6,14 +6,14 @@ console.log("These are the settings");
 */
 var hoverOptions = function hoverOptions(){
     $("#options").mouseover(function(){
-				$("#option-group button").each(function(i){
+				$(".btn-option").each(function(i){
 						if (i > 0)
 								$(this).fadeIn();
 				});
     });
 
-    $("#option-group").mouseleave(function(){
-				$("#option-group button").each(function(i){
+    $("#sideoptions").mouseleave(function(){
+				$(".btn-option").each(function(i){
 						if (i > 0)
 								$(this).fadeOut();	
 				});

@@ -31,7 +31,6 @@ var enable = function enable(name){
 /*Show the previous 6 choices
  */
 var slidePrevious = function slidePrevious(){
-		console.log("Who is the chicken now");
 		pos -= 6;
 		var panels = document.getElementsByClassName("build-panel");
 		for (var i = pos; i >= 0; i--){

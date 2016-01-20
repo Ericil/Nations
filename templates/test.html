@@ -3,7 +3,8 @@
   <meta charset ="UTF-8">
   <head>
     <title>DomiNation</title>
-    
+
+		
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{url_for('static', filename='dist/css/flat-ui.min.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
@@ -11,35 +12,38 @@
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<script src="https://rawgithub.com/craftyjs/Crafty/release/dist/crafty-min.js"></script>
     <!-- - <script src="{{url_for('static', filename='dist/js/flat-ui.min.js')}}"></script>-->
     
   </head>
 
 
   <body>
- 
-    <!-- Nav bar: Contains resources and settings -->
-    {% include 'navbar.html' %}
-    <!-- Overview -->
-    {% include 'overview.html' %}
 
-    <!-- Side menu -->
-    {% include 'sideoptions.html' %}
+	
+		<!-- Nav bar: Contains resources and settings -->
+		{% include 'navbar.html' %}
+
+		<div id="game"></div>
+		<!-- Overview -->
+		{% include 'overview.html' %}
+
+		<!-- Side menu -->
+		{% include 'sideoptions.html' %}
     
     
-    {% include 'build.html' %}
+		{% include 'build.html' %}
 
-    <!-- chat -->
-    {% include 'chat.html' %}
+		<!-- chat -->
+		{% include 'chat.html' %}
 
-    <div id="game"></div>  
- 
-    <script type="text/javascript" src="https://rawgithub.com/craftyjs/Crafty/release/dist/crafty-min.js"></script>
-    <script type="text/javascript" src="game.js"></script>
-    <script src="{{url_for('static', filename='build.js')}}"></script>
-    <script src="{{url_for('static', filename='overview.js')}}"></script>
-    <script src="{{url_for('static', filename='chat.js')}}"></script>
-    <script src="{{url_for('static', filename='settings.js')}}"></script>
+  
+  
+		<script src="{{url_for('static', filename='game.js')}}"></script>
+		<script src="{{url_for('static', filename='build.js')}}"></script>
+		<script src="{{url_for('static', filename='overview.js')}}"></script>
+		<script src="{{url_for('static', filename='chat.js')}}"></script>
+		<script src="{{url_for('static', filename='settings.js')}}"></script>
   </body>
 
 </html>
