@@ -3,7 +3,7 @@
 		top: 200px;
 		margin: auto;
 		background-color: purple;
-		z-index: -1;
+	
 }
 
 
@@ -196,11 +196,7 @@ ul.overview-list > li span {
 }
 
 .build-group {
-		position: relative;
-		top: 0;
-		bottom: 0;
-		left: 0;
-		right: 0;
+	
 		width: 80%;
 		height: 91.5%;
 		margin-right: auto;
@@ -211,7 +207,7 @@ ul.overview-list > li span {
 
 .build-panel {
 		width: 80%;
-		height: calc(100% / 7);
+		height: calc(100% / 6.8);
 		margin-top: 9%;
 		margin-bottom: 9%;
 		margin-left: auto;
@@ -255,16 +251,19 @@ ul.overview-list > li span {
 
 #build-previous, #build-next {
 		width: 100%;
+		height: 4.25%
 }
 
 #build-next {
-		position: absolute;
+		position: relative;
 		bottom: 0;
 		border-top-left-radius: 0px;
 		border-top-right-radius: 0px;
 }
 
 #build-previous {
+		position: relative;
+		top: 0;
 		border-bottom-left-radius: 0px;
 		border-bottom-right-radius: 0px;
 }
