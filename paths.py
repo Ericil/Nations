@@ -46,22 +46,52 @@ def play2:
 def logfin:
 
 
-@app.route("/functions", methods = ["GET", "POST"])
-def functions(a):
-    if a == "resources":
-        return "resources"
-    if a = "multipliers":
-        return "multipliers
-    if a == "msgs":
-        return "msgs"
-    if a == "worldmap":
-        return "worldmap"
-    if a == "buildings":
-        return "buildings"
-    if a == "cities":
-        return "cities"
-    
-    
+@app.route("/get_functions", methods = ["GET", "POST"])
+def get_functions(type, a, b, c, d):
+    if type == "get_cityIDs":
+        """username"""
+        hold = utils.getCitiesID(a)
+    if type == "get_resources":
+        """cityID"""
+        hold = utils.getResources(a)
+        return hold
+    if type = "get_multipliers":
+        """cityID"""
+        return "multipliers"
+    if type == "get_msgs":
+        """from, to"""
+        hold = utils.getmsgs(a, b)
+        return hold
+    if type == "get_citymap":
+        """mapx, mapy"""
+        hold = utils.getCity(a, b) 
+    if type == "get_city_buildings":
+        """cityID"""
+        hold = utils.getBuildingsIn(a)
+    if type == "get_specific_building":
+        """cityID, buildingx, buildingy"""
+        hold = utils.getBuilding(a, b, c)
+    if type == "get_friends":
+        """username"""
+        hold = utils.getFriends(a)
+
+@app.route("/set_functions", methods = ["GET", "POST"])
+def set_functions(type, a, b, c, d):
+    if type == "add_building":
+        """cityID, buildingx, buildingy, buildingtype"""
+        utils.addBuilding(a, b, c, d)
+    if type == "set_resources":
+        //set the damn resources
+    if type == "set_multipliers":
+        //set the damn multipliers
+    if type == "set_msgs":
+        //set the damn msgs
+    if type == "set_friends":
+        //set the damn friends
+    if type == "add_city":
+        //add the damn city to the username
+    if type == "set_building":
+        //update a building
 
 if __name__ = "__main__":
     app.debug = True
