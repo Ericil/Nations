@@ -1,0 +1,280 @@
+
+/*-------------------------------- Game -----------------------------------*/
+#game {
+    position: relative;
+    background-image: url("http://myrabridgforth.com/wp-content/uploads/blue-sky-clouds.jpg");
+    z-index: 1;
+}
+
+
+/*-------------------------------- Navbar -----------------------------------*/
+
+.navbar-custom {
+    margin: 0px 0px 0px 0px;
+    border-radius: 0;
+    background-image:
+    linear-gradient(
+	#001a33,
+	#34495E
+    );
+    z-index: 2;
+}
+
+
+/*-------------------------------- Options -----------------------------------*/
+
+#sideoptions {
+    position: absolute;
+    top: 75px;
+    left: 8px;
+    /* background-color: red;*/
+    height: 210px;
+    width: 45px;
+    z-index: 2;
+}
+
+.btn-option {
+    margin-top: 6px;
+    margin-bottom: 6px;
+    border-radius: 25px !important;
+}
+
+/*------------------------------ Overview ---------------------------------*/
+
+.modal {
+    position: absolute;
+    top: 50px;
+    right: 100px;
+    bottom: 0;
+    left: 0;
+    z-index: 10040;
+}
+
+.modal-body {
+    height: 400px;
+}
+
+.modal-backdrop {
+    background: none;
+}
+
+.modal-header {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    color: #ccffff;
+    
+    background-image:
+    linear-gradient(
+	#001a33,
+	#34495E
+    );
+}
+
+.modal-content {
+    opacity: 0.9;
+    color: #ccffff;
+    
+    background-image:
+    radial-gradient(
+	#34495E,
+	#001a33 
+    );
+}
+
+.nav-tabs > li > a:hover {
+    background-color:	#001a33;
+}
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+    color: white;
+    background-color:	#34495E;
+}
+
+.close {
+    color: white;
+    opacity: 1;
+}
+
+ul.overview-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+ul.overview-list > li {
+    border-bottom: 0.5px solid white;
+    margin: 0;
+    font-size: small;
+    text-transform: uppercase;
+}
+
+ul.overview-list > li span {
+    float: right;
+}
+
+#cities > ul, #allies > ul {
+    height: 250px;
+    overflow-y: auto;
+}
+
+#cities > ul > li, #allies > ul > li {
+    border-style: none;
+}
+
+/*-------------------------------- Chat -----------------------------------*/
+
+.chat-box {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 250px;
+    height: 320px;
+    background-color: #34495E;
+    opacity: 0.8;
+    z-index: 2;
+/*display: none;*/
+}
+
+
+.chat-head {
+    width: 100%;
+    height: 10%;
+    background-color: white;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding: 2px 10px 5px 10px;
+    background-color: #001a33;
+}
+
+.chat-body {
+    width: 95%;
+    height: 70%;
+    border-right: 0.5px solid gray;
+    word-wrap: break-word;
+    overflow-y: scroll;
+    font-size: small;
+    color: white;
+    margin-left: 10px;
+    margin-right: 15px;
+}
+
+.chat-text {
+    width: 100%;
+    height: 20%;
+}
+
+#chat-input {
+    resize: none;
+    width: 100%;
+    height: 100%;
+    font-size: small;
+    border-radius: 0;
+    overflow: hidden;
+    opacity: 0.8;
+    border: 0.5px solid gray;
+    outline: none;
+    
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+
+
+/*-------------------------------- Build -----------------------------------*/
+
+#build-bar {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 10%;
+    height: 90%;
+    opacity: 0.8;
+    border-radius: 5px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    z-index: 2;
+    
+    background-image:
+    radial-gradient(
+	#34495E,
+	#001a33 
+    );
+}
+
+.build-group {
+    width: 80%;
+    height: 91.5%;
+    margin-right: auto;
+    margin-left: auto;
+    overflow-y: hidden;
+/*	background-color: black; */
+}
+
+.build-panel {
+    width: 80%;
+    height: calc(100% / 6.8);
+    margin-top: 9%;
+    margin-bottom: 9%;
+    margin-left: auto;
+    margin-right: auto;
+
+    border-radius: 10px;
+    border-style: groove;
+    border-color: white;
+    
+    /*Transition*/
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+}
+
+.build-panel.next {
+    height: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    border-style: none;
+}
+
+.build-panel:hover {
+    /*Glow*/
+    -webkit-box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
+    -moz-box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
+    box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
+}
+
+
+.build-header {
+    position: fixed;
+    margin: 0;
+    font-size: small;
+}
+
+.header-next {
+    display: none;
+}
+
+
+#build-previous, #build-next {
+    width: 100%;
+    height: 4.25%
+}
+
+#build-next {
+    position: relative;
+    bottom: 0;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+#build-previous {
+    position: relative;
+    top: 0;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+
