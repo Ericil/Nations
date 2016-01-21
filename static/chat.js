@@ -39,4 +39,7 @@ var setupChat = function setupChat(){
  */
 var updateChat = function updateChat(){
 		var body = document.getElementById("chatbody");
+    $.get("/functions", {type: "friendslist"}, function(data){
+
+    });
 };
