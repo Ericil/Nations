@@ -48,28 +48,37 @@ def logfin:
 
 @app.route("/get_functions", methods = ["GET", "POST"])
 def get_functions(type, a, b, c, d):
-    if type == "get_cityIDs": //username
+    if type == "get_cityIDs":
+        """username"""
         hold = utils.getCitiesID(a)
-    if type == "get_resources": //cityID
+    if type == "get_resources":
+        """cityID"""
         hold = utils.getResources(a)
         return hold
-    if type = "get_multipliers": //cityID
+    if type = "get_multipliers":
+        """cityID"""
         return "multipliers"
-    if type == "get_msgs": //from, to
+    if type == "get_msgs":
+        """from, to"""
         hold = utils.getmsgs(a, b)
         return hold
-    if type == "get_citymap": //mapx, mapy
+    if type == "get_citymap":
+        """mapx, mapy"""
         hold = utils.getCity(a, b) 
-    if type == "get_city_buildings": //cityID
+    if type == "get_city_buildings":
+        """cityID"""
         hold = utils.getBuildingsIn(a)
-    if type == "get_specific_building": //cityID, buildingx, buildingy
+    if type == "get_specific_building":
+        """cityID, buildingx, buildingy"""
         hold = utils.getBuilding(a, b, c)
-    if type == "get_friends": //username
+    if type == "get_friends":
+        """username"""
         hold = utils.getFriends(a)
 
 @app.route("/set_functions", methods = ["GET", "POST"])
 def set_functions(type, a, b, c, d):
-    if type == "add_building": //cityID, buildingx, buildingy, buildingtype
+    if type == "add_building":
+        """cityID, buildingx, buildingy, buildingtype"""
         utils.addBuilding(a, b, c, d)
     if type == "set_resources":
         //set the damn resources
