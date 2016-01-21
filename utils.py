@@ -14,6 +14,17 @@ messages (from_id INTEGER, to_id INTEGER, message INTEGER, time INTEGER, seen IN
 import init
 
 #+========================+#
+#+===++ Static Vars ++====+#
+#+========================+#
+
+##wood, iron, gold, food, population, soldiers
+
+buildings = [
+{"name":"house", "wood":0, "iron":0, "food":0, "population":1, "soldiers":0}
+{"name":"barracks", "wood":0, "iron":0, "food":0, "population":0, "soldiers":1}
+]
+
+#+========================+#
 #+=====++ Accounts ++=====+#
 #+========================+#
 
@@ -168,6 +179,13 @@ def updateResources(cityID, wood, iron, gold, food, population, soldiers):
     (wood, iron, gold, food, population, soldiers, cityID))
     conn.commit()
 
+## Get multipliers for all resources
+def getMultipliers(userID):
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+
+
+
 #===============TEST===============
 print "getResources: "+str(getResources(getCity(3, 4)))
 updateResources(1, 400, 300, 500, 150, 200, 350)
@@ -226,10 +244,16 @@ def getBuilding(buildingID):
         return {"city_id":r[0], "bx":r[1], "by":r[2],"type":r[3], "level":r[4]}
     return {}
 
+## remove the building with that ID
+def deleteBuilding(buildingID):
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    c.execute("DELETE FROM buildings WHERE building_id = %s;" %(buildingID))
+    conn.commit()
+
 #===============TEST===============
 print "getBuilding(getBuildingXY(1, 5, 5)): "+str(getBuilding(getBuildingXY(1, 5, 5)))
-
-
+#==================================
 
 #+========================+#
 #+========Buildings=======+#
