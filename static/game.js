@@ -4,7 +4,7 @@ var width;
 var height;
 
 var calculateSize = function calculateSize(){
-		var navHeight = document.getElementsByTagName("nav")[0].clientHeight;
+    var navHeight = document.getElementsByTagName("nav")[0].clientHeight;
     width = window.innerWidth;
     height = window.innerHeight - navHeight;
 };
@@ -20,18 +20,18 @@ Crafty.sprite(136,260, "http://i.imgur.com/g8V3KVU.png", {
 var iso = Crafty.isometric.size(136);
 for(var i = 8; i >= 0; i--) {
     for(var y = 0; y < 16; y++) {
-				var gTile = Crafty.e("2D, DOM, tile, Mouse")
-						.attr('z', (i+2 * y+1))//makes things look pretty
-						.attr({xCord: i, yCord: y+2})
-						.areaMap([68,0],[136,32],[136,48],[68,84],[0,48],[0,32])
-						.bind("MouseOver", function(){
-								//this.sprite(0,84,136,84);//select sprite
-						}).bind("MouseOut", function(){
-								//this.sprite(0,0,136,84);//regular sprite
+	var gTile = Crafty.e("2D, DOM, tile, Mouse")
+	    .attr('z', (i+2 * y+1))//makes things look pretty
+	    .attr({xCord: i+1, yCord: y+2})
+	    .areaMap([68,0],[136,32],[136,48],[68,84],[0,48],[0,32])
+	    .bind("MouseOver", function(){
+		//this.sprite(0,84,136,84);//select sprite
+	    }).bind("MouseOut", function(){
+		//this.sprite(0,0,136,84);//regular sprite
 	    }).bind("Click", function(){
 		generate(this);
 	    });
-	iso.place(i,y+2,0, gTile);
+	iso.place(i+1,y+2,0, gTile);
     }
 }
 function generate(thingy){
