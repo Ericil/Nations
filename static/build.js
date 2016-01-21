@@ -51,8 +51,8 @@ var slideNext = function slideNext(){
 		pos += 6;
 		var panels = document.getElementsByClassName("build-panel");
 		for (var i = 0; i < panels.length && i < pos; i++){
-				panels[i].classList.add("next");
 				panels[i].children[0].classList.add("header-next");
+				panels[i].classList.add("next");
 		}
 		
 		if (pos + 6 >= panels.length){
@@ -64,7 +64,7 @@ var slideNext = function slideNext(){
 
 /*Add click events listeners to buttons
  */
-var buildSetup = function buildSetup(){
+var setupBuild = function setupBuild(){
 		var previous = document.getElementById("build-previous");
 		previous.addEventListener("click", slidePrevious);
 		previous.disabled = true;

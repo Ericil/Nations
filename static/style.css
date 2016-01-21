@@ -1,56 +1,57 @@
+
+/*-------------------------------- Game -----------------------------------*/
 #game {
-		position: relative;
-		top: 200px;
-		margin: auto;
+    position: relative;
 		background-color: purple;
-	
+		z-index: 1;
 }
 
 
 /*-------------------------------- Navbar -----------------------------------*/
 
 .navbar-custom {
-		background-image:
-		linear-gradient(
+    margin: 0px 0px 0px 0px;
+		border-radius: 0;
+    background-image:
+    linear-gradient(
 						#001a33,
 						#34495E
 				);
+    z-index: 2;
 }
 
-/*
-  .fa-dollar {
-  color: #33cc33;
-  }
-*/
 
 /*-------------------------------- Options -----------------------------------*/
 
 #sideoptions {
-		position: absolute;
-		top: 70px;
-		left: 8px;
-		background-color: red;
-		height: 210px;
-		width: 45px;
+    position: absolute;
+		top: 75px;
+    left: 8px;
+		/* background-color: red;*/
+    height: 210px;
+    width: 45px;
+		z-index: 2;
 }
 
 .btn-option {
-		margin-top: 6px;
-		margin-bottom: 6px;
-		border-radius: 25px !important;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    border-radius: 25px !important;
 }
 
 /*------------------------------ Overview ---------------------------------*/
 
 .modal {
 		position: absolute;
-		top: 30px;
+		top: 50px;
 		right: 100px;
 		bottom: 0;
 		left: 0;
 		z-index: 10040;
-		overflow: auto;
-		overflow-y: auto;
+}
+
+.modal-body {
+		height: 400px;
 }
 
 .modal-backdrop {
@@ -68,7 +69,6 @@
 						#34495E
 				);
 }
-
 
 .modal-content {
 		opacity: 0.9;
@@ -115,6 +115,14 @@ ul.overview-list > li span {
 		float: right;
 }
 
+#cities > ul, #allies > ul {
+		height: 250px;
+		overflow-y: auto;
+}
+
+#cities > ul > li, #allies > ul > li {
+		border-style: none;
+}
 
 /*-------------------------------- Chat -----------------------------------*/
 
@@ -126,6 +134,7 @@ ul.overview-list > li span {
 		height: 320px;
 		background-color: #34495E;
 		opacity: 0.8;
+		z-index: 2;
 		/*display: none;*/
 }
 
@@ -187,7 +196,8 @@ ul.overview-list > li span {
 		border-radius: 5px;
 		margin-top: 15px;
 		margin-bottom: 15px;
-    
+		z-index: 2;
+		
 		background-image:
 		radial-gradient(
 						#34495E,
@@ -196,7 +206,6 @@ ul.overview-list > li span {
 }
 
 .build-group {
-	
 		width: 80%;
 		height: 91.5%;
 		margin-right: auto;
@@ -267,4 +276,5 @@ ul.overview-list > li span {
 		border-bottom-left-radius: 0px;
 		border-bottom-right-radius: 0px;
 }
+
 

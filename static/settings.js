@@ -50,6 +50,6 @@ $(document).ready(function(){
 		console.log("ready");
 		hoverOptions();
 		clickOptions();
-		chatSetup();
-		buildSetup();
+		setupChat();
+		setupBuild();
 });

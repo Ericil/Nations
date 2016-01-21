@@ -24,7 +24,7 @@ var addText = function addText(e){
 /*Sets up event listeners
 	Adds closing capability
 */
-var chatSetup = function chatSetup(){
+var setupChat = function setupChat(){
 		$("#chat-close").click(function(e){
 				$("#chatbox").css("display", "none");
 		});
@@ -33,4 +33,10 @@ var chatSetup = function chatSetup(){
 		text.addEventListener("keydown", function(e){
 				addText(e);
 		})
+};
+
+/*Pulls chat out of database and displays it on an interval
+ */
+var updateChat = function updateChat(){
+		var body = document.getElementById("chatbody");
 };
