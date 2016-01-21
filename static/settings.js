@@ -6,30 +6,30 @@ console.log("These are the settings");
 */
 var hoverOptions = function hoverOptions(){
     $("#options").mouseover(function(){
-				$("#option-group button").each(function(i){
+				$(".btn-option").each(function(i){
 						if (i > 0)
 								$(this).fadeIn();
 				});
-		});
+    });
 
-		$("#sideoptions").mouseleave(function(){
-				$("#option-group button").each(function(i){
+    $("#sideoptions").mouseleave(function(){
+				$(".btn-option").each(function(i){
 						if (i > 0)
 								$(this).fadeOut();	
 				});
-		});
+    });
     
-		$('[data-toggle="tooltip"]').tooltip();
+    $('[data-toggle="tooltip"]').tooltip();
 };
 
 
 
 /*Adds click events to buttons
-	Run a different function depending on the button
+  Run a different function depending on the button
 */
 var clickOptions = function clickOptions(){
-		var options = document.getElementById("sideoptions");
-		options.addEventListener("click", function(e){
+    var options = document.getElementById("sideoptions");
+    options.addEventListener("click", function(e){
 				console.log(e.target.id);
 				switch(e.target.id) {
 				case "overview":
@@ -42,11 +42,14 @@ var clickOptions = function clickOptions(){
 						build();
 						break;
 				}
-		});
+    });
 };
 
 
-
-hoverOptions();
-clickOptions();
-chatSetup();
+$(document).ready(function(){
+		console.log("ready");
+		hoverOptions();
+		clickOptions();
+		setupChat();
+		setupBuild();
+});
