@@ -13,7 +13,7 @@ calculateSize();
 
 Crafty.init(width, height, document.getElementById('game'));
 //use a div with id="game", first two numbers are pixel dimensions
-Crafty.sprite(136,260, "http://i.imgur.com/g8V3KVU.png", {
+Crafty.sprite(136,260, "http://i.imgur.com/AmfVJyH.png", {
     tile: [0,0,1,1],
     building:[1,0,1,1]
 });
@@ -25,9 +25,9 @@ for(var i = 8; i >= 0; i--) {
 	    .attr({xCord: i+1, yCord: y+2})
 	    .areaMap([68,0],[136,32],[136,48],[68,84],[0,48],[0,32])
 	    .bind("MouseOver", function(){
-		//this.sprite(0,84,136,84);//select sprite
+		this.sprite(0,1,1,1);//select sprite
 	    }).bind("MouseOut", function(){
-		//this.sprite(0,0,136,84);//regular sprite
+		this.sprite(0,0,1,1);//regular sprite
 	    }).bind("Click", function(){
 		generate(this);
 	    });
@@ -37,13 +37,11 @@ for(var i = 8; i >= 0; i--) {
 function generate(thingy){
     var tile = Crafty.e("2D, DOM, building, Mouse")
 	.attr('z', (thingy.xCord+2 * thingy.yCord+1))
-	.areaMap([21,52],[116,52],[118,232],[21,232]);
-    /*
-      .bind("MouseOver", function(){
-      this.sprite(2,1,1,1);//select sprite
-      }).bind("MouseOut", function(){
-      this.sprite(2,0,1,1);//regular sprite
-      })
-    */
+	.areaMap([21,52],[116,52],[118,232],[21,232])
+	.bind("MouseOver", function(){
+	  this.sprite(1,1,1,1);//select sprite
+	}).bind("MouseOut", function(){
+	    this.sprite(1,0,1,1);//regular sprite
+	});
     iso.place(thingy.xCord,thingy.yCord,5,tile);
 }
