@@ -266,12 +266,22 @@ def getBuilding(buildingID):
         return {"city_id":r[0], "bx":r[1], "by":r[2],"type":r[3], "level":r[4]}
     return {}
 
-## increases level of a building
+## increases level of a building if its level is less than cityhall level
 def levelUpBuilding(buildingID):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
-    p = c.execute("SELECT city_id, level FROM buildings WHERE city_id = ")
+    p = c.execute("SELECT city_id, level FROM buildings WHERE building_id = %s;" %(buildingID))
+    for r in p:
+        cityID = r[0]
+        level = r[1]
+    p = c.execute("SELECT level FROM buildings WHERE city_id = %s AND type = 3;", (cityID))
+    for r in p:
+        cityLevel = r[0]
+    if cityLevel > level:# it can be the same after it is set
+        c.execute("UPDATE buildings SET level = ? WHERE building_id = ?;", (level+1, buildingID))
+    conn.commit()
 
+    
 
 ## remove the building with that ID
 def deleteBuilding(buildingID):
@@ -380,6 +390,16 @@ def updateAll(cityID):
     # [{"city_id":r[0], "bx":r[1], "by":r[2],"type":r[3], "level":r[4]}, {"city_id":r[0], etc.....}]
 
     peopleHoused = 0
+    soldierTotal = 0
+    foodTotal = 0
+    ironTotal = 0
+    woodTotal = 0
+    goldTotal = 0
+    newHappiness = 0
     for b in buildings:
-        if b["type"] == 1:
-            peopleHoused += allBuildings[0]
+        if b["type"] == 1:# house
+            peopleHoused += allBuildings[0]["peopleHoused"]*b["level"]
+        if b["type"] == 2:# barracks
+            soldierTotal += allBuildings[1]["soldiers"]
+        if b["type"] == 3:
+            # do the hospital stuff
