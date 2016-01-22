@@ -5,6 +5,9 @@ app = Flask(__name__)
 def intro():
     return render_template 
 
+
+
+"""<-------------------------------LOGIN------------------------------->"""
 """route to the home page, will have a LOGIN button and a REGISTER button"""
 @app.route("/login", methods = ["GET", "POST"])
 def login():
@@ -17,6 +20,7 @@ def login():
     else:
         return render_template("/register.html")
 
+"""<-------------------------------REGISTER------------------------------->"""    
 @app.route("/register", methods = ["GET", "POST"])
 def register:
     if str(request.form["button"]) == "Register!":
@@ -29,6 +33,7 @@ def register:
     else:
         return render_template("/login.html")
 
+"""<-------------------------------SETTINGS------------------------------->"""
 @app.route("/settings")
 def settings:
     return redirect("/login")
@@ -47,8 +52,9 @@ def settings2:
             return render_template("settings.html", username = username, friendslist = utils.friendList(username))
     else:
         return render_template("settings.html", username = username, friendslist = utils.friendList(username))
-    
-    
+
+
+"""<-------------------------------PLAY------------------------------->"""
 @app.route("/play")
 def play:
     return redirect("/login")
@@ -59,7 +65,7 @@ def play2:
 @app.route("/loginfinished/<username>", methods = ["GET", "POST"])
 def logfin:
 
-
+"""<-------------------------------GET_FUNCTIONS------------------------------->"""
 @app.route("/get_functions", methods = ["GET", "POST"])
 def get_functions(type, a, b, c, d):
     if type == "get_accountID":
@@ -113,6 +119,8 @@ def get_functions(type, a, b, c, d):
         """returns a list of dictionaries"""
         return utils.allBuildings    
 
+
+"""<-------------------------------SET_FUNCTIONS------------------------------->"""
 @app.route("/set_functions", methods = ["GET", "POST"])
 def set_functions(type, a, b, c, d, e, f, g):
     if type == "add_building":
