@@ -17,7 +17,7 @@ def login():
     else:
         return render_template("/register.html")
 
-    @app.route("/register", methods = ["GET", "POST"])
+@app.route("/register", methods = ["GET", "POST"])
 def register:
     if str(request.form["button"]) == "Register!":
         if utils.unameAuth(str(request.form["username"])) != True: //need a utils.unameAuth
@@ -34,6 +34,19 @@ def settings:
     return redirect("/login")
 @app.route("/settings/<username>", methods = ["GET, POST"]) //make sure to make a pass confirmation
 def settings2:
+    print("1")
+    if request.method == "POST":
+        print("2")
+        if (str(request.form["post"]) == "change"):
+            print("3")
+            the_response = utils.changePword(str(request.form["user"]), str(request.form["oldpass"]), str(request.form["pass1"]), str(request.form["pass2"]))
+            return render_template("settings.html", username = username, the_response = the_response, friendslist = utils.friendList(username))
+        elif (str(request.form["post"]) == "finding"):
+            print("4")
+            utils.addFriend(username, str(request.form["search_for"]))
+            return render_template("settings.html", username = username, friendslist = utils.friendList(username))
+    else:
+        return render_template("settings.html", username = username, friendslist = utils.friendList(username))
     
     
 @app.route("/play")
@@ -53,39 +66,49 @@ def get_functions(type, a, b, c, d):
         """username""":
         hold == utils.findID(a)
         return hold
-    if type == "get_cityIDs":
+
+    if type == "get_cityIDs"
         """accountID"""
         hold = utils.getCitiesID(a)
         return hold
+
     if type == "get_resources":
         """cityID"""
         hold = utils.getResources(a)
         return hold
+
     if type = "get_multipliers":
         """cityID"""
         return "multipliers"
+
     if type == "get_msgs":
         """from, to"""
         hold = utils.getmsgs(a, b)
         return hold
+
     if type == "get_citymap":
         """mapx, mapy"""
         hold = utils.getCity(a, b) 
+        
     if type == "get_city_buildings":
         """cityID"""
         hold = utils.getBuildingsIn(a)
+
     if type == "get_specific_building":
         """cityID, buildingx, buildingy"""
         hold = utils.getBuildingXY(a, b, c)
         return hold
+
     if type == "get_specific_building_stat":
         """buildingID"""
         hold = utils.getBuilding(a)
         return hold
+
     if type == "get_friends":
         """username"""
         hold = utils.getFriends(a)
         return hold
+
     if type == "base_building_stats":
         """returns a list of dictionaries"""
         return utils.allBuildings    
@@ -95,23 +118,30 @@ def set_functions(type, a, b, c, d, e, f, g):
     if type == "add_building":
         """cityID, buildingx, buildingy, buildingtype"""
         utils.addBuilding(a, b, c, d)
+
     if type == "update_resources":
         """cityid, wood, iron, gold, food, population, soldiers"""
        utils.updateResources(a, b, c, d, e, f, g)
+
     if type == "set_multipliers":
         
+
     if type == "set_msgs":
         """fromID, toID, messages"""
         utils.addmsg(a, b, c)
+
     if type == "set_friends":
         """userID, friendID"""
         utils.addFriend(a, b)
+
     if type == "add_city":
         """cityname, cx, cy, wood, iron, gold, food"""
         utils.addCity(a, b, c, d, e, f, g)
+
     if type == "set_city_owner":
         """accountID, cityID"""
         utils.setCityOwner(a, b)
+
     if type == "set_building":
         //update a building
 
