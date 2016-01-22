@@ -17,12 +17,21 @@ import init
 #+===++ Static Vars ++====+#
 #+========================+#
 
-##wood, iron, gold, food, population, soldiers
+timeInterval = 10## In milliseconds
+
 
 buildings = [
-{"name":"house", "wood":0, "iron":0, "food":0, "population":1, "soldiers":0}
-{"name":"barracks", "wood":0, "iron":0, "food":0, "population":0, "soldiers":1}
+{"name":"house", "type":1, "peopleHoused":1000}# houses people, increase gold?
+{"name":"barracks", "type":2, "soldiers":.5}# makes soldiers
+{"name":"city hall" "type":3}# dictates highest level
+{"name":"hospital", "type":4, "food":.5}# lowers disease, restores wounded soldiers, increase food?
+{"name":"mine", "type":5, "iron":.5}
+{"name":"woodmill", "type":6, "wood":.5}
+{"name":"farm", "type":7, "food":.5}
+{"name":"shop", "type":8, "gold":.5}# increases gold
+{"name":"rec building", "type":,9 "happiness":.25}# increase happiness
 ]
+# happiness increase is (max(0, peopleHoused total - population)) + (max(0, food - population)) + buildingHappiness
 
 #+========================+#
 #+=====++ Accounts ++=====+#
@@ -98,6 +107,14 @@ def findID(uname):
         return r[0]
     return -1
 
+## finds the uname for account with ID
+def findUname(ID):
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    p = c.execute("SELECT uname FROM accounts WHERE account_id = '%s';" %(ID))
+    for r in p:
+        return r[0]
+
 #===============TEST===============
 print "FindID('milo'): "+str(findID("milo"))
 #==================================
@@ -134,13 +151,10 @@ setCityOwner(1, 1)
 #==================================
 
 ## Returns a list of city_ids of that uname
-def getCitiesID(uname):
+def getCitiesID(accountID):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
-    p = c.execute("SELECT account_id FROM accounts WHERE uname = '%s';" %(uname))
-    for r in p:
-        id = r[0]
-    p = c.execute("SELECT city_id FROM cities WHERE account_id = %s;" %(id))
+    p = c.execute("SELECT city_id FROM cities WHERE account_id = %s;" %(accountID))
     cities = []
     for r in p:
         cities.append(r[0])
@@ -155,6 +169,14 @@ def getCity(cx, cy):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
     p = c.execute("SELECT city_id FROM cities WHERE cx = ? AND cy = ?;", (cx, cy))
+    for r in p:
+        return r[0]
+
+## gets the id of the owner of city with cityID
+def getCityOwner(cityID):
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    p = c.execute("SELECT account_id FROM cities WHERE city_id = %s;" %(cityID))
     for r in p:
         return r[0]
 
@@ -180,9 +202,9 @@ def updateResources(cityID, wood, iron, gold, food, population, soldiers):
     conn.commit()
 
 ## Get multipliers for all resources
-def getMultipliers(userID):
-    conn = sqlite3.connect("data.db")
-    c = conn.cursor()
+#def getMultipliers(cityID):
+#    conn = sqlite3.connect("data.db")
+#    c = conn.cursor()
 
 
 
@@ -330,5 +352,27 @@ def getFriends(userID):
 print "getFriends(1): "+str(getFriends(1))
 #==================================
 
+"""buildings = [
+{"name":"house", "type":1, "peopleHoused":1000}# houses people, increase gold?
+{"name":"barracks", "type":2, "soldiers":.5}# makes soldiers
+{"name":"city hall" "type":3,}# dictates highest level
+{"name":"hospital", "type":4, "food":.5}# lowers disease, restores wounded soldiers, increase food?
+{"name":"mine", "type":5, "iron":.5}
+{"name":"woodmill", "type":6, "wood":.5}
+{"name":"farm", "type":7, "food":.5}
+{"name":"shop", "type":8, "gold":.5}# increases gold
+{"name":"rec building", "type":,9 "happiness":.25}# increase happiness
+]
+# happiness increase is (max(0, peopleHoused total - population)) + (max(0, food - population)) + buildingHappiness
+"""
+"""
+def updateAll(cityID):
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    buildings = getBuildingsIn(cityID)
+    # {"city_id":r[0], "bx":r[1], "by":r[2],"type":r[3], "level":r[4]}
 
-# getMultipliers(city_id)
+    peopleHoused = 0
+    for b in buildings:
+        if type ==
+"""
