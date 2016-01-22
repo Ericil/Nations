@@ -1,9 +1,32 @@
+body {
+		overflow: hidden;
+}
+
+#map-icon {
+		position: fixed;
+		width: 100px;
+		height: 100px;
+		right: 15%;
+		bottom: 0;
+		margin-bottom: 15px;
+		background-color: rgba(52, 73, 94, 0.5);
+		border-color: #001a33;
+		z-index: 2;
+}
+
+#map-icon:hover {
+		width: 110px;
+		height: 110px;
+	
+}
 
 /*-------------------------------- Game -----------------------------------*/
 #game {
     position: relative;
-    background-image: url("http://paladarytomar.com/wp-content/uploads/beautiful-blue-sky-new-hd-desktop-wallpaper-in-high-resolution-full-free.jpg");
-    z-index: 1;
+    background-image: url("http://p1.pichost.me/i/23/1463598.jpg");
+		background-repeat: no-repeat;
+		background-size: cover;
+		z-index: 1;
 }
 
 
@@ -14,10 +37,10 @@
     border-radius: 0;
     background-image:
     linear-gradient(
-	#001a33,
-	#34495E
-    );
-    z-index: 2;
+						#001a33,
+						#34495E
+				);
+    z-index: 3;
 }
 
 
@@ -65,9 +88,9 @@
     
     background-image:
     linear-gradient(
-	#001a33,
-	#34495E
-    );
+						#001a33,
+						#34495E
+				);
 }
 
 .modal-content {
@@ -76,9 +99,9 @@
     
     background-image:
     radial-gradient(
-	#34495E,
-	#001a33 
-    );
+						#34495E,
+						#001a33 
+				);
 }
 
 .nav-tabs > li > a:hover {
@@ -135,7 +158,7 @@ ul.overview-list > li span {
     background-color: #34495E;
     opacity: 0.8;
     z-index: 2;
-/*display: none;*/
+		/*display: none;*/
 }
 
 
@@ -187,10 +210,10 @@ ul.overview-list > li span {
 /*-------------------------------- Build -----------------------------------*/
 
 #build-bar {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    width: 10%;
+    position: absolute;
+		bottom: 0;
+		right: -200px;
+		width: 10%;
     height: 90%;
     opacity: 0.8;
     border-radius: 5px;
@@ -200,10 +223,20 @@ ul.overview-list > li span {
     
     background-image:
     radial-gradient(
-	#34495E,
-	#001a33 
-    );
+						#34495E,
+						#001a33 
+				);
+
+		-webkit-transition: all 1s ease;
+		-moz-transition: all 1s ease;
+		-o-transition: all 1s ease;
+		transition: all 1s ease;
 }
+
+#build-bar.slidein {
+		right: 0px;
+}
+
 
 .build-group {
     width: 80%;
@@ -211,7 +244,7 @@ ul.overview-list > li span {
     margin-right: auto;
     margin-left: auto;
     overflow-y: hidden;
-/*	background-color: black; */
+		/*	background-color: black; */
 }
 
 .build-panel {
@@ -225,11 +258,11 @@ ul.overview-list > li span {
     border-radius: 10px;
     border-style: groove;
     border-color: white;
-    
-    /*Transition*/
+		
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
+		transition: all 0.5s ease;
 }
 
 .build-panel.next {
@@ -240,23 +273,10 @@ ul.overview-list > li span {
 }
 
 .build-panel:hover {
-    /*Glow*/
     -webkit-box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
     -moz-box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
     box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
 }
-
-
-.build-header {
-    position: fixed;
-    margin: 0;
-    font-size: small;
-}
-
-.header-next {
-    display: none;
-}
-
 
 #build-previous, #build-next {
     width: 100%;
