@@ -20,7 +20,7 @@ import init
 timeInterval = 10## In milliseconds
 
 
-buildings = [
+allBuildings = [
 {"name":"house", "type":1, "peopleHoused":1000}# houses people, increase gold?
 {"name":"barracks", "type":2, "soldiers":.5}# makes soldiers
 {"name":"city hall" "type":3}# dictates highest level
@@ -266,6 +266,13 @@ def getBuilding(buildingID):
         return {"city_id":r[0], "bx":r[1], "by":r[2],"type":r[3], "level":r[4]}
     return {}
 
+## increases level of a building
+def levelUpBuilding(buildingID):
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    p = c.execute("SELECT city_id, level FROM buildings WHERE city_id = ")
+
+
 ## remove the building with that ID
 def deleteBuilding(buildingID):
     conn = sqlite3.connect("data.db")
@@ -365,14 +372,14 @@ print "getFriends(1): "+str(getFriends(1))
 ]
 # happiness increase is (max(0, peopleHoused total - population)) + (max(0, food - population)) + buildingHappiness
 """
-"""
+
 def updateAll(cityID):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
     buildings = getBuildingsIn(cityID)
-    # {"city_id":r[0], "bx":r[1], "by":r[2],"type":r[3], "level":r[4]}
+    # [{"city_id":r[0], "bx":r[1], "by":r[2],"type":r[3], "level":r[4]}, {"city_id":r[0], etc.....}]
 
     peopleHoused = 0
     for b in buildings:
-        if type ==
-"""
+        if b["type"] == 1:
+            peopleHoused += allBuildings[0]
