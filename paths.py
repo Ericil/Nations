@@ -41,6 +41,7 @@ def play:
     return redirect("/login")
 @app.route("/play/<username>", methods = ["GET", "POST"]) //make sure to make a pass confirmation
 def play2:
+    return render_template("/test.html", username = username)
 
 @app.route("/loginfinished/<username>", methods = ["GET", "POST"])
 def logfin:
@@ -48,9 +49,14 @@ def logfin:
 
 @app.route("/get_functions", methods = ["GET", "POST"])
 def get_functions(type, a, b, c, d):
+    if type == "get_accountID":
+        """username""":
+        hold == utils.findID(a)
+        return hold
     if type == "get_cityIDs":
-        """username"""
+        """accountID"""
         hold = utils.getCitiesID(a)
+        return hold
     if type == "get_resources":
         """cityID"""
         hold = utils.getResources(a)
@@ -70,26 +76,42 @@ def get_functions(type, a, b, c, d):
         hold = utils.getBuildingsIn(a)
     if type == "get_specific_building":
         """cityID, buildingx, buildingy"""
-        hold = utils.getBuilding(a, b, c)
+        hold = utils.getBuildingXY(a, b, c)
+        return hold
+    if type == "get_specific_building_stat":
+        """buildingID"""
+        hold = utils.getBuilding(a)
+        return hold
     if type == "get_friends":
         """username"""
         hold = utils.getFriends(a)
+        return hold
+    if type == "base_building_stats":
+        """returns a list of dictionaries"""
+        return utils.allBuildings    
 
 @app.route("/set_functions", methods = ["GET", "POST"])
-def set_functions(type, a, b, c, d):
+def set_functions(type, a, b, c, d, e, f, g):
     if type == "add_building":
         """cityID, buildingx, buildingy, buildingtype"""
         utils.addBuilding(a, b, c, d)
-    if type == "set_resources":
-        //set the damn resources
+    if type == "update_resources":
+        """cityid, wood, iron, gold, food, population, soldiers"""
+       utils.updateResources(a, b, c, d, e, f, g)
     if type == "set_multipliers":
-        //set the damn multipliers
+        
     if type == "set_msgs":
-        //set the damn msgs
+        """fromID, toID, messages"""
+        utils.addmsg(a, b, c)
     if type == "set_friends":
-        //set the damn friends
+        """userID, friendID"""
+        utils.addFriend(a, b)
     if type == "add_city":
-        //add the damn city to the username
+        """cityname, cx, cy, wood, iron, gold, food"""
+        utils.addCity(a, b, c, d, e, f, g)
+    if type == "set_city_owner":
+        """accountID, cityID"""
+        utils.setCityOwner(a, b)
     if type == "set_building":
         //update a building
 
