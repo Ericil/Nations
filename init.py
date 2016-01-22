@@ -4,18 +4,35 @@ import sqlite3
 DATABASE FILE AND CREATES ITS TABLES. ALL FUNCTIONS REGARDING CHANGING THE
 DATABASE IS LOCATED AT database.py"""
 
-conn = sqlite3.connect("data.db")
 
+
+conn = sqlite3.connect("data.db")
 c = conn.cursor()
 
-q = "CREATE TABLE %s (%S)" #1st string - table name
-                           #2nd string - arguments
+q = "DROP TABLE IF EXISTS %s;"
 
-#And then we make some tables here
+c.execute(q %("accounts"))
+c.execute(q %("cities"))
+c.execute(q %("buildings"))
+c.execute(q %("messages"))
+c.execute(q %("friends"))
 
-#Or was it email? 
-c.execute(q %("players", "username TEXT", "password TEXT"))
 
+q = "CREATE TABLE %s (%s);"
+
+# Create all tables
+
+# Resources: food, wood, iron, population, gold
+
+c.execute(q %("accounts" , 'account_id INTEGER PRIMARY KEY AUTOINCREMENT, uname TEXT, pword TEXT, email TEXT'))
+
+c.execute(q %("cities", 'city_id INTEGER PRIMARY KEY AUTOINCREMENT, account_id INTEGER, city_name TEXT, cx INTEGER, cy INTEGER, wood INTEGER, iron INTEGER, gold INTEGER, food INTEGER, population INTEGER, soldiers INTEGER'))
+
+c.execute(q %("buildings", 'building_id INTEGER PRIMARY KEY AUTOINCREMENT, city_id INTEGER, bx INTEGER, by INTEGER, type INTEGER, level INTEGER'))
+
+c.execute(q %("messages", 'from_id INTEGER, to_id INTEGER, message TEXT, time INTEGER, seen INTEGER'))
+
+c.execute(q %("friends", 'you INTEGER, them INTEGER'))
 
 conn.commit()
 conn.close()

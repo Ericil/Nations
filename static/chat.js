@@ -11,8 +11,9 @@ var addText = function addText(e){
 		if (e.keyCode == 13){
 				e.preventDefault();
 				var input = document.getElementById("chat-input");
+				console.log(input.value);
 				if (input.value && input.value.trim()){	
-						var body = document.getElementById("chat-body");
+						var body = document.getElementById("chatbody");
 						body.innerHTML += input.value.trim() + "<br/>";
 						input.value = "";
 						body.scrollTop = body.scrollHeight - body.clientHeight;
@@ -23,7 +24,7 @@ var addText = function addText(e){
 /*Sets up event listeners
 	Adds closing capability
 */
-var chatSetup = function chatSetup(){
+var setupChat = function setupChat(){
 		$("#chat-close").click(function(e){
 				$("#chatbox").css("display", "none");
 		});
@@ -32,4 +33,10 @@ var chatSetup = function chatSetup(){
 		text.addEventListener("keydown", function(e){
 				addText(e);
 		})
+};
+
+/*Pulls chat out of database and displays it on an interval
+ */
+var updateChat = function updateChat(){
+		var body = document.getElementById("chatbody");
 };
