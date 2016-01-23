@@ -8,15 +8,16 @@ var overview = function overview(){
 
 var updateOverview = function updatOverview(data, type){
     console.log("This will do something eventually");
-
-    switch (type){
-	case "resources":
-	break;
-	case "modifiers":
-	break;
-	default:
-	break;
-    }
+		/*
+			switch (type){
+			case "resources":
+			break;
+			case "modifiers":
+			break;
+			default:
+			break;
+			}
+		*/
 };
 
 var updateNavbar = function updateNavbar(data){
@@ -24,13 +25,13 @@ var updateNavbar = function updateNavbar(data){
 };
 
 var updateInfo = function updateInfo(){
-    $.get("/functions", {type: "resources"}, function(data){
-	console.log(data);
-	updateOverview(data, "resources");
-	updateNavbar(data);
+    $.get("/functions", {type: "get_resources"}, function(data){
+				console.log(data);
+				updateOverview(data, "resources");
+				updateNavbar(data);
     });
-    $.get("/functions", {type: "modifiers"}, function(data){
-	console.log(data);
-	updateOverview(data, "modifiers");
+    $.get("/functions", {type: "get_multipliers"}, function(data){
+				console.log(data);
+				updateOverview(data, "multipliers");
     });	
 };

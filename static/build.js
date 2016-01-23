@@ -1,13 +1,16 @@
 console.log("Here is the build");
 
 var len;
-var pos = 0;
+var pos = 6;
+var isBuilding = false;
 
 /*Make the bar appear or disappear
  */
 var build = function build(){
 		var bar = document.getElementById("build-bar");
 		bar.classList.toggle("slidein");
+		isBuilding = !isBuilding;
+		console.log(building);
 };
 
 
@@ -32,32 +35,30 @@ var enable = function enable(name){
  */
 var slidePrevious = function slidePrevious(){
     pos -= 6;
-    var button = document.getElementById("build-previous");
-    
     if (pos <= 0){
-	pos = 0;
-	console.log(pos);
-	disable("build-previous");
-	enable("build-next");
+				pos = 0;
+				disable("build-previous");
+				enable("build-next");
     }
-    var elTop = $(".build-panel").eq(pos).position().top + button.style.height;
+		var buttonHeight = $("#build-previous").height();
+    var elTop = $(".build-panel").eq(pos).offset().top + buttonHeight;
     $(".build-group").animate({scrollTop: elTop}, 500);
 };
 
 /*Show the next 6 choices
  */
 var slideNext = function slideNext(){
-    pos += 6;
-    var button = document.getElementById("build-previous");
-    
-    if (pos >= len) {
-	pos = len - 5;
-	console.log(pos);
-	disable("build-next");
-	enable("build-previous");
-    }
-    var elTop = $(".build-panel").eq(pos).offset().top + button.style.height;
-    $(".build-group").animate({scrollTop: elTop}, 500);
+		if (pos == 0) {pos += 6;}
+		
+		var buttonHeight = $("#build-previous").height();
+		var elTop = $(".build-panel").eq(pos).offset().top + buttonHeight;
+		$(".build-group").animate({scrollTop: elTop}, 500);
+		
+		if (pos + 6 >= len){
+				disable("build-next");
+				enable("build-previous");
+		}
+		else {pos += 6;}
 };
 
 
@@ -72,28 +73,28 @@ function setAttributes(element, attributes){
 /*Add click events listeners to buttons
  */
 var setupBuild = function setupBuild(){
-    var previous = document.getElementById("build-previous");
-    previous.addEventListener("click", slidePrevious);
-    previous.disabled = true;
+		var previous = document.getElementById("build-previous");
+		previous.addEventListener("click", slidePrevious);
+		previous.disabled = true;
     
-    var next = document.getElementById("build-next");
-    next.addEventListener("click", slideNext);
+		var next = document.getElementById("build-next");
+		next.addEventListener("click", slideNext);
 
-    var buildGroup = document.getElementsByClassName("build-group")[0];
-    len = 14;
-    for (var i = 0; i < len; i++){
-	var panel = document.createElement("div");
-	setAttributes(panel,{
-	    "class": "build-panel",
-	    "title": "House",
-	    "data-toggle": "popover",
-	    "data-placement": "left",
-	    "data-trigger": "hover",
-	    "data-content": "" + i
-	});
-	buildGroup.appendChild(panel);
-    }
-    $('[data-toggle="popover"]').popover();
+		var buildGroup = document.getElementsByClassName("build-group")[0];
+		len = 12;
+		for (var i = 0; i < len; i++){
+				var panel = document.createElement("div");
+				setAttributes(panel,{
+						"class": "build-panel",
+						"title": "House",
+						"data-toggle": "popover",
+						"data-placement": "left",
+						"data-trigger": "hover",
+						"data-content": "" + i
+				});
+				buildGroup.appendChild(panel);
+		}
+		$('[data-toggle="popover"]').popover();
     
 };
 
