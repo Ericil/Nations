@@ -34,7 +34,18 @@ allBuildings = [
 {"name":"shop", "type":8, "gold":.5},# increases gold
 {"name":"rec building", "type":9, "happiness":.25}# increase happiness
 ]
-# happiness increase is (max(0, peopleHoused total - population)) + (max(0, food - population)) + buildingHappiness
+
+prices = [
+{"type":1, "wood":100, "gold":100},
+{"type":2, "wood":100, "iron":100, "gold":200},
+{"type":3, "wood":50, "iron":50, "food":50, "gold":50},
+{"type":4, "wood":150, "iron":150, "food": 50},
+{"type":5, "wood":100, "gold":100},
+{"type":6, "iron":100, "gold":100},
+{"type":7, "wood":50, "iron":50, "gold":50},
+{"type":8, "wood":100, "iron":100},
+{"type":9, "wood":200, "iron":200, "gold":200},
+]
 
 #+========================+#
 #+=====++ Accounts ++=====+#
@@ -289,15 +300,48 @@ def updateAll(cityID):
 #+========Buildings=======+#
 #+========================+#
 
+## returns a dictionary of prices (can include wood, iron, gold, or food)
+def upgradePrice(buildingID):
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    p = c.execute("SELECT type, level FROM buildings WHERE building_id = %s" %(buildingID))
+    for r in p:
+        type = r[0]
+        level = r[1]
+    price = {}
+    for key in prices[type-1].keys():
+        if (key != "type"):
+            price[key] = prices[type-1][key]*(level+1)# multiplied by level
+    return price
+
+print "upgradePrice(1): "+str(upgradePrice(1))
+
+## returns a dictionary of prices (can include wood, iron, gold, or food)
+def buildingPrice(type):
+    price = {}
+    for key in prices[type-1].keys():
+        if (key != "type"):
+            price[key] = prices[type-1][key]
+    return price
+
+print "buildingPrice(1): "+str(buildingPrice(1))
+
+
 ## add a building in cityID at bx, by, with type
 def addBuilding(cityID, bx, by, type):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
+    resources = getResources(cityID)
+    price = buildingPrice(type)
+    for key in price.keys():
+        if price[key] > resources[key]:
+            return False
     c.execute("INSERT INTO buildings(city_id, bx, by, type, level) VALUES (?, ?, ?, ?, ?);", (cityID, bx, by, type, 1))
     conn.commit()
+    return True
 
 #===============TEST===============
-addBuilding(1, 5, 5, 0)
+print addBuilding(1, 5, 5, 1)
 #==================================
 
 ## gets a list of dictionaries, gathering all info about all buildings in city with cityID
@@ -334,25 +378,37 @@ def getBuilding(buildingID):
     c = conn.cursor()
     p = c.execute("SELECT city_id, bx, by, type, level FROM buildings WHERE building_id = %s;" %(buildingID))
     for r in p:
-        return {"city_id":r[0], "bx":r[1], "by":r[2],"type":r[3], "level":r[4]}
+        return {"city_id":r[0], "bx":r[1], "by":r[2],"type":r[3], "level":r[4], "upgradePrice":upgradePrice(buildingID)}
     return {}
 
-## increases level of a building if its level is less than cityhall level
+## increases level of a building if its level is less than cityhall level and if there is enough of the resources
 def levelUpBuilding(buildingID):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
+
+    resources = getResources(city)
+    price = upgradePrice(type)
+    for key in price.keys():
+        if price[key] > resources[key]:
+            return False
+            # returns false if the price is too high or the level is too high
+
     p = c.execute("SELECT city_id, level, type FROM buildings WHERE building_id = %s;" %(buildingID))
     for r in p:
         cityID = r[0]
         level = r[1]
         type = r[2]
+
     p = c.execute("SELECT level FROM buildings WHERE city_id = %s AND type = 3;", (cityID))
     for r in p:
         cityLevel = r[0]
     if cityLevel > level:# it can be the same after it is set
         # Check for price
         c.execute("UPDATE buildings SET level = ? WHERE building_id = ?;", (level+1, buildingID))
-    conn.commit()
+        conn.commit()
+        return True
+    return False
+    # returns false if the price is too high or the level is too high
 
 ## gets the building type name
 def getBuildingName(buildingID):
