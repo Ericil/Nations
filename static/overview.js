@@ -3,21 +3,35 @@ console.log("Here is the overview");
 /*Brings up the city overview screen
  */
 var overview = function overview(){
-		$('#overview-form').modal();
+    $('#overview-form').modal();
 };
 
-var updateOverview = function updatOverview(data){
-		console.log("This will do something eventually");
+var updateOverview = function updatOverview(data, type){
+    console.log("This will do something eventually");
+		/*
+			switch (type){
+			case "resources":
+			break;
+			case "modifiers":
+			break;
+			default:
+			break;
+			}
+		*/
 };
 
 var updateNavbar = function updateNavbar(data){
-		console.log("This will do something eventually");
+    console.log("This will do something eventually");
 };
 
 var updateInfo = function updateInfo(){
-		$.get("/functions", {type: "resources"}, function(data){
+    $.get("/functions", {type: "get_resources"}, function(data){
 				console.log(data);
-				updateOverview(data);
+				updateOverview(data, "resources");
 				updateNavbar(data);
-		});	
+    });
+    $.get("/functions", {type: "get_multipliers"}, function(data){
+				console.log(data);
+				updateOverview(data, "multipliers");
+    });	
 };
