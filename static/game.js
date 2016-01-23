@@ -1,7 +1,17 @@
-//dev-test
 console.log("Hello");
 
-Crafty.init(750,350, document.getElementById('game'));
+var width;
+var height;
+
+var calculateSize = function calculateSize(){
+    var navHeight = document.getElementsByTagName("nav")[0].clientHeight;
+    width = window.innerWidth;
+    height = window.innerHeight - navHeight;
+};
+
+calculateSize();
+
+Crafty.init(width, height, document.getElementById('game'));
 //use a div with id="game", first two numbers are pixel dimensions
 Crafty.sprite(136,260, "http://i.imgur.com/AmfVJyH.png", {
     tile: [0,0,1,1],
@@ -138,12 +148,10 @@ function generate(thingy){
 function generate1(floor, building, lvl){
     var final = Crafty.e("2D, DOM, Mouse")
     .attr('z', (floor.xCord + 2 * floor.yCord+1))//Z coordinate perspective
-    .attr({level:lvl})//Level
+    .attr({level:lvl})//Level //Can be retreived with this.attr("level")
     .bind("Click", function(){
         //place click function here
     });
     final.addComponent(building);//Check out the components section to find the name
     iso.place(floor.xCord, floor.yCord, 5, final);//place the building
 }
-
-

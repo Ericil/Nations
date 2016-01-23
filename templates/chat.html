@@ -1,13 +1,26 @@
-<div id="chatbox" class="panel panel-primary">
-  <div id="chat-head" class="panel-heading">Bob
-    <button id="chat-close" type="button" class="close" aria-labelledby="close"><span aria-hidden="true">&times;</span></button>
-  </div>
-  <div id="chat-body" class="panel-body"></div>
+<div id="chat-select" class="chat-box">
+	<div class="list-group">
+		<span class="select-header">Friends</span>
+		<button id="select-close" type="button" class="close" aria-labelledby="close"><span aria-hidden="true">&times;</span></button>
+		
+		<a href="#" class="list-group-item select-item">One friend</a>
+		<a href="#" class="list-group-item select-item">Another friend</a>
+		<span class="select-header">Others</span>
+		<a href="#" class="list-group-item select-item">Fred</a>
+		<a href="#" class="list-group-item select-item">Fred</a>
+
+	</div>
+</div>
+
+<div id="chatbox" class="chat-box">
+	<div class="chat-head">
+		<a id="chat-with" href="#">Potato Salad</a>
+		<button id="chat-close" type="button" class="close" aria-labelledby="close"><span aria-hidden="true">&times;</span></button>
+	</div>
+	<div id="chatbody" class="chat-body"></div>
 	
-	<div class="panel-footer">
-		
+	<div class="chat-text">
 		<textarea id="chat-input" class="form-control" rows="1"></textarea>
-		
 	</div>
 </div>
 

@@ -1,0 +1,345 @@
+body {
+		overflow: hidden;
+}
+
+#map-icon {
+		position: fixed;
+		width: 100px;
+		height: 100px;
+		right: 15%;
+		bottom: 0;
+		margin-bottom: 15px;
+		background-color: rgba(52, 73, 94, 0.5);
+		border-color: #001a33;
+		z-index: 2;
+}
+
+#map-icon:hover {
+		width: 110px;
+		height: 110px;
+	
+}
+
+/*-------------------------------- Game -----------------------------------*/
+#game {
+    position: relative;
+    background-image: url("http://p1.pichost.me/i/23/1463598.jpg");
+		background-repeat: no-repeat;
+		background-size: cover;
+		z-index: 1;
+}
+
+
+/*-------------------------------- Navbar -----------------------------------*/
+
+.navbar-custom {
+    margin: 0px 0px 0px 0px;
+    border-radius: 0;
+    background-image:
+    linear-gradient(
+						#001a33,
+						#34495E
+				);
+    z-index: 3;
+}
+
+
+/*-------------------------------- Options -----------------------------------*/
+
+#sideoptions {
+    position: absolute;
+    top: 75px;
+    left: 8px;
+    /* background-color: red;*/
+    height: 210px;
+    width: 45px;
+    z-index: 2;
+}
+
+.btn-option {
+    margin-top: 6px;
+    margin-bottom: 6px;
+    border-radius: 25px !important;
+}
+
+/*------------------------------ Overview ---------------------------------*/
+
+.modal {
+    position: absolute;
+    top: 50px;
+    right: 100px;
+    bottom: 0;
+    left: 0;
+    z-index: 10040;
+}
+
+.modal-body {
+    height: 400px;
+}
+
+.modal-backdrop {
+    background: none;
+}
+
+.modal-header {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    color: #ccffff;
+    
+    background-image:
+    linear-gradient(
+						#001a33,
+						#34495E
+				);
+}
+
+.modal-content {
+    opacity: 0.9;
+    color: #ccffff;
+    
+    background-image:
+    radial-gradient(
+						#34495E,
+						#001a33 
+				);
+}
+
+.nav-tabs > li > a:hover {
+    background-color:	#001a33;
+}
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+    color: white;
+    background-color:	#34495E;
+}
+
+.close {
+    color: white;
+    opacity: 1;
+}
+
+ul.overview-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+ul.overview-list > li {
+    border-bottom: 0.5px solid white;
+    margin: 0;
+    font-size: small;
+    text-transform: uppercase;
+}
+
+ul.overview-list > li span {
+    float: right;
+}
+
+#cities > ul, #allies > ul {
+    height: 250px;
+    overflow-y: auto;
+}
+
+#cities > ul > li, #allies > ul > li {
+    border-style: none;
+}
+
+/*-------------------------------- Chat -----------------------------------*/
+#chatbox {
+		display: none;
+}
+
+
+.chat-box {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 250px;
+    height: 350px;
+    background-color: #34495E;
+    opacity: 0.8;
+    z-index: 2;
+}
+
+.chat-head {
+    width: 100%;
+    height: 10%;
+    background-color: #001a33;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding: 5px 10px 5px 10px;
+		font-size: 0.75em;
+		font-weight: bold;
+}
+
+#chat-with:hover {
+		text-decoration: underline;
+}
+
+#chat-close {
+		position: relative;
+		bottom: 2px;
+}
+
+.chat-body {
+    width: 95%;
+    height: 70%;
+    border-right: 0.5px solid gray;
+    word-wrap: break-word;
+    overflow-y: scroll;
+    font-size: small;
+    color: white;
+    margin-left: 10px;
+    margin-right: 15px;
+}
+
+.chat-text {
+    width: 100%;
+    height: 20%;
+}
+
+#chat-input {
+    resize: none;
+    width: 100%;
+    height: 100%;
+    font-size: small;
+    border-radius: 0;
+    overflow: hidden;
+    opacity: 0.8;
+    border: 0.5px solid gray;
+    outline: none;
+    
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+/*----------------------------- Chat Selection -----------------------------*/
+
+#chat-select {
+		overflow-y: hidden;
+		padding-top: 5px;
+		display: none;
+}
+
+#chat-select:hover {
+		overflow-y: auto;
+}
+
+.select-item {
+		font-size: 0.75em;
+		border-style: none;
+		padding-top: 5px;
+		padding-bottom: 5px;
+		background-color: #34495E;
+}
+
+a.select-item:link,
+a.select-item:visited {
+		color: white;
+		background-color: #34495E;
+}
+
+a.select-item:hover,
+a.select-item:active {
+		background-color: #243342;
+}
+
+.select-header {
+		color: black;
+		text-transform: uppercase;
+		font-size: 0.75em;
+		font-weight: bold;
+		padding: 5px 10px 5px 10px;
+}
+
+#select-close {
+		position: relative;
+		right: 10px;
+}
+
+/*-------------------------------- Build -----------------------------------*/
+
+#build-bar {
+		position: absolute;
+		bottom: 0;
+		right: -200px;
+		width: 10%;
+		height: 90%;
+		opacity: 0.8;
+		border-radius: 5px;
+		margin-top: 15px;
+		margin-bottom: 15px;
+		z-index: 2;
+    
+		background-image:
+		radial-gradient(
+						#34495E,
+						#001a33 
+				);
+
+		-webkit-transition: all 1s ease;
+		-moz-transition: all 1s ease;
+		-o-transition: all 1s ease;
+		transition: all 1s ease;
+}
+
+#build-bar.slidein {
+		right: 0px;
+}
+
+
+.build-group {
+		width: 80%;
+		height: 91.5%;
+		margin-right: auto;
+		margin-left: auto;
+		overflow-y: hidden;
+		/*	background-color: black; */
+}
+
+.build-panel {
+		width: 80%;
+		height: calc(100% / 6.8);
+		margin-top: 9%;
+		margin-bottom: 9%;
+		margin-left: auto;
+		margin-right: auto;
+
+		border-radius: 10px;
+		border-style: groove;
+		border-color: white;
+		
+		-webkit-transition: all 0.5s ease;
+		-moz-transition: all 0.5s ease;
+		-o-transition: all 0.5s ease;
+		transition: all 0.5s ease;
+}
+
+.build-panel:hover {
+		-webkit-box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
+		-moz-box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
+		box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
+}
+
+#build-previous, #build-next {
+		width: 100%;
+		height: 4.25%
+}
+
+#build-next {
+		position: absolute;
+		bottom: 0;
+		border-top-left-radius: 0px;
+		border-top-right-radius: 0px;
+}
+
+#build-previous {
+		border-bottom-left-radius: 0px;
+		border-bottom-right-radius: 0px;
+}
+
+
