@@ -67,90 +67,102 @@ def logfin:
 
 """<-------------------------------GET_FUNCTIONS------------------------------->"""
 @app.route("/get_functions", methods = ["GET", "POST"])
-def get_functions(type, a, b, c, d):
-    if type == "get_accountID":
+def get_functions():
+    function_type = request.form["type"]
+    a = request.form["a"]
+    b = request.form["b"]
+    c = request.form["d"]
+    if function_type == "get_accountID":
         """username""":
         hold == utils.findID(a)
         return hold
 
-    if type == "get_cityIDs"
+    if function_type == "get_cityIDs"
         """accountID"""
         hold = utils.getCitiesID(a)
         return hold
 
-    if type == "get_resources":
+    if function_type == "get_resources":
         """cityID"""
         hold = utils.getResources(a)
         return hold
 
-    if type = "get_multipliers":
+    if function_type == "get_multipliers":
         """cityID"""
         return "multipliers"
 
-    if type == "get_msgs":
+    if function_type == "get_msgs":
         """from, to"""
         hold = utils.getmsgs(a, b)
         return hold
 
-    if type == "get_citymap":
+    if function_type == "get_citymap":
         """mapx, mapy"""
         hold = utils.getCity(a, b) 
         
-    if type == "get_city_buildings":
+    if function_type == "get_city_buildings":
         """cityID"""
         hold = utils.getBuildingsIn(a)
 
-    if type == "get_specific_building":
+    if function_type == "get_specific_building":
         """cityID, buildingx, buildingy"""
         hold = utils.getBuildingXY(a, b, c)
         return hold
 
-    if type == "get_specific_building_stat":
+    if function_type == "get_specific_building_stat":
         """buildingID"""
         hold = utils.getBuilding(a)
         return hold
 
-    if type == "get_friends":
+    if function_type == "get_friends":
         """username"""
         hold = utils.getFriends(a)
         return hold
 
-    if type == "base_building_stats":
+    if function_type == "base_building_stats":
         """returns a list of dictionaries"""
         return utils.allBuildings    
 
 
 """<-------------------------------SET_FUNCTIONS------------------------------->"""
 @app.route("/set_functions", methods = ["GET", "POST"])
-def set_functions(type, a, b, c, d, e, f, g):
-    if type == "add_building":
+def set_functions():
+    function_type = request.fomr["type"]
+        a = request.form["a"]
+        b = request.form["b"]
+        c = request.form["c"]
+        d = request.form["d"]
+        e = request.form["e"]
+        f = request.form["f"]
+        g = request.form["g"]
+    if function_type == "add_building":
         """cityID, buildingx, buildingy, buildingtype"""
         utils.addBuilding(a, b, c, d)
 
-    if type == "update_resources":
+    if function_type == "update_resources":
         """cityid, wood, iron, gold, food, population, soldiers"""
        utils.updateResources(a, b, c, d, e, f, g)
 
-    if type == "set_multipliers":
+    if function_type == "set_multipliers":
         
 
-    if type == "set_msgs":
+    if function_type == "set_msgs":
         """fromID, toID, messages"""
         utils.addmsg(a, b, c)
 
-    if type == "set_friends":
+    if function_type == "set_friends":
         """userID, friendID"""
         utils.addFriend(a, b)
 
-    if type == "add_city":
+    if function_type == "add_city":
         """cityname, cx, cy, wood, iron, gold, food"""
         utils.addCity(a, b, c, d, e, f, g)
 
-    if type == "set_city_owner":
+    if function_type == "set_city_owner":
         """accountID, cityID"""
         utils.setCityOwner(a, b)
 
-    if type == "set_building":
+    if function_type == "set_building":
         //update a building
 
 if __name__ = "__main__":
