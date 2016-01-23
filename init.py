@@ -26,7 +26,8 @@ q = "CREATE TABLE %s (%s);"
 
 c.execute(q %("accounts" , 'account_id INTEGER PRIMARY KEY AUTOINCREMENT, uname TEXT, pword TEXT, email TEXT'))
 
-c.execute(q %("cities", 'city_id INTEGER PRIMARY KEY AUTOINCREMENT, account_id INTEGER, city_name TEXT, cx INTEGER, cy INTEGER, wood INTEGER, iron INTEGER, gold INTEGER, food INTEGER, population INTEGER, soldiers INTEGER'))
+c.execute(q %("cities",
+'city_id INTEGER PRIMARY KEY AUTOINCREMENT, account_id INTEGER, city_name TEXT, cx INTEGER, cy INTEGER, wood INTEGER, iron INTEGER, gold INTEGER, food INTEGER, population INTEGER, soldiers INTEGER, happiness INTEGER'))
 
 c.execute(q %("buildings", 'building_id INTEGER PRIMARY KEY AUTOINCREMENT, city_id INTEGER, bx INTEGER, by INTEGER, type INTEGER, level INTEGER'))
 

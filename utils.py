@@ -19,17 +19,20 @@ import init
 
 timeInterval = 10## In milliseconds
 
+startPop = 100; # a constant that represents how much population the city starts with
+startSol = 50; # a constant that represents how many soldiers the city starts with
+startHappiness = 100;# a constant that is how happy a city starts out as
 
 allBuildings = [
-{"name":"house", "type":1, "peopleHoused":1000}# houses people, increase gold?
-{"name":"barracks", "type":2, "soldiers":.5}# makes soldiers
-{"name":"city hall" "type":3}# dictates highest level
-{"name":"hospital", "type":4, "food":.5}# lowers disease, restores wounded soldiers, increase food?
-{"name":"mine", "type":5, "iron":.5}
-{"name":"woodmill", "type":6, "wood":.5}
-{"name":"farm", "type":7, "food":.5}
-{"name":"shop", "type":8, "gold":.5}# increases gold
-{"name":"rec building", "type":,9 "happiness":.25}# increase happiness
+{"name":"house", "type":1, "peopleHoused":1000},# houses people, increase gold?
+{"name":"barracks", "type":2, "soldiers":.5},# makes soldiers
+{"name":"city hall", "type":3},# dictates highest level
+{"name":"hospital", "type":4, "food":.5},# lowers disease, restores wounded soldiers, increase food?
+{"name":"mine", "type":5, "iron":.5},
+{"name":"woodmill", "type":6, "wood":.5},
+{"name":"farm", "type":7, "food":.5},
+{"name":"shop", "type":8, "gold":.5},# increases gold
+{"name":"rec building", "type":9, "happiness":.25}# increase happiness
 ]
 # happiness increase is (max(0, peopleHoused total - population)) + (max(0, food - population)) + buildingHappiness
 
@@ -129,10 +132,11 @@ def addCity(cityName, cx, cy, wood, iron, gold, food):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
 
-    startPop = 100; # a constant that represents how much population the city starts with
-    startSol = 50; # a constant that represents how many soldiers the city starts with
-
-    c.execute("INSERT INTO cities(account_id, city_name, cx, cy, wood, iron, gold, food, population, soldiers) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (0, cityName, cx, cy, wood, iron, gold, food, startPop, startSol))
+    c.execute("INSERT INTO cities(account_id, city_name, cx, cy, wood, iron, gold, food, population, soldiers, happiness) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (0, cityName, cx, cy, wood, iron, gold, food, startPop, startSol, startHappiness))
+    p = c.execute("SELECT city_id FROM cities;")
+    for r in p:
+        cityID = r[0]
+    c.execute("INSERT INTO buildings(city_id, bx, by, type, level) VALUES (?, ?, ?, ?, ?);", (cityID, 0, 0, 3, 1))
     conn.commit()
 
 #===============TEST===============
@@ -150,7 +154,7 @@ def setCityOwner(accountID, cityID):
 setCityOwner(1, 1)
 #==================================
 
-## Returns a list of city_ids of that uname
+## Returns a list of city_ids of that accountID
 def getCitiesID(accountID):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
@@ -161,7 +165,7 @@ def getCitiesID(accountID):
     return cities
 
 #===============TEST===============
-print "getCitiesID('milo'): "+str(getCitiesID("milo"))
+print "getCitiesID(1): "+str(getCitiesID(1))
 #==================================
 
 ## returns the cityID based on x and y
@@ -180,6 +184,31 @@ def getCityOwner(cityID):
     for r in p:
         return r[0]
 
+# gets the city id from the name
+def getCityID(cityName):
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    p = c.execute("SELECT city_id FROM cities WHERE city_name = %s;" %(cityName))
+    for r in p:
+        return r[0]
+
+# gets the city id from the coordinates
+def getCityXY(cx, cy):
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    p = c.execute("SELECT city_id FROM cities WHERE cx = ? AND cy = ?;", (cx, cy))
+    for r in p:
+        return r[0]
+    return 0
+
+# gets the name from the city id
+def getCityName(cityID):
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    p = c.execute("SELECT city_name FROM cities WHERE city_id = %s;", (cityID))
+    for r in p:
+        return r[0]
+
 #===============TEST===============
 print "getCity(2, 1): "+str(getCity(2, 1))
 print "getCity(3, 4): "+str(getCity(3, 4))
@@ -189,30 +218,72 @@ print "getCity(3, 4): "+str(getCity(3, 4))
 def getResources(cityID):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
-    p = c.execute("SELECT wood, iron, gold, food, population, soldiers FROM cities WHERE city_id = %s;" %(cityID))
+    p = c.execute("SELECT wood, iron, gold, food, population, soldiers, happiness FROM cities WHERE city_id = %s;" %(cityID))
     for r in p:
-        return {"wood":r[0], "iron":r[1], "gold":r[2],"food":r[3], "population":r[4], "soldiers":r[5]}
+        return {"wood":r[0], "iron":r[1], "gold":r[2],"food":r[3], "population":r[4], "soldiers":r[5], "happiness":r[6]}
 
 ## Updates all resources with the cityID
-def updateResources(cityID, wood, iron, gold, food, population, soldiers):
+def updateResources(cityID, wood, iron, gold, food, population, soldiers, happiness):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
-    c.execute("UPDATE cities SET wood = ?, iron = ?, gold = ?, food = ?, population = ?, soldiers = ? WHERE city_id = ?;",
-    (wood, iron, gold, food, population, soldiers, cityID))
+    c.execute("UPDATE cities SET wood = ?, iron = ?, gold = ?, food = ?, population = ?, soldiers = ?, happiness = ? WHERE city_id = ?;",
+    (wood, iron, gold, food, population, soldiers, happiness, cityID))
     conn.commit()
 
-## Get multipliers for all resources
-#def getMultipliers(cityID):
-#    conn = sqlite3.connect("data.db")
-#    c = conn.cursor()
+## get the increases in all resources
+def getResourceIncreases(cityID):
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    buildings = getBuildingsIn(cityID)
+    peopleHoused = 0
+    soldiers = 0
+    food = 0
+    iron = 0
+    wood = 0
+    gold = 0
+    happiness = 0
+    for b in buildings:
+        if b["type"] == 1:# house
+            peopleHoused += allBuildings[0]["peopleHoused"]*b["level"]
+        if b["type"] == 2:# barracks
+            soldiers += allBuildings[1]["soldiers"]*b["level"]
+        if b["type"] == 3:# city hall
+            # city hall stuff
+            break
+        if b["type"] == 4:# hospital
+            # do the hospital stuff
+            break
+        if b["type"] == 5:# mine
+            iron += allBuildings[4]["iron"]*b["level"]
+        if b["type"] == 6:# woodmill
+            wood += allBuildings[5]["wood"]*b["level"]
+        if b["type"] == 7:# farm
+            food += allBuildings[6]["food"]*b["level"]
+        if b["type"] == 8:# shop
+            gold += allBuildings[7]["shop"]*b["level"]
+        if b["type"] == 9:# rec building
+            happiness += allBuildings[8]["happiness"]*b["level"]
+    r = getResources(cityID)
+    # happiness calculation:
+    happiness += (max(0, peopleHoused - r["population"])) + (r["food"] - r["population"])
+    # population growth calculation:
+    population = (food - r["population"]) + (r["happiness"] - r["population"])
+    return {"wood":wood, "iron":iron, "gold":gold, "food":food, "population":population, "soldiers":soldiers, "happiness":happiness}
 
 
-
-#===============TEST===============
-print "getResources: "+str(getResources(getCity(3, 4)))
-updateResources(1, 400, 300, 500, 150, 200, 350)
-print "getResources: "+str(getResources(getCity(3, 4)))
-#==================================
+## automatically update all values
+def updateAll(cityID):
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    r = getResourceIncreases(cityID)
+    updateResources(cityID,
+    r["wood"]+r["wood"],
+    r["iron"]+r["iron"],
+    r["gold"]+r["gold"],
+    r["food"]+r["food"],
+    r["population"]+r["population"],
+    r["soldiers"]+r["soldiers"],
+    r["happiness"]+r["happiness"])
 
 #+========================+#
 #+========Buildings=======+#
@@ -229,7 +300,7 @@ def addBuilding(cityID, bx, by, type):
 addBuilding(1, 5, 5, 0)
 #==================================
 
-# gets a list of dictionaries, gathering all info about all buildings in city with cityID
+## gets a list of dictionaries, gathering all info about all buildings in city with cityID
 def getBuildingsIn(cityID):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
@@ -270,18 +341,24 @@ def getBuilding(buildingID):
 def levelUpBuilding(buildingID):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
-    p = c.execute("SELECT city_id, level FROM buildings WHERE building_id = %s;" %(buildingID))
+    p = c.execute("SELECT city_id, level, type FROM buildings WHERE building_id = %s;" %(buildingID))
     for r in p:
         cityID = r[0]
         level = r[1]
+        type = r[2]
     p = c.execute("SELECT level FROM buildings WHERE city_id = %s AND type = 3;", (cityID))
     for r in p:
         cityLevel = r[0]
     if cityLevel > level:# it can be the same after it is set
+        # Check for price
         c.execute("UPDATE buildings SET level = ? WHERE building_id = ?;", (level+1, buildingID))
     conn.commit()
 
-    
+## gets the building type name
+def getBuildingName(buildingID):
+    b = getBuilding(buildingID)
+    type = b["type"]
+    return allBuildings[type]["name"]
 
 ## remove the building with that ID
 def deleteBuilding(buildingID):
@@ -339,8 +416,30 @@ def getmsgs(fromUser, toUser):
         list.append({"from_id":r[0], "message":r[1], "timestamp":r[2], "seen":r[3]})
     return list
 
+## returns all friends who have unseen messages
+def getUnseenFriends(userID):
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    msgs = c.execute("SELECT from_id, seen FROM messages WHERE to_id = %s;" %(userID))
+    unseen = []
+    for r in msgs:
+        if r[1] == 0:
+            if unseen.count(r[0]) == 0:
+                unseen.append(r[0])
+    return unseen
+
+## set all of the messages from fromID to userID to seen
+def setAllSeenFrom(userID, fromID):
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    c.execute("UPDATE messages SET seen = 1 WHERE from_id = ? AND to_id = ?;", (fromID, userID))
+    conn.commit()
+
 #===============TEST===============
 print "getmsgs(1, 2): "+str(getmsgs(1, 2))
+print "getUnseenFriends(2)"+str(getUnseenFriends(2))
+setAllSeenFrom(2, 1)
+print "getUnseenFriends(2)"+str(getUnseenFriends(2))
 #==================================
 
 ## adds the friendID to the userID friend list
@@ -369,37 +468,23 @@ def getFriends(userID):
 print "getFriends(1): "+str(getFriends(1))
 #==================================
 
-"""buildings = [
-{"name":"house", "type":1, "peopleHoused":1000}# houses people, increase gold?
-{"name":"barracks", "type":2, "soldiers":.5}# makes soldiers
-{"name":"city hall" "type":3,}# dictates highest level
-{"name":"hospital", "type":4, "food":.5}# lowers disease, restores wounded soldiers, increase food?
-{"name":"mine", "type":5, "iron":.5}
-{"name":"woodmill", "type":6, "wood":.5}
-{"name":"farm", "type":7, "food":.5}
-{"name":"shop", "type":8, "gold":.5}# increases gold
-{"name":"rec building", "type":,9 "happiness":.25}# increase happiness
-]
-# happiness increase is (max(0, peopleHoused total - population)) + (max(0, food - population)) + buildingHappiness
-"""
 
-def updateAll(cityID):
+#+========================+#
+#+=========Action=========+#
+#+========================+#
+
+# have one city attack another (takes cityIDs)
+def attack(defendingCity, attackingCity):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
-    buildings = getBuildingsIn(cityID)
-    # [{"city_id":r[0], "bx":r[1], "by":r[2],"type":r[3], "level":r[4]}, {"city_id":r[0], etc.....}]
 
-    peopleHoused = 0
-    soldierTotal = 0
-    foodTotal = 0
-    ironTotal = 0
-    woodTotal = 0
-    goldTotal = 0
-    newHappiness = 0
-    for b in buildings:
-        if b["type"] == 1:# house
-            peopleHoused += allBuildings[0]["peopleHoused"]*b["level"]
-        if b["type"] == 2:# barracks
-            soldierTotal += allBuildings[1]["soldiers"]
-        if b["type"] == 3:
-            # do the hospital stuff
+
+#===============TEST===============
+print "getResources: "+str(getResources(getCity(3, 4)))
+updateAll(getCity(3, 4))
+print "getResources: "+str(getResources(getCity(3, 4)))
+updateAll(getCity(3, 4))
+print "getResources: "+str(getResources(getCity(3, 4)))
+updateAll(getCity(3, 4))
+print "getResources: "+str(getResources(getCity(3, 4)))
+#==================================
