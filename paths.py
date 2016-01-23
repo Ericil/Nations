@@ -1,11 +1,11 @@
-import utils, other 
-from flask import FLask, render_template, request, redirect, url_for
+import utils
+import json
+from flask import Flask, render_template, request, redirect, url_for
 app = Flask(__name__)
+
 @app.route("/")
 def intro():
-    return render_template 
-
-
+    return "hello"
 
 """<-------------------------------LOGIN------------------------------->"""
 """route to the home page, will have a LOGIN button and a REGISTER button"""
@@ -14,40 +14,51 @@ def login():
     if str(request.form["button"]) == "Log in!":
         username = str(request.form["username"])
         if utils.pwordAuth(username, str(request.form["password"])): 
-            return redirect('/play/' + username)
+            return redirect(url_for('play2', username = username))
         else:
-            return render_template("/login.html", text = "Username/Password does not match")
+            return render_template("login.html", text = "Username/Password does not match")
     else:
-        return render_template("/register.html")
+        return render_template("register.html")
 
 """<-------------------------------REGISTER------------------------------->"""    
 @app.route("/register", methods = ["GET", "POST"])
 def register():
     if str(request.form["button"]) == "Register!":
-        if utils.unameAuth(str(request.form["username"])) != True: 
-            utils.addAccount(str(request.form["username"]), str(request.form["password"]), str(request.form["firstname"]), str(request.form["lastname"]))
-            utils.editInfo(str(request.form["username"]), str(request.form["paragraph_text"])) 
-            return redirect('/loginfinished/' + str(request.form["username"]))
+
+        username = str(request.form["username"])
+        password = str(request.form["password"])
+        first = str(request.form["firstname"])
+        last = str(request.form["lastname"])
+        text = str(request.form["paragraph_text"])
+        
+        if not utils.unameAuth(username): 
+            utils.addAccount(username, password, first, last)
+            utils.editInfo(username, text)
+            return redirect(url_for('logfin', username = username))
+          
         else:
-            return render_template("/register.html", text = "this username already exists")
+            return render_template("register.html", text = "This username already exists")
     else:
-        return render_template("/login.html")
+        return render_template("login.html")
 
 """<-------------------------------SETTINGS------------------------------->"""
 @app.route("/settings")
 def settings():
-    return redirect("/login")
+    return redirect(url_for('login'))
+
 @app.route("/settings/<username>", methods = ["GET, POST"])
-def settings2():
-    print("1")
+def settings2(username):
+    print 1
     if request.method == "POST":
-        print("2")
-        if (str(request.form["post"]) == "change"):
-            print("3")
+        print 2
+        post = str(request.form["post"])
+        if (post == "change"):
+            print 3
             the_response = utils.changePword(str(request.form["user"]), str(request.form["oldpass"]), str(request.form["pass1"]), str(request.form["pass2"]))
             return render_template("settings.html", username = username, the_response = the_response, friendslist = utils.friendList(username))
-        elif (str(request.form["post"]) == "finding"):
-            print("4")
+        
+        elif (post == "finding"):
+            print 4
             utils.addFriend(username, str(request.form["search_for"]))
             return render_template("settings.html", username = username, friendslist = utils.friendList(username))
     else:
@@ -57,21 +68,23 @@ def settings2():
 #PLAY
 @app.route("/play")
 def play():
-    return redirect("/login")
+    return redirect(url_for('login'))
+
 @app.route("/play/<username>", methods = ["GET", "POST"]) 
-def play2():
-    return render_template("/test.html", username = username)
+def play2(username):
+    return render_template("test.html", username = username)
 
 @app.route("/loginfinished/<username>", methods = ["GET", "POST"])
-def logfin():
+def logfin(username):
     return "hello"
+
 #GET_FUNCTIONS
-@app.route("/get_functions", methods = ["GET", "POST"])
+@app.route("/get_functions")
 def get_functions():
-    function_type = request.form["type"]
-    a = request.form["a"]
-    b = request.form["b"]
-    c = request.form["d"]
+    function_type = request.args.get("type")
+    a = request.args.get("a")
+    b = request.args.get("b")
+    c = request.args.get("c")
     if function_type == "get_accountID":
         """username"""
         hold == utils.findID(a)
@@ -132,20 +145,21 @@ def get_functions():
 
     if function_type == "base_building_stats":
         """returns a list of dictionaries"""
-        return utils.allBuildings    
+        return json.dumps(utils.allBuildings)    
 
 
 """<-------------------------------SET_FUNCTIONS------------------------------->"""
-@app.route("/set_functions", methods = ["GET", "POST"])
+@app.route("/set_functions")
 def set_functions():
-    function_type = request.form["type"]
-    a = request.form["a"]
-    b = request.form["b"]
-    c = request.form["c"]
-    d = request.form["d"]
-    e = request.form["e"]
-    f = request.form["f"]
-    g = request.form["g"]
+    function_type = request.args.get("type")
+    a = request.args.get("a")
+    b = request.args.get("b")
+    c = request.args.get("c")
+    d = request.args.get("d")
+    e = request.args.get("e")
+    f = request.args.get("f")
+    g = request.args.get("g")
+    
     if function_type == "add_building":
         """cityName, buildingx, buildingy, buildingtype"""
         cityID = utils.getCityID(a)
@@ -188,4 +202,5 @@ def set_functions():
 
 if __name__ == "__main__":
     app.debug = True
-    app.run()
+    app.run(host="0.0.0.0", port=8000)
+   

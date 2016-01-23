@@ -10,7 +10,6 @@ var build = function build(){
 		var bar = document.getElementById("build-bar");
 		bar.classList.toggle("slidein");
 		isBuilding = !isBuilding;
-		console.log(building);
 };
 
 
@@ -70,6 +69,38 @@ function setAttributes(element, attributes){
 		});
 }
 
+var buildOptions = function buildOptions(){
+		e.preventDefault();
+		if (e.target.className == "build-panel"){
+				console.log("to be continued");
+		}
+};
+
+var makePanels = function makePanels(data){
+		var buildGroup = document.getElementsByClassName("build-group")[0];
+		var buildData = JSON.parse(data);
+		len = buildData.length;
+		for (var i = 0; i < len; i++){
+				var panel = document.createElement("div");
+				var building = buildData[i];
+				setAttributes(panel,{
+						"class": "build-panel",
+						"title": building["name"],
+						"data-toggle": "popover",
+						"data-placement": "left",
+						"data-trigger": "hover",
+						"data-content": "" + i
+				});
+				buildGroup.appendChild(panel);
+		}
+		
+		buildGroup.addEventListener("click", function(e){
+				buildOptions(e);
+		});
+		
+		$('[data-toggle="popover"]').popover();
+};
+
 /*Add click events listeners to buttons
  */
 var setupBuild = function setupBuild(){
@@ -80,22 +111,10 @@ var setupBuild = function setupBuild(){
 		var next = document.getElementById("build-next");
 		next.addEventListener("click", slideNext);
 
-		var buildGroup = document.getElementsByClassName("build-group")[0];
-		len = 12;
-		for (var i = 0; i < len; i++){
-				var panel = document.createElement("div");
-				setAttributes(panel,{
-						"class": "build-panel",
-						"title": "House",
-						"data-toggle": "popover",
-						"data-placement": "left",
-						"data-trigger": "hover",
-						"data-content": "" + i
-				});
-				buildGroup.appendChild(panel);
-		}
-		$('[data-toggle="popover"]').popover();
-    
+		$.get("/get_functions", {type: "base_building_stats"}, function(data){
+				console.log(data);
+				makePanels(data);
+		});
 };
 
 
