@@ -1,13 +1,16 @@
 console.log("Here is the build");
 
-var pos = 0;
+var len;
+var pos = 6;
+var isBuilding = false;
 
 /*Make the bar appear or disappear
  */
 var build = function build(){
-		$("#build-bar").animate({
-				width: 'toggle'
-		});
+		var bar = document.getElementById("build-bar");
+		bar.classList.toggle("slidein");
+		isBuilding = !isBuilding;
+		console.log(building);
 };
 
 
@@ -31,36 +34,41 @@ var enable = function enable(name){
 /*Show the previous 6 choices
  */
 var slidePrevious = function slidePrevious(){
-		pos -= 6;
-		var panels = document.getElementsByClassName("build-panel");
-		for (var i = pos; i >= 0; i--){
-				panels[i].classList.remove("next");
-				panels[i].children[0].classList.remove("header-next");
-		}
-		
-		if (pos <= 6){
+    pos -= 6;
+    if (pos <= 0){
 				pos = 0;
 				disable("build-previous");
 				enable("build-next");
-		}
+    }
+		var buttonHeight = $("#build-previous").height();
+    var elTop = $(".build-panel").eq(pos).offset().top + buttonHeight;
+    $(".build-group").animate({scrollTop: elTop}, 500);
 };
 
 /*Show the next 6 choices
  */
 var slideNext = function slideNext(){
-		pos += 6;
-		var panels = document.getElementsByClassName("build-panel");
-		for (var i = 0; i < panels.length && i < pos; i++){
-				panels[i].children[0].classList.add("header-next");
-				panels[i].classList.add("next");
-		}
+		if (pos == 0) {pos += 6;}
 		
-		if (pos + 6 >= panels.length){
-				pos = panels.length;
+		var buttonHeight = $("#build-previous").height();
+		var elTop = $(".build-panel").eq(pos).offset().top + buttonHeight;
+		$(".build-group").animate({scrollTop: elTop}, 500);
+		
+		if (pos + 6 >= len){
 				disable("build-next");
 				enable("build-previous");
 		}
+		else {pos += 6;}
 };
+
+
+/*Set multiple attributes for an element at once
+ */
+function setAttributes(element, attributes){
+		Object.keys(attributes).forEach(function(name){
+				element.setAttribute(name, attributes[name]);
+		});
+}
 
 /*Add click events listeners to buttons
  */
@@ -68,10 +76,27 @@ var setupBuild = function setupBuild(){
 		var previous = document.getElementById("build-previous");
 		previous.addEventListener("click", slidePrevious);
 		previous.disabled = true;
-		
+    
 		var next = document.getElementById("build-next");
 		next.addEventListener("click", slideNext);
-}
+
+		var buildGroup = document.getElementsByClassName("build-group")[0];
+		len = 12;
+		for (var i = 0; i < len; i++){
+				var panel = document.createElement("div");
+				setAttributes(panel,{
+						"class": "build-panel",
+						"title": "House",
+						"data-toggle": "popover",
+						"data-placement": "left",
+						"data-trigger": "hover",
+						"data-content": "" + i
+				});
+				buildGroup.appendChild(panel);
+		}
+		$('[data-toggle="popover"]').popover();
+    
+};
 
 
 
