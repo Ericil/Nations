@@ -1,8 +1,8 @@
 console.log("These are the settings");
 
 /*Adds mouseover events to buttons
-  Mouse over and out on options button to view options
-  Mouse over options to view descriptions
+	Mouse over and out on options button to view options
+	Mouse over options to view descriptions
 */
 var hoverOptions = function hoverOptions(){
     $("#options").mouseover(function(){
