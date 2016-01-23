@@ -477,7 +477,23 @@ print "getFriends(1): "+str(getFriends(1))
 def attack(defendingCity, attackingCity):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
-
+    aSoldiers = getResources(attackingCity)["soldiers"]
+    dSoldiers = int(getResources(defendingCity)["soldiers"]*1.2)# defending cities get a bonus
+    # if attackers have more
+        # defenders lose everything
+    # if defenders have more
+        # attackers lose half
+        # defenders lose the amount attackers lost
+    if aSoldiers > dSoldiers:
+        aSoldiers -= dSoldiers
+        attacker = getCityOwner(attackingCity)
+        c.execute("UPDATE cities SET account_id = ? WHERE city_id = ?;", (attacker, defendingCity))
+    else:
+        loss = max(aSoldiers - dSoldiers, aSoldiers/2)
+        aSoldiers -= loss
+        dSoldiers -= min(loss, dSoldiers)
+        c.execute("UPDATE cities SET soldiers = ? WHERE city_id = ?;", (dSoldiers, defendingCity))
+    c.execute("UPDATE cities SET soldiers = ? WHERE city_id = ?;", (aSoldiers, attackingCity))
 
 #===============TEST===============
 print "getResources: "+str(getResources(getCity(3, 4)))
