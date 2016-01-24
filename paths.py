@@ -82,7 +82,7 @@ def play():
 def play2(username):
     if "username" not in session:
         return redirect(url_for('login2'))
-    utils.addAccount("test", "123", "")
+    #utils.addAccount("test", "123", "")
     #print username
     userid = utils.findID(username)
     #print userid
