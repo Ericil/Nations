@@ -72,7 +72,12 @@ def play():
 
 @app.route("/play/<username>", methods = ["GET", "POST"]) 
 def play2(username):
-    return render_template("test.html", username = username)
+    utils.addAccount("test", "123", "")
+    #print username
+    userid = utils.findID(username)
+    #print userid
+    cityname = utils.getCitiesName(userid)[0]
+    return render_template("test.html", username = username, cityname = cityname)
 
 @app.route("/loginfinished/<username>", methods = ["GET", "POST"])
 def logfin(username):
@@ -90,23 +95,27 @@ def get_functions():
         hold == utils.findID(a)
         return hold
 
-    if function_type == "get_cityIDs":
-        """accountID"""
+    if function_type == "get_cityNames":
+        """username"""
         accountID = utils.findID(a)
-        hold = utils.getCitiesID(a)
-        return hold
+        hold = utils.getCitiesName(accountID)
+        print hold
+        return json.dumps(hold)
 
     if function_type == "get_resources":
         """cityName"""
         cityID = utils.getCityID(a)
         hold = utils.getResources(cityID)
-        return hold
+        
+        print hold
+        return json.dumps(hold)
 
     if function_type == "get_multipliers":
         """cityName"""
         cityID = utils.getCityID(a)
         hold = utils.getResourceIncreases(cityID)
-        return hold
+        print  hold
+        return json.dumps(hold)
         
     if function_type == "get_msgs":
         """from, to"""
@@ -140,12 +149,15 @@ def get_functions():
     if function_type == "get_friends":
         """username"""
         accountID = utils.findID(a)
-        hold = utils.getFriends(accountID)
-        return hold
+        hold = utils.getFriendsNames(accountID)
+        print  hold
+        return json.dumps(hold)
 
     if function_type == "base_building_stats":
         """returns a list of dictionaries"""
-        return json.dumps(utils.allBuildings)    
+        d = {"buildings": utils.allBuildings,
+             "prices": utils.prices}
+        return json.dumps(d)    
 
 
 """<-------------------------------SET_FUNCTIONS------------------------------->"""
@@ -166,9 +178,10 @@ def set_functions():
         utils.addBuilding(cityID, b, c, d)
 
     if function_type == "update_resources":
-        """cityName, wood, iron, gold, food, population, soldiers"""
+        """cityName"""
         cityID = utils.getCityID(a)
-        utils.updateResources(cityID, b, c, d, e, f, g)
+        utils.updateAll(cityID)
+        return "success"
 
     #if function_type == "set_multipliers":
         

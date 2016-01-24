@@ -115,7 +115,7 @@ Crafty.defineScene("smallMap2", function(){
     	    .bind("Click", function(){
         		generate(this);
     	    });
-    	iso.place(i,y,0, gTile);
+    				iso.place(i,y,0, gTile);
         }
     }
 });

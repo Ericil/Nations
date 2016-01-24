@@ -8,12 +8,13 @@
 
   <div class="collapse navbar-collapse" id="navbar-collapse-01">
     <ul id="stats" class="nav navbar-nav">
-      <li><a> <span class="fa fa-leaf fa-lg"> 100</span> </a></li>
-      <li><a> <span class="fa fa-tree fa-lg"> 510</span> </a></li>
-      <li><a> <span class="fa fa-dollar fa-lg"> 1230</span> </a></li>
-      <li><a> <span class="fa fa-group fa-lg"> 412</span> </a></li>
-      <li><a> <span class="fa fa-cubes fa-lg"> 532</span> </a></li>
-      <li><a> <span class="fa fa-shield fa-lg"> 111</span> </a></li>
+      <li><a><span id="nav-food" class="fa fa-leaf fa-lg"></span></a></li>
+      <li><a><span id="nav-wood" class="fa fa-tree fa-lg"></span></a></li>
+      <li><a><span id="nav-gold" class="fa fa-dollar fa-lg"></span></a></li>
+      <li><a><span id="nav-population" class="fa fa-group fa-lg"></span></a></li>
+      <li><a><span id="nav-iron" class="fa fa-cubes fa-lg"></span></a></li>
+      <li><a><span id="nav-soldiers" class="fa fa-shield fa-lg"></span></a></li>
+			<li><a><span id="nav-happiness" class="fa fa-smile-o fa-lg"></span></a></li>
     </ul>
 
     <ul class="nav navbar-nav navbar-right">
@@ -22,7 +23,7 @@
 					<span class="glyphicon glyphicon-cog"></span> Settings</a>
 				<ul class="dropdown-menu">
 					<li><a href="/logout">Log Out</a></li>
-					<li><a href="/settings">Account</a></li>
+					<li><a href="/settings/" + {{username}}>Account</a></li>
 				</ul>
       </li>
     </ul>

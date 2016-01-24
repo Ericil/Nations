@@ -1,8 +1,8 @@
 console.log("These are the settings");
 
 /*Adds mouseover events to buttons
-  Mouse over and out on options button to view options
-  Mouse over options to view descriptions
+	Mouse over and out on options button to view options
+	Mouse over options to view descriptions
 */
 var hoverOptions = function hoverOptions(){
     $("#options").mouseover(function(){
@@ -45,6 +45,7 @@ var clickOptions = function clickOptions(){
     });
 };
 
+var updateInterval;
 
 $(document).ready(function(){
 		console.log("ready");
@@ -52,4 +53,8 @@ $(document).ready(function(){
 		clickOptions();
 		setupChat();
 		setupBuild();
+		setupInfo();
+
+		//updateInterval = setInterval(updateInfo, 5000);
+		
 });

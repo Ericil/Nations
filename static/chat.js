@@ -93,3 +93,21 @@ var updateChat = function updateChat(){
 };
 
 
+var updateSelect = function updateSelect(data, type){
+		var info = JSON.parse(data);
+		var list;
+		
+		if (type == "friends")
+				list = document.getElementById("kinda-friends");
+		if (type == "others")
+				list = document.getElementById("not-friends");
+		
+		var item;
+		for (var i = 0; i < info.length; i++){
+				item = document.createElement("a");
+				item.className = "list-group-item select-item";
+				item.href = "#";
+				item.innerHTML = info[i];
+				list.appendChild(item);
+		}	
+};
