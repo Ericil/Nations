@@ -653,13 +653,13 @@ def attack(defendingCity, attackingCity):
 
 
 
-createWorld()
+#createWorld()
 conn = sqlite3.connect("data.db")
 c = conn.cursor()
 
-addAccount("test", "123", "")
-addAccount("milo", "123", " ")
-addAccount("other", "123", "atgmaildotcom")
+#addAccount("test", "123", "")
+#addAccount("milo", "123", " ")
+#addAccount("other", "123", "atgmaildotcom")
 
 p = c.execute("SELECT cx, cy, city_name, city_id FROM cities;")
 for r in p:
