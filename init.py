@@ -16,6 +16,7 @@ c.execute(q %("cities"))
 c.execute(q %("buildings"))
 c.execute(q %("messages"))
 c.execute(q %("friends"))
+c.execute(q %("citylinks"))
 
 
 q = "CREATE TABLE %s (%s);"
@@ -34,6 +35,8 @@ c.execute(q %("buildings", 'building_id INTEGER PRIMARY KEY AUTOINCREMENT, city_
 c.execute(q %("messages", 'from_id INTEGER, to_id INTEGER, message TEXT, time INTEGER, seen INTEGER'))
 
 c.execute(q %("friends", 'you INTEGER, them INTEGER'))
+
+c.execute(q %("citylinks", 'city_id INTEGER, place TEXT'))
 
 conn.commit()
 conn.close()

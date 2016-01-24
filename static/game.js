@@ -13,17 +13,27 @@ calculateSize();
 
 Crafty.init(width, height, document.getElementById('game'));
 //use a div with id="game", first two numbers are pixel dimensions
-Crafty.sprite(136,260, "http://i.imgur.com/AmfVJyH.png", {
+Crafty.sprite(136,260, "http://i.imgur.com/m0zz0uW.png", {
     tile: [0,0,1,1],
     tileS: [0,1,1,1],
-    building1:[1,0,1,1],
-    building1S:[1,1,1,1],
-    building2:[2,0,1,1],
-    building2S:[2,1,1,1],
-    building3:[3,0,1,1],
-    building3S:[3,1,1,1],
-    building4:[4,0,1,1], 
-    building4S:[4,1,1,1] 
+    cityHall:[1,0,1,1],
+    cityHallS:[1,1,1,1],
+    mine:[2,0,1,1],
+    mineS:[2,1,1,1],
+    house:[3,0,1,1],
+    houseS:[3,1,1,1],
+    woodmill:[4,0,1,1], 
+    woodmillS:[4,1,1,1], 
+    mall:[5,0,1,1], 
+    mallS:[5,1,1,1], 
+    farm:[6,0,1,1], 
+    farmS:[6,1,1,1], 
+    hospital:[7,0,1,1], 
+    hospitalS:[7,1,1,1], 
+    park:[8,0,1,1], 
+    parkS:[8,1,1,1], 
+    barracks:[9,0,1,1], 
+    barracksS:[9,1,1,1]
 });
 var iso = Crafty.isometric.size(136);
 //var asdf = document.getElementById("potato");
@@ -41,51 +51,111 @@ Crafty.c("tileC", {
 	    });
     }
 });
-Crafty.c("building1C", {
+Crafty.c("cityHallC", {
     init: function(){
         this.areaMap([21,52],[116,52],[118,232],[21,232])
         .bind("MouseOver", function(){
-		    this.removeComponent("building1");
-		    this.addComponent("building1S");//select sprite
+		    this.removeComponent("cityHall");
+		    this.addComponent("cityHallS");//select sprite
 	    }).bind("MouseOut", function(){
-		    this.removeComponent("building1S");
-		    this.addComponent("building1");//regular sprite
+		    this.removeComponent("cityHallS");
+		    this.addComponent("cityHall");//regular sprite
 	    });
     }
 });
-Crafty.c("building2C", {
+Crafty.c("mineC", {
     init: function(){
         this.areaMap([21,52],[116,52],[118,232],[21,232])//change area map
         .bind("MouseOver", function(){
-		    this.removeComponent("building2");
-		    this.addComponent("building2S");//select sprite
+		    this.removeComponent("mine");
+		    this.addComponent("mineS");//select sprite
 	    }).bind("MouseOut", function(){
-		    this.removeComponent("building2S");
-		    this.addComponent("building2");//regular sprite
+		    this.removeComponent("mineS");
+		    this.addComponent("mine");//regular sprite
 	    });
     }
 });
-Crafty.c("building3C", {
+Crafty.c("houseC", {
     init: function(){
         this.areaMap([21,52],[116,52],[118,232],[21,232])//change area map
         .bind("MouseOver", function(){
-		    this.removeComponent("building3");
-		    this.addComponent("building3S");//select sprite
+		    this.removeComponent("house");
+		    this.addComponent("houseS");//select sprite
 	    }).bind("MouseOut", function(){
-		    this.removeComponent("building3S");
-		    this.addComponent("building3");//regular sprite
+		    this.removeComponent("houseS");
+		    this.addComponent("house");//regular sprite
 	    });
     }
 });
-Crafty.c("building4C", {
+Crafty.c("woodmillC", {
     init: function(){
         this.areaMap([21,52],[116,52],[118,232],[21,232])//change area map
         .bind("MouseOver", function(){
-		    this.removeComponent("building4");
-		    this.addComponent("building4S");//select sprite
+		    this.removeComponent("woodmill");
+		    this.addComponent("woodmillS");//select sprite
 	    }).bind("MouseOut", function(){
-		    this.removeComponent("building4S");
-		    this.addComponent("building4");//regular sprite
+		    this.removeComponent("woodmillS");
+		    this.addComponent("woodmill");//regular sprite
+	    });
+    }
+});
+Crafty.c("mallC", {
+    init: function(){
+        this.areaMap([21,52],[116,52],[118,232],[21,232])//change area map
+        .bind("MouseOver", function(){
+		    this.removeComponent("mall");
+		    this.addComponent("mallS");//select sprite
+	    }).bind("MouseOut", function(){
+		    this.removeComponent("mallS");
+		    this.addComponent("mall");//regular sprite
+	    });
+    }
+});
+Crafty.c("farmC", {
+    init: function(){
+        this.areaMap([21,52],[116,52],[118,232],[21,232])//change area map
+        .bind("MouseOver", function(){
+		    this.removeComponent("farm");
+		    this.addComponent("farmS");//select sprite
+	    }).bind("MouseOut", function(){
+		    this.removeComponent("farmS");
+		    this.addComponent("farm");//regular sprite
+	    });
+    }
+});
+Crafty.c("hospitalC", {
+    init: function(){
+        this.areaMap([21,52],[116,52],[118,232],[21,232])//change area map
+        .bind("MouseOver", function(){
+		    this.removeComponent("hospital");
+		    this.addComponent("hospitalS");//select sprite
+	    }).bind("MouseOut", function(){
+		    this.removeComponent("hospitalS");
+		    this.addComponent("hospital");//regular sprite
+	    });
+    }
+});
+Crafty.c("parkC", {
+    init: function(){
+        this.areaMap([21,52],[116,52],[118,232],[21,232])//change area map
+        .bind("MouseOver", function(){
+		    this.removeComponent("park");
+		    this.addComponent("parkS");//select sprite
+	    }).bind("MouseOut", function(){
+		    this.removeComponent("parkS");
+		    this.addComponent("park");//regular sprite
+	    });
+    }
+});
+Crafty.c("barracksC", {
+    init: function(){
+        this.areaMap([21,52],[116,52],[118,232],[21,232])//change area map
+        .bind("MouseOver", function(){
+		    this.removeComponent("barracks");
+		    this.addComponent("barracksS");//select sprite
+	    }).bind("MouseOut", function(){
+		    this.removeComponent("barracksS");
+		    this.addComponent("barracks");//regular sprite
 	    });
     }
 });
@@ -137,7 +207,7 @@ function change(){
 
 /****Extra Functions****/
 function generate(thingy){
-    var tile = Crafty.e("2D, DOM, building1, Mouse, building1C")
+    var tile = Crafty.e("2D, DOM, cityHall, Mouse, cityHallC")
 	.attr('z', (thingy.xCord+2 * thingy.yCord+1))
     .bind("Click", function(){
         //place click function here
