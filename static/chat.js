@@ -1,5 +1,8 @@
 console.log("Here is the chat");
 
+var selectInterval;
+var chatInterval;
+
 var message = function message(){
 		var select = document.getElementById("chat-select");
 		select.style.display = "block";
@@ -111,3 +114,5 @@ var updateSelect = function updateSelect(data, type){
 				list.appendChild(item);
 		}	
 };
+
+
