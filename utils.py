@@ -50,7 +50,7 @@ startSol = 50; # a constant that represents how many soldiers the city starts wi
 startHappiness = 100;# a constant that is how happy a city starts out as
 
 allBuildings = [
-{"name":"house", "type":1, "peopleHoused":1000},# houses people, increase gold?
+{"name":"house", "type":1, "housed":1000},# houses people, increase gold?
 {"name":"barracks", "type":2, "soldiers":.5},# makes soldiers
 {"name":"city hall", "type":3},# dictates highest level
 {"name":"hospital", "type":4, "food":.5},# lowers disease, restores wounded soldiers, increase food?
