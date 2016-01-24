@@ -309,6 +309,7 @@ def getCityName(cityID):
     for r in p:
         return r[0]
 
+
 # gets the city id from the name
 def getCityID(cityName):
     conn = sqlite3.connect("data.db")
