@@ -42,6 +42,7 @@ var iso = Crafty.isometric.size(136);
 Crafty.c("tileC", {
     init: function(){
         this.areaMap([68,0],[136,32],[136,48],[68,84],[0,48],[0,32])
+        .addComponent("tile")
         .bind("MouseOver", function(){
 		    this.removeComponent("tile");
 		    this.addComponent("tileS");//select sprite
@@ -54,6 +55,7 @@ Crafty.c("tileC", {
 Crafty.c("cityHallC", {
     init: function(){
         this.areaMap([21,52],[116,52],[118,232],[21,232])
+        .addComponent("cityHall")
         .bind("MouseOver", function(){
 		    this.removeComponent("cityHall");
 		    this.addComponent("cityHallS");//select sprite
@@ -66,6 +68,7 @@ Crafty.c("cityHallC", {
 Crafty.c("mineC", {
     init: function(){
         this.areaMap([21,52],[116,52],[118,232],[21,232])//change area map
+        .addComponent("mine")
         .bind("MouseOver", function(){
 		    this.removeComponent("mine");
 		    this.addComponent("mineS");//select sprite
@@ -78,6 +81,7 @@ Crafty.c("mineC", {
 Crafty.c("houseC", {
     init: function(){
         this.areaMap([21,52],[116,52],[118,232],[21,232])//change area map
+        .addComponent("house")
         .bind("MouseOver", function(){
 		    this.removeComponent("house");
 		    this.addComponent("houseS");//select sprite
@@ -90,6 +94,7 @@ Crafty.c("houseC", {
 Crafty.c("woodmillC", {
     init: function(){
         this.areaMap([21,52],[116,52],[118,232],[21,232])//change area map
+        .addComponent("woodmill")
         .bind("MouseOver", function(){
 		    this.removeComponent("woodmill");
 		    this.addComponent("woodmillS");//select sprite
@@ -102,6 +107,7 @@ Crafty.c("woodmillC", {
 Crafty.c("mallC", {
     init: function(){
         this.areaMap([21,52],[116,52],[118,232],[21,232])//change area map
+        .addComponent("mall")
         .bind("MouseOver", function(){
 		    this.removeComponent("mall");
 		    this.addComponent("mallS");//select sprite
@@ -114,6 +120,7 @@ Crafty.c("mallC", {
 Crafty.c("farmC", {
     init: function(){
         this.areaMap([21,52],[116,52],[118,232],[21,232])//change area map
+        .addComponent("farm")
         .bind("MouseOver", function(){
 		    this.removeComponent("farm");
 		    this.addComponent("farmS");//select sprite
@@ -126,6 +133,7 @@ Crafty.c("farmC", {
 Crafty.c("hospitalC", {
     init: function(){
         this.areaMap([21,52],[116,52],[118,232],[21,232])//change area map
+        .addComponent("hospital")
         .bind("MouseOver", function(){
 		    this.removeComponent("hospital");
 		    this.addComponent("hospitalS");//select sprite
@@ -138,6 +146,7 @@ Crafty.c("hospitalC", {
 Crafty.c("parkC", {
     init: function(){
         this.areaMap([21,52],[116,52],[118,232],[21,232])//change area map
+        .addComponent("park")
         .bind("MouseOver", function(){
 		    this.removeComponent("park");
 		    this.addComponent("parkS");//select sprite
@@ -150,6 +159,7 @@ Crafty.c("parkC", {
 Crafty.c("barracksC", {
     init: function(){
         this.areaMap([21,52],[116,52],[118,232],[21,232])//change area map
+        .addComponent("barracks")
         .bind("MouseOver", function(){
 		    this.removeComponent("barracks");
 		    this.addComponent("barracksS");//select sprite
@@ -166,26 +176,15 @@ Crafty.c("barracksC", {
 Crafty.defineScene("smallMap", function(){
     for(var i = 8; i >= 0; i--) {
         for(var y = 0; y < 16; y++) {
-    	var gTile = Crafty.e("2D, DOM, tile, Mouse, tileC")
+    	var gTile = Crafty.e("2D, DOM, Mouse, tileC")
     	    .attr('z', (i+2 * y+1))//makes things look pretty
     	    .attr({xCord: i, yCord: y})
     	    .bind("Click", function(){
         		generate(this);
+        		//when ready, use the following:
+        		//generate(this, currentBuilding, levelNumber, price);
     	    });
-    	iso.place(i,y,0, gTile);
-        }
-    }
-});
-Crafty.defineScene("smallMap2", function(){
-    for(var i = 8; i >= 0; i--) {
-        for(var y = 0; y < 16; y++) {
-    	var gTile = Crafty.e("2D, DOM, tile, Mouse, tileC")
-    	    .attr('z', (i+2 * y+1))//makes things look pretty
-    	    .attr({xCord: i, yCord: y})
-    	    .bind("Click", function(){
-        		generate(this);
-    	    });
-    				iso.place(i,y,0, gTile);
+    	iso.place(i+2,y+1,0, gTile);
         }
     }
 });
@@ -201,8 +200,8 @@ Crafty.defineScene("bigMap", function(){
 });
 
 Crafty.enterScene("smallMap");//Starts off in the small map
-function change(){
-    Crafty.enterScene("bigMap");
+function change(name){
+    Crafty.enterScene(name); //either bigMap or smallMap
 }
 
 /****Extra Functions****/
@@ -215,13 +214,13 @@ function generate(thingy){
     iso.place(thingy.xCord,thingy.yCord,5,tile);
 }
 
-function generate1(floor, building, lvl){
+function generate1(floor, building, lvl, prc){
     var final = Crafty.e("2D, DOM, Mouse")
-    .attr('z', (floor.xCord + 2 * floor.yCord+1))//Z coordinate perspective
-    .attr({level:lvl})//Level //Can be retreived with this.attr("level")
+    .attr('z', (floor.xCord+2 * floor.yCord+1))//Z coordinate perspective
+    .attr({level:lvl, price:prc})//Level and price //Can be retreived with this.attr("level")
     .bind("Click", function(){
         //place click function here
     });
-    final.addComponent(building);//Check out the components section to find the name
+    final.addComponent("" + building + "C");//Check out the components section to find the name
     iso.place(floor.xCord, floor.yCord, 5, final);//place the building
 }
