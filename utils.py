@@ -184,18 +184,6 @@ def getCitiesName(accountID):
         cities.append(getCityName(r))
     return cities
 
-<<<<<<< HEAD
-
-## returns the cityID based on x and y
-def getCity(cx, cy):
-    conn = sqlite3.connect("data.db")
-    c = conn.cursor()
-    p = c.execute("SELECT city_id FROM cities WHERE cx = ? AND cy = ?;", (cx, cy))
-    for r in p:
-        return r[0]
-
-=======
->>>>>>> master
 ## gets the id of the owner of city with cityID
 def getCityOwner(cityID):
     conn = sqlite3.connect("data.db")
