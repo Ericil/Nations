@@ -52,4 +52,5 @@ $(document).ready(function(){
 		clickOptions();
 		setupChat();
 		setupBuild();
+		updateInfo();
 });

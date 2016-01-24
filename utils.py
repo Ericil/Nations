@@ -95,10 +95,10 @@ def addAccount(uname, pword, email):
     cy = 4
     # ==========================
 
-    addCity(uname+"polis", findID(uname), cx, cy, wood, iron, gold, food)
-
     c.execute("INSERT INTO accounts(uname, pword, email) VALUES (?, ?, ?);", (uname, pword, email))
     conn.commit()
+    addCity(uname+"polis", findID(uname), cx, cy, wood, iron, gold, food)
+
 
 
 def changePword(uname, oldP, newP, cNewP):
@@ -179,7 +179,7 @@ def getCitiesName(accountID):
     p = getCitiesID(accountID)
     cities = []
     for r in p:
-        cities.append(r)
+        cities.append(getCityName(r))
     return cities
 
 
@@ -221,7 +221,7 @@ def getCityXY(cx, cy):
 def getCityName(cityID):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
-    p = c.execute("SELECT city_name FROM cities WHERE city_id = %s;", (cityID))
+    p = c.execute("SELECT city_name FROM cities WHERE city_id = %s;" %(cityID))
     for r in p:
         return r[0]
 
@@ -536,3 +536,7 @@ def attack(defendingCity, attackingCity):
         c.execute("UPDATE cities SET soldiers = ? WHERE city_id = ?;", (dSoldiers, defendingCity))
     c.execute("UPDATE cities SET soldiers = ? WHERE city_id = ?;", (aSoldiers, attackingCity))
     conn.commit()
+
+
+
+
