@@ -1,9 +1,15 @@
 import sqlite3
 """ TABLES:
+
+
 accounts (account_id INTEGER PRIMARY KEY, uname TEXT, pword TEXT, email TEXT)
+
 cities (city_id INTEGER PRIMARY KEY, account_id INTEGER, city_name TEXT, cx INTEGER, cy INTEGER)
+
 buildings (building_id INTEGER PRIMARY KEY, city_id INTEGER, bx INTEGER, by INTEGER, type INTEGER, level INTEGER)
+
 messages (from_id INTEGER, to_id INTEGER, message INTEGER, time INTEGER, seen INTEGER)
+
 """
 import init
 
@@ -203,6 +209,10 @@ def getCityName(cityID):
     p = c.execute("SELECT city_name FROM cities WHERE city_id = %s;" %(cityID))
     for r in p:
         return r[0]
+
+addAccount("milo", "123", "")
+print getCitiesName(1)
+print getCityName(1)
 
 # gets the city id from the name
 def getCityID(cityName):
