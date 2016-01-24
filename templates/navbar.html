@@ -3,7 +3,7 @@
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collase-01">
       <span class="sr-only">Toggle navigation</span>
     </button>
-    <a class="navbar-brand">{{username}}</a>
+    <a class="navbar-brand">{{username | title}}</a>
   </div>
 
   <div class="collapse navbar-collapse" id="navbar-collapse-01">
@@ -23,7 +23,7 @@
 					<span class="glyphicon glyphicon-cog"></span> Settings</a>
 				<ul class="dropdown-menu">
 					<li><a href="/logout">Log Out</a></li>
-					<li><a href="/settings/" + {{username}}>Account</a></li>
+					<li><a href="/settings/{{username}}">Account</a></li>
 				</ul>
       </li>
     </ul>

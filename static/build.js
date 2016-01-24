@@ -3,7 +3,7 @@ console.log("Here is the build");
 var len;
 var pos = 6;
 var isBuilding = false;
-var proTypes = ["peopleHoused", "soldiers",
+var proTypes = ["housed", "soldiers",
 								"food", "iron", "wood", "gold", "happiness"];
 var priceTypes = ["gold", "iron", "food", "wood"];
 
@@ -98,7 +98,7 @@ var buildOptions = function buildOptions(){
 var makePanel = function makePanel(building, price, destination){
 		var panel = document.createElement("div");
 		
-		var content = "<span>Production Values</span><ul>"
+		var content = "<div>Production Values</div><ul>";
 		var key, value;
 		for (var i = 0; i < proTypes.length; i++){
 				key = proTypes[i];
@@ -108,7 +108,7 @@ var makePanel = function makePanel(building, price, destination){
 				} 
 		}
 		content += "</ul>";
-		content += "<span>Prices</span><ul>";
+		content += "<div>Prices</div><ul>";
 		for (var i = 0; i < priceTypes.length; i++){
 				key = priceTypes[i];
 				if (price.hasOwnProperty(key)){
@@ -125,6 +125,7 @@ var makePanel = function makePanel(building, price, destination){
 				"data-placement": "left",
 				"data-trigger": "hover",
 				"data-html": "true",
+				"data-container": "body",
 				"data-content": content
 		});
 		destination.appendChild(panel);
