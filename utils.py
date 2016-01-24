@@ -183,7 +183,6 @@ def getCitiesName(accountID):
     return cities
 
 
-
 ## returns the cityID based on x and y
 def getCity(cx, cy):
     conn = sqlite3.connect("data.db")
