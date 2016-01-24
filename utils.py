@@ -95,9 +95,9 @@ def addAccount(uname, pword, email):
     cy = 4
     # ==========================
 
-    addCity(uname+"polis", findID(uname), cx, cy, wood, iron, gold, food)
-
     c.execute("INSERT INTO accounts(uname, pword, email) VALUES (?, ?, ?);", (uname, pword, email))
+    conn.commit()
+    addCity(uname+"polis", findID(uname), cx, cy, wood, iron, gold, food)
     conn.commit()
 
 
@@ -132,7 +132,6 @@ def findUname(ID):
     p = c.execute("SELECT uname FROM accounts WHERE account_id = '%s';" %(ID))
     for r in p:
         return r[0]
-
 
 #+========================+#
 #+==========Cities========+#
@@ -182,15 +181,9 @@ def getCitiesName(accountID):
         cities.append(r)
     return cities
 
-
-
-## returns the cityID based on x and y
-def getCity(cx, cy):
-    conn = sqlite3.connect("data.db")
-    c = conn.cursor()
-    p = c.execute("SELECT city_id FROM cities WHERE cx = ? AND cy = ?;", (cx, cy))
-    for r in p:
-        return r[0]
+addAccount("milo", "123", "")
+print getCitiesName(1)
+print getCitiesID(1)
 
 ## gets the id of the owner of city with cityID
 def getCityOwner(cityID):
@@ -224,7 +217,6 @@ def getCityName(cityID):
     p = c.execute("SELECT city_name FROM cities WHERE city_id = %s;", (cityID))
     for r in p:
         return r[0]
-
 
 ## Returns dictionary with all resources in the city
 def getResources(cityID):
