@@ -374,8 +374,8 @@ def getResourceIncreases(cityID):
     return {"wood":wood, "iron":iron, "gold":gold, "food":food, "population":population, "soldiers":soldiers, "happiness":happiness}
 
 
-## automatically update all values
-def updateAll(cityID):
+## automatically update all values in cityID
+def updateCity(cityID):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
     r = getResources(cityID)
@@ -388,6 +388,14 @@ def updateAll(cityID):
     r["population"]+rInc["population"],
     r["soldiers"]+rInc["soldiers"],
     r["happiness"]+rInc["happiness"])
+
+## update all cities
+def updateAll():
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    p = c.execute("SELECT city_id FROM cities;")
+    for r in p:
+        updateCity(r[0])
 
 
 
