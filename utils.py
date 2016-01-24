@@ -1,15 +1,9 @@
 import sqlite3
 """ TABLES:
-
-
 accounts (account_id INTEGER PRIMARY KEY, uname TEXT, pword TEXT, email TEXT)
-
 cities (city_id INTEGER PRIMARY KEY, account_id INTEGER, city_name TEXT, cx INTEGER, cy INTEGER)
-
 buildings (building_id INTEGER PRIMARY KEY, city_id INTEGER, bx INTEGER, by INTEGER, type INTEGER, level INTEGER)
-
 messages (from_id INTEGER, to_id INTEGER, message INTEGER, time INTEGER, seen INTEGER)
-
 """
 import init
 
@@ -98,7 +92,7 @@ def addAccount(uname, pword, email):
     c.execute("INSERT INTO accounts(uname, pword, email) VALUES (?, ?, ?);", (uname, pword, email))
     conn.commit()
     addCity(uname+"polis", findID(uname), cx, cy, wood, iron, gold, food)
-
+    conn.commit()
 
 
 def changePword(uname, oldP, newP, cNewP):
@@ -134,6 +128,7 @@ def findUname(ID):
         return r[0]
 
 
+
 #+========================+#
 #+==========Cities========+#
 #+========================+#
@@ -151,6 +146,7 @@ def addCity(cityName, accountID, cx, cy, wood, iron, gold, food):
     c.execute("INSERT INTO buildings(city_id, bx, by, type, level) VALUES (?, ?, ?, ?, ?);", (cityID, 0, 0, 3, 1))
     conn.commit()
 
+addAccount("milo", "123", "")
 ## makes the owner of the cityID accountID
 def setCityOwner(accountID, cityID):
     conn = sqlite3.connect("data.db")
@@ -182,16 +178,6 @@ def getCitiesName(accountID):
         cities.append(getCityName(r))
     return cities
 
-
-
-## returns the cityID based on x and y
-def getCity(cx, cy):
-    conn = sqlite3.connect("data.db")
-    c = conn.cursor()
-    p = c.execute("SELECT city_id FROM cities WHERE cx = ? AND cy = ?;", (cx, cy))
-    for r in p:
-        return r[0]
-
 ## gets the id of the owner of city with cityID
 def getCityOwner(cityID):
     conn = sqlite3.connect("data.db")
@@ -200,13 +186,6 @@ def getCityOwner(cityID):
     for r in p:
         return r[0]
 
-# gets the city id from the name
-def getCityID(cityName):
-    conn = sqlite3.connect("data.db")
-    c = conn.cursor()
-    p = c.execute("SELECT city_id FROM cities WHERE city_name = %s;" %(cityName))
-    for r in p:
-        return r[0]
 
 # gets the city id from the coordinates
 def getCityXY(cx, cy):
@@ -222,6 +201,14 @@ def getCityName(cityID):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
     p = c.execute("SELECT city_name FROM cities WHERE city_id = %s;" %(cityID))
+    for r in p:
+        return r[0]
+
+# gets the city id from the name
+def getCityID(cityName):
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    p = c.execute("SELECT city_id FROM cities WHERE city_name = '%s';" %(cityName))
     for r in p:
         return r[0]
 
@@ -536,7 +523,3 @@ def attack(defendingCity, attackingCity):
         c.execute("UPDATE cities SET soldiers = ? WHERE city_id = ?;", (dSoldiers, defendingCity))
     c.execute("UPDATE cities SET soldiers = ? WHERE city_id = ?;", (aSoldiers, attackingCity))
     conn.commit()
-
-
-
-
