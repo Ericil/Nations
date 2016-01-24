@@ -1,4 +1,5 @@
 import sqlite3
+import random
 """ TABLES:
 
 
@@ -13,11 +14,36 @@ messages (from_id INTEGER, to_id INTEGER, message INTEGER, time INTEGER, seen IN
 """
 import init
 
+## return a dictionary with weather
+def getCitiesWeather():
+    import urllib2
+    import json
+    url = 'http://api.openweathermap.org/data/2.5/box/city?bbox=50,-125,25,80,30&cluster=no&APPID=44db6a862fba0b067b1930da0d769e98'
+
+    response = urllib2.urlopen(url)
+    html = response.read()
+    data = json.loads(html)
+    data2 = data["list"]
+    hold = {}
+    for meh in data2:
+        name = meh.get("name")
+        themain = meh.get("main")
+        temp = abs(round(themain.get("temp")))
+        if name != "":
+            hold[name] = temp
+    return hold
+
 #+========================+#
 #+===++ Static Vars ++====+#
 #+========================+#
 
+allCities = getCitiesWeather().keys()
+
 timeInterval = 10## In milliseconds
+
+xMax = 8
+yMax = 16
+aiCount = 10
 
 startPop = 100; # a constant that represents how much population the city starts with
 startSol = 50; # a constant that represents how many soldiers the city starts with
@@ -31,8 +57,8 @@ allBuildings = [
 {"name":"mine", "type":5, "iron":.5},
 {"name":"woodmill", "type":6, "wood":.5},
 {"name":"farm", "type":7, "food":.5},
-{"name":"shop", "type":8, "gold":.5},# increases gold
-{"name":"rec building", "type":9, "happiness":.25}# increase happiness
+{"name":"mall", "type":8, "gold":.5},# increases gold
+{"name":"park", "type":9, "happiness":.25}# increase happiness
 ]
 
 prices = [
@@ -46,6 +72,10 @@ prices = [
 {"type":8, "wood":100, "iron":100},
 {"type":9, "wood":200, "iron":200, "gold":200},
 ]
+
+# Updated at times:
+
+currWeather = getCitiesWeather()
 
 #+========================+#
 #+=====++ Accounts ++=====+#
@@ -91,13 +121,13 @@ def addAccount(uname, pword, email):
     iron = 200
     gold = 200
     food = 200
-    cx = 3
-    cy = 4
     # ==========================
 
+    coords = findNewCoords()
     c.execute("INSERT INTO accounts(uname, pword, email) VALUES (?, ?, ?);", (uname, pword, email))
     conn.commit()
-    addCity(uname+"polis", findID(uname), cx, cy, wood, iron, gold, food)
+    addCity(uname+"polis", findID(uname), coords[0], coords[1], wood, iron, gold, food)
+    linkCity(getCityID(uname+"polis"), allCities[random.randrange(len(allCities))])
     conn.commit()
 
 
@@ -115,6 +145,7 @@ def changePword(uname, oldP, newP, cNewP):
         c.execute("UPDATE accounts SET pword = '?' WHERE uname = '?';", (newP, uname))
         conn.commit()
         return "Password successfully updated"
+
 
 ## finds the account_id with uname uname
 def findID(uname):
@@ -139,6 +170,58 @@ def findUname(ID):
 #+==========Cities========+#
 #+========================+#
 
+## adds all the computer cities
+def createWorld():
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    count = 0
+    while count < aiCount:
+        coords = findNewCoords()
+        city = allCities[random.randrange(len(allCities))]
+        addCity(city, 0, coords[0], coords[1], 200, 200, 200, 200)
+        linkCity(getCityID(city), city)
+        count += 1
+
+## finds a place on the map for a city
+def findNewCoords():
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    done = False
+    while (not done):
+        x = random.randrange(xMax)
+        y = random.randrange(yMax)
+        p = c.execute("SELECT cx, cy FROM cities;")
+        done = True
+        for r in p:
+            cx = r[0]
+            cy = r[1]
+            if x >= cx-1 and x <= cx+1 and y >= cy-1 and y <= cy+1:
+                done = False
+    return [x, y]
+
+def generateMap(x, y):
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    p = c.execute("SELECT city_name, cx, cy FROM cities")
+    cities = []
+    for r in p:
+        cities.append({"name":r[0], "cx":r[1], "cy":r[2]})
+    x -= 4# [["x,y", "x,y+1", "x,y+2", "x,y+3", "x,y+4", "x,y+5", "x,y+6"]]
+    y -= 8
+    map = []
+    currX = 0
+    while currX < 8:
+        map.append([])
+        currY = 0
+        while currY < 16:
+            map[currX].append("")
+            for city in cities:
+                if city["cx"] == x+currX and city["cy"] == y+currY:
+                    map[currX][currY] = city["name"]
+            currY += 1
+        currX += 1
+    return map
+
 
 ## adds a city owned by no one in place cx, cy named city_name
 def addCity(cityName, accountID, cx, cy, wood, iron, gold, food):
@@ -151,6 +234,23 @@ def addCity(cityName, accountID, cx, cy, wood, iron, gold, food):
         cityID = r[0]
     c.execute("INSERT INTO buildings(city_id, bx, by, type, level) VALUES (?, ?, ?, ?, ?);", (cityID, 0, 0, 3, 1))
     conn.commit()
+
+## links cityID to the city with the cityName
+def linkCity(cityID, cityLinkName):
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    c.execute("INSERT INTO citylinks VALUES (?, ?)", (cityID, cityLinkName))
+    conn.commit()
+
+## gets the linked city's weather
+def getWeatherOf(cityID):
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    p = c.execute("SELECT place FROM citylinks WHERE city_id = %s;" %(cityID))
+    for r in p:
+        return currWeather[r[0]]
+
+
 
 ## makes the owner of the cityID accountID
 def setCityOwner(accountID, cityID):
@@ -173,7 +273,7 @@ def getCitiesID(accountID):
 
 
 
-## TEMPORARY
+## gets the names of cities with accountID
 def getCitiesName(accountID):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
@@ -209,9 +309,7 @@ def getCityName(cityID):
     for r in p:
         return r[0]
 
-addAccount("milo", "123", "")
-print getCitiesName(1)
-print getCityName(1)
+
 # gets the city id from the name
 def getCityID(cityName):
     conn = sqlite3.connect("data.db")
@@ -264,9 +362,9 @@ def getResourceIncreases(cityID):
             wood += allBuildings[5]["wood"]*b["level"]
         if b["type"] == 7:# farm
             food += allBuildings[6]["food"]*b["level"]
-        if b["type"] == 8:# shop
+        if b["type"] == 8:# mall
             gold += allBuildings[7]["shop"]*b["level"]
-        if b["type"] == 9:# rec building
+        if b["type"] == 9:# park
             happiness += allBuildings[8]["happiness"]*b["level"]
     r = getResources(cityID)
     # happiness calculation:
@@ -494,13 +592,26 @@ def getFriends(userID):
     return list
 
 
+## find the names of all non-friend accounts of accountID
+def findAllNonFriends(userID):
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    p = c.execute("SELECT uname FROM accounts")
+    friends = getFriendsNames(userID)
+    nonfriends = []
+    for r in p:
+        if (not userID == findID(r[0])) and friends.count(r[0]) == 0:
+            nonfriends.append(r[0])
+    return nonfriends
 
-# TEMPORARY
+
+
+# get all friends of userID names
 def getFriendsNames(userID):
     f = getFriends(userID)
     list = []
     for r in f:
-        list.append(r)
+        list.append(findUname(r))
     return list
 
 
@@ -531,3 +642,17 @@ def attack(defendingCity, attackingCity):
         c.execute("UPDATE cities SET soldiers = ? WHERE city_id = ?;", (dSoldiers, defendingCity))
     c.execute("UPDATE cities SET soldiers = ? WHERE city_id = ?;", (aSoldiers, attackingCity))
     conn.commit()
+
+
+
+createWorld()
+conn = sqlite3.connect("data.db")
+c = conn.cursor()
+
+addAccount("test", "123", "")
+addAccount("milo", "123", " ")
+addAccount("other", "123", "atgmaildotcom")
+
+p = c.execute("SELECT cx, cy, city_name, city_id FROM cities;")
+for r in p:
+    print r[2]+": "+str(r[0])+", "+str(r[1])+" ("+str(getWeatherOf(r[3]))+")"
