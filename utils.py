@@ -146,7 +146,7 @@ def addCity(cityName, accountID, cx, cy, wood, iron, gold, food):
     c.execute("INSERT INTO buildings(city_id, bx, by, type, level) VALUES (?, ?, ?, ?, ?);", (cityID, 0, 0, 3, 1))
     conn.commit()
 
-addAccount("milo", "123", "")
+
 ## makes the owner of the cityID accountID
 def setCityOwner(accountID, cityID):
     conn = sqlite3.connect("data.db")

@@ -73,7 +73,9 @@ def play():
 @app.route("/play/<username>", methods = ["GET", "POST"]) 
 def play2(username):
     utils.addAccount("test", "123", "")
+    #print username
     userid = utils.findID(username)
+    #print userid
     cityname = utils.getCitiesName(userid)[0]
     return render_template("test.html", username = username, cityname = cityname)
 
@@ -174,9 +176,10 @@ def set_functions():
         utils.addBuilding(cityID, b, c, d)
 
     if function_type == "update_resources":
-        """cityName, wood, iron, gold, food, population, soldiers"""
+        """cityName"""
         cityID = utils.getCityID(a)
-        utils.updateResources(cityID, b, c, d, e, f, g)
+        utils.updateAll(cityID)
+        return "success"
 
     #if function_type == "set_multipliers":
         

@@ -18,7 +18,7 @@ var updateOverview = function updatOverview(data, type){
 				var item;
 				for (var key in info){
 						if (info.hasOwnProperty(key)){
-								//console.log(info[key]);
+								console.log("key: " + key);
 								item = document.getElementById("view-" + key);
 								if (type == "resources")
 										item.children[0].innerHTML = info[key];	
@@ -28,13 +28,13 @@ var updateOverview = function updatOverview(data, type){
 				}
 				break;
 		case "cities":
-		case "friendslist":
+		case "friends":
 				var list = document.getElementById(type);
 				var entry;
 				for (var i = 0; i < info.length; i++){
 						entry = document.createElement("li");
 						entry.innerHTML = info[i];
-						friendslist.appendChild(entry);
+						list.appendChild(entry);
 				}
 				break;
 		default:
@@ -48,32 +48,50 @@ var updateNavbar = function updateNavbar(data){
 		var item;
 		for (var key in info){
 				if (info.hasOwnProperty(key)){
-						//console.log(info[key]);
 						item = document.getElementById("nav-" + key);
-						item.innerHTML = info[key];
+						item.innerHTML = " " + info[key];
 				}
-		}
-		
+		}		
 };
 
-
-
-var updateInfo = function updateInfo(){
+var getResources = function getResources(){
 		$.get("/get_functions", {type: "get_resources", a: cityname}, function(data){
-				console.log(data);
 				updateOverview(data, "resources");
 				updateNavbar(data);
 		});
+};
+
+var getMultipliers = function getMultipliers(){
 		$.get("/get_functions", {type: "get_multipliers", a: cityname}, function(data){
-				console.log(data);
 				updateOverview(data, "multipliers");
 		});
+};
+
+var getCityNames = function getCityNames(){
 		$.get("/get_functions", {type: "get_cityNames", a: username}, function(data){
-				console.log(data);
 				updateOverview(data, "cities");
 		});
+};
+
+var getFriends = function getFriends(){
 		$.get("/get_functions", {type: "get_friends", a: username}, function(data){
-				console.log(data);
 				updateOverview(data, "friends");
 		});
 };
+
+var setupInfo = function setupInfo(){
+		getResources();
+		getMultipliers();
+		getCityNames();
+		getFriends();
+};
+
+
+var updateInfo = function updateInfo(){
+		$.get("/set_functions", {type: "update_resources", a: cityname}, function(){
+				getResources();
+				getMultipliers();
+		});
+}
+
+

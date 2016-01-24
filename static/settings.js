@@ -45,6 +45,7 @@ var clickOptions = function clickOptions(){
     });
 };
 
+var updateInterval;
 
 $(document).ready(function(){
 		console.log("ready");
@@ -52,5 +53,8 @@ $(document).ready(function(){
 		clickOptions();
 		setupChat();
 		setupBuild();
-		updateInfo();
+		setupInfo();
+
+		updateInterval = setInterval(updateInfo, 5000);
+		
 });
