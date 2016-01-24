@@ -6,15 +6,19 @@
     <h1 align="center">
       Register
     </h1>
-    <center><a href="login.html">Already have an account? Click here</a></center>
     <br>
     <center>
     <div id="login">
-      <form>
+      <form action="/register" method="POST">
+	<font color="red">{{text}}</font><br>
         <input type="email" name="usermail" placeholder="Email" required><br>
+	<input type="username" name="username" placeholder="Username" required><br>
         <input type="password" name="password1" placeholder="Password" required><br>
         <input type="password" name="password2" placeholder="Password Again" required><br><br>
-        <center><input type="submit" value="Register"></center>
+        <center>
+	  <input type="submit" name="button" value="Register!">
+	  <input type="submit" name="button" value="Cancel"
+	</center>
       </form>
     </div>
     </center>
