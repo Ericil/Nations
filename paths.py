@@ -155,7 +155,9 @@ def get_functions():
 
     if function_type == "base_building_stats":
         """returns a list of dictionaries"""
-        return json.dumps(utils.allBuildings)    
+        d = {"buildings": utils.allBuildings,
+             "prices": utils.prices}
+        return json.dumps(d)    
 
 
 """<-------------------------------SET_FUNCTIONS------------------------------->"""

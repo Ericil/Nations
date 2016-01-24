@@ -55,6 +55,6 @@ $(document).ready(function(){
 		setupBuild();
 		setupInfo();
 
-		updateInterval = setInterval(updateInfo, 5000);
+		//updateInterval = setInterval(updateInfo, 5000);
 		
 });

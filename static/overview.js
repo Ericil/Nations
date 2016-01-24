@@ -56,6 +56,7 @@ var updateNavbar = function updateNavbar(data){
 
 var getResources = function getResources(){
 		$.get("/get_functions", {type: "get_resources", a: cityname}, function(data){
+				//console.log(data);
 				updateOverview(data, "resources");
 				updateNavbar(data);
 		});
@@ -63,6 +64,7 @@ var getResources = function getResources(){
 
 var getMultipliers = function getMultipliers(){
 		$.get("/get_functions", {type: "get_multipliers", a: cityname}, function(data){
+				//console.log(data);
 				updateOverview(data, "multipliers");
 		});
 };
@@ -76,6 +78,7 @@ var getCityNames = function getCityNames(){
 var getFriends = function getFriends(){
 		$.get("/get_functions", {type: "get_friends", a: username}, function(data){
 				updateOverview(data, "friends");
+				updateSelect(data, "friends");
 		});
 };
 
