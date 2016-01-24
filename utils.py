@@ -252,8 +252,6 @@ def getWeatherOf(cityID):
         return currWeather[r[0]]
 
 
-
-
 ## makes the owner of the cityID accountID
 def setCityOwner(accountID, cityID):
     conn = sqlite3.connect("data.db")
@@ -310,7 +308,6 @@ def getCityName(cityID):
     p = c.execute("SELECT city_name FROM cities WHERE city_id = %s;" %(cityID))
     for r in p:
         return r[0]
-
 
 
 # gets the city id from the name
@@ -377,8 +374,8 @@ def getResourceIncreases(cityID):
     return {"wood":wood, "iron":iron, "gold":gold, "food":food, "population":population, "soldiers":soldiers, "happiness":happiness}
 
 
-## automatically update all values
-def updateAll(cityID):
+## automatically update all values in cityID
+def updateCity(cityID):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
     r = getResources(cityID)
@@ -391,6 +388,14 @@ def updateAll(cityID):
     r["population"]+rInc["population"],
     r["soldiers"]+rInc["soldiers"],
     r["happiness"]+rInc["happiness"])
+
+## update all cities
+def updateAll():
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    p = c.execute("SELECT city_id FROM cities;")
+    for r in p:
+        updateCity(r[0])
 
 
 
