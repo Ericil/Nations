@@ -235,7 +235,7 @@ def addCity(cityName, accountID, cx, cy, wood, iron, gold, food):
     c.execute("INSERT INTO buildings(city_id, bx, by, type, level) VALUES (?, ?, ?, ?, ?);", (cityID, 0, 0, 3, 1))
     conn.commit()
 
-<<<<<<< HEAD
+
 ## links cityID to the city with the cityName
 def linkCity(cityID, cityLinkName):
     conn = sqlite3.connect("data.db")
@@ -251,9 +251,6 @@ def getWeatherOf(cityID):
     for r in p:
         return currWeather[r[0]]
 
-
-=======
->>>>>>> master
 
 ## makes the owner of the cityID accountID
 def setCityOwner(accountID, cityID):
@@ -311,13 +308,6 @@ def getCityName(cityID):
     p = c.execute("SELECT city_name FROM cities WHERE city_id = %s;" %(cityID))
     for r in p:
         return r[0]
-
-<<<<<<< HEAD
-=======
-addAccount("milo", "123", "")
-print getCitiesName(1)
-print getCityName(1)
->>>>>>> master
 
 # gets the city id from the name
 def getCityID(cityName):
