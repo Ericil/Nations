@@ -177,12 +177,6 @@ def get_functions():
              "prices": utils.prices}
         return json.dumps(d)
 
-    if function_type == "find_build_type":
-        """building name"""
-        hold = utils.findBuildingType(a)
-        return hold
-
-
 """<-------------------------------SET_FUNCTIONS------------------------------->"""
 @app.route("/set_functions")
 def set_functions():
