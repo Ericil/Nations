@@ -128,16 +128,8 @@ var makePanel = function makePanel(building, price, destination, i){
 				"data-trigger": "hover",
 				"data-html": "true",
 				"data-container": "body",
-				"data-content": content
+				"data-content": content,
 		});
-		/*
-			var img = document.createElement("img");
-			setAttributes(img,{
-			"src": "http://i.imgur.com/r3P0cm3.png",
-			"position": "absolute",
-			"clip": 
-			});
-		*/
 		destination.appendChild(panel);
 };
 
@@ -173,6 +165,13 @@ var setupBuild = function setupBuild(){
 		var next = document.getElementById("build-next");
 		next.addEventListener("click", slideNext);
 
+		var upgrade = document.getElementById("upgrade");
+		upgrade.addEventListener("click", function(e){
+				e.preventDefault();
+				upgradeBuilding();
+				$(".upgrade-bar").fadeOut();
+		});
+
 		$.get("/get_functions", {type: "base_building_stats"}, function(data){
 				makePanels(data);
 		});
@@ -194,8 +193,9 @@ var setupBuildings = function setupBuildings(data){
 
 
 var setupBuilding = function setupBuilding(building){
-		var prices = {"food": "0", "wood": "0",
-									"gold": "0", "iron": "0"};
+		console.log(building);
+		var prices = {"food": 0, "wood": 0,
+									"gold": 0, "iron": 0};
 		var x, y, lvl, type, upgrade;
 		
 		x = building["bx"];
@@ -209,4 +209,18 @@ var setupBuilding = function setupBuilding(building){
 		}
 		generate2(x, y, type, lvl, prices);
 };
+
+var upgradeBuilding = function upgradeBuilding(){
+		var x = $(".upgrade-bar").data("x");
+		var y = $(".upgrade-bar").data("y");
+		console.log("inside upgrade");
+		console.log(x);
+		console.log(y);
+		$.get("/set_functions", {
+				type: "set_building", a: cityname, b: x, c: y},
+					function(data){
+							if (JSON.parse(data))
+									getBuilding(x, y);		
+					});
+}
 

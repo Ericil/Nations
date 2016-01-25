@@ -4,6 +4,7 @@ body {
 		width: 100%;
 }
 
+/*-------------------------------- Map -----------------------------------*/
 #map-icon {
 		position: fixed;
 		width: 100px;
@@ -18,8 +19,12 @@ body {
 
 #map-icon:hover {
 		width: 110px;
-		height: 110px;
-	
+		height: 110px;	
+}
+
+.sprite {
+		position: fixed;
+		z-index: 2;
 }
 
 .alert {
@@ -314,6 +319,8 @@ a.select-item:active {
 		margin-bottom: 9%;
 		margin-left: auto;
 		margin-right: auto;
+		background-size: 100% 100%;
+		/*	background-image: url("http://static.guim.co.uk/sys-images/Guardian/Pix/pictures/2014/9/24/1411574454561/03085543-87de-47ab-a4eb-58e7e39d022e-620x372.jpeg");*/
 
 		border-radius: 10px;
 		border-style: solid;
@@ -324,6 +331,7 @@ a.select-item:active {
 		-o-transition: all 0.5s ease;
 		transition: all 0.5s ease;
 }
+
 
 .build-panel:hover {
 		-webkit-box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
@@ -348,7 +356,50 @@ a.select-item:active {
 		border-bottom-right-radius: 0px;
 }
 
-/*-------------------------------- Build -----------------------------------*/
+/*-------------------------------- Upgrade -----------------------------------*/
+
+.upgrade-bar {
+		position: fixed;
+		bottom: 0;
+		left: 40%;
+		margin-bottom: 15px;
+		padding: 10px;
+		width: 400px;
+		height: 220px;
+		opacity: 0.8;
+		background-color: #34495E; 
+		border-radius: 5px;
+		z-index: 3;
+		display: none;
+}
+
+.upgrade-head {
+		width: 100%;
+		text-align: center;
+		text-transform: capitalize;
+		background-color: #001a33;
+		color: white;
+		font-weight: bold;
+		padding: 5px 10px 5px 10px;
+		border-top-left-radius: 5px;
+		border-top-right-radius: 5px;
+}
+
+.upgrade-group {
+		width: 49.5%;
+		margin: 0;
+		display: inline-block;
+}
+
+.upgrade-group > li {
+		text-align: center;
+}
+
+#upgrade {
+		margin-top: 10px;
+}
+
+/*-------------------------------- Popover -----------------------------------*/
 
 .popover {
 		width: 200px;
@@ -377,3 +428,4 @@ a.select-item:active {
 .popover-content ul li {
 		list-style: none;
 }
+
