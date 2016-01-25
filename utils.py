@@ -28,7 +28,7 @@ def getCitiesWeather():
 
 #allCities = getCitiesWeather().keys()
 
-timeInterval = 10## In milliseconds
+timeInterval = 5## in seconds
 
 xMax = 8
 yMax = 16
@@ -42,11 +42,11 @@ allBuildings = [
 {"name":"house", "type":1, "housed":1000},# houses people, increase gold?
 {"name":"barracks", "type":2, "soldiers":.5},# makes soldiers
 {"name":"city hall", "type":3},# dictates highest level
-{"name":"hospital", "type":4, "food":.5},# lowers disease, restores wounded soldiers, increase food?
+{"name":"hospital", "type":4, "food":1},# lowers disease, restores wounded soldiers, increase food?
 {"name":"mine", "type":5, "iron":1},
-{"name":"woodmill", "type":6, "wood":.5},
-{"name":"farm", "type":7, "food":.5},
-{"name":"mall", "type":8, "gold":.5},# increases gold
+{"name":"woodmill", "type":6, "wood":1},
+{"name":"farm", "type":7, "food":1},
+{"name":"mall", "type":8, "gold":1},# increases gold
 {"name":"park", "type":9, "happiness":.25}# increase happiness
 ]
 
@@ -400,7 +400,7 @@ def findBuildingType(name):
         if r["name"] == name:
             return r["type"]
     return 0
-    
+
 ## returns a dictionary of prices (can include wood, iron, gold, or food)
 def upgradePrice(buildingID):
     conn = sqlite3.connect("data.db")
@@ -689,7 +689,7 @@ def updateStamp(userID):
 #createWorld()
 
 addAccount("test", "123", "")
-addBuilding(getCityID("testpolis"), 1, 1, 5)
+addBuilding(getCityID("testpolis"), 1, 1, 7)
 print getResources(1)
 updateStamp(1)
 print getResources(1)
