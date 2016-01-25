@@ -4,6 +4,8 @@ from threading import Timer
 from flask import Flask, render_template, request, redirect, url_for, session
 app = Flask(__name__)
 
+
+
 @app.route("/")
 def intro():
     return render_template("login.html")
@@ -124,8 +126,6 @@ def get_functions():
         """cityName"""
         cityID = utils.getCityID(a)
         hold = utils.getResources(cityID)
-        
-        print hold
         return json.dumps(hold)
 
     if function_type == "get_multipliers":
@@ -140,30 +140,57 @@ def get_functions():
         accountID = utils.findID(a)
         friendID = utils.findID(b)
         hold = utils.getmsgs(accountID, friendID)
-        return hold
+        return json.dumps(hold)
 
     if function_type == "get_city_on_map":
         """mapx, mapy"""
         hold = utils.getCity(a, b)
-        return hold
+        return json.dumps(hold)
         
     if function_type == "get_city_buildings":
         """cityName"""
         cityID = utils.getCityID(a)
         hold = utils.getBuildingsIn(cityID)
-        return hold
+        for n in hold:
+            n["type"] = utils.findBuildingName(n["type"])
+        return json.dumps(hold)
 
     if function_type == "get_specific_building":
         """cityName, buildingx, buildingy"""
         cityID = utils.getCityID(a)
         hold = utils.getBuildingXY(cityID, b, c)
-        return hold
+        return json.dumps(hold)
 
     if function_type == "get_specific_building_stat":
-        """buildingID"""
-        hold = utils.getBuilding(a)
-        return hold
+        """cityName, buildingx, buildingy"""
+        cityID = utils.getCityID(a)
+        buildingID = utils.getBuildingXY(cityID, b, c)
+        hold = utils.getBuilding(buildingID)
+        hold["type"] = utils.findBuildingName(hold["type"])
+        return json.dumps(hold)
 
+    if function_type == "get_map":
+        """cityName"""
+        cityID = utils.getCityID(a)
+        coord = utils.getCityCoords(cityID)
+        x = coord["cx"]
+        y = coord["cy"]
+        worldMap = utils.generateMap(x, y)
+        d = {}
+        for row in range(len(worldMap)):
+            for col in range(len(worldMap[row])):
+              name = worldMap[row][col]
+              if (name):
+                  cityID = utils.getCityID(name)
+                  accountID = utils.getCityOwner(cityID)
+                  username = utils.findUname(accountID)
+                  d["cityname"] = name
+                  d["username"] = username
+                  d["xcor"] = x + col
+                  d["ycor"] = y + row
+                  worldMap[row][col] = d
+        return json.dumps(worldMap)
+        
     if function_type == "get_friends":
         """username"""
         accountID = utils.findID(a)
@@ -189,17 +216,18 @@ def set_functions():
     e = request.args.get("e")
     f = request.args.get("f")
     g = request.args.get("g")
-    
+
     if function_type == "add_building":
         """cityName, buildingx, buildingy, buildingtype"""
         cityID = utils.getCityID(a)
-        utils.addBuilding(cityID, b, c, d)
-        return "success"
+        buildType = utils.findBuildingType(d)
+        success = utils.addBuilding(cityID, b, c, buildType)
+        return json.dumps(success)
+
 
     if function_type == "update_resources":
         """cityName"""
-        cityID = utils.getCityID(a)
-        utils.updateAll(cityID)
+        utils.updateAll()
         return "success"
 
     #if function_type == "set_multipliers":

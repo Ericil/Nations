@@ -55,7 +55,6 @@ var updateNavbar = function updateNavbar(data){
 
 var getResources = function getResources(){
 		$.get("/get_functions", {type: "get_resources", a: cityname}, function(data){
-				//console.log(data);
 				updateOverview(data, "resources");
 				updateNavbar(data);
 		});
@@ -63,37 +62,54 @@ var getResources = function getResources(){
 
 var getMultipliers = function getMultipliers(){
 		$.get("/get_functions", {type: "get_multipliers", a: cityname}, function(data){
-				console.log(data);
 				updateOverview(data, "multipliers");
 		});
 };
 
 var getCityNames = function getCityNames(){
-$.get("/get_functions", {type: "get_cityNames", a: username}, function(data){
-updateOverview(data, "cities");
-});
+		$.get("/get_functions", {type: "get_cityNames", a: username}, function(data){
+				updateOverview(data, "cities");
+		});
 };
 
 var getFriends = function getFriends(){
-$.get("/get_functions", {type: "get_friends", a: username}, function(data){
-updateOverview(data, "friends");
-updateSelect(data, "friends");
-});
+				$.get("/get_functions", {type: "get_friends", a: username}, function(data){
+						updateOverview(data, "friends");
+						updateSelect(data, "friends");
+				});
 };
 
 var setupInfo = function setupInfo(){
-getResources();
-getMultipliers();
-getCityNames();
-getFriends();
+		getResources();
+		getMultipliers();
+		getCityNames();
+		getFriends();
 };
 
 
 var updateInfo = function updateInfo(){
-$.get("/set_functions", {type: "update_resources", a: cityname}, function(){
-getResources();
-getMultipliers();
-});
+		$.get("/set_functions", {type: "update_resources"}, function(){
+				getResources();
+				getMultipliers();
+		});
 }
 
 
+var overviewBuildings = function overviewBuildings(data){
+		var info = JSON.parse(data);
+		var values = {};
+		var n, type;
+		for (var i = 0; i < info.length; i++){
+				n = info[i];
+				type = n["type"];
+				if (values.hasOwnProperty(type))
+						values[type] += 1;
+				else
+						values[type] = 1;
+		}
+		var item;
+		for (var key in values){
+				item = document.getElementById("view-" + key);
+				item.getElementsByTagName("span")[0].innerHTML = values[key];
+		}
+};

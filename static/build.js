@@ -87,7 +87,6 @@ var buildOptions = function buildOptions(e){
 		e.preventDefault();
 		if (e.target.className == "build-panel"){
 				currentBuilding = e.target.id;
-				//console.log(currentBuilding);
 				$(".build-panel").css("border-color", "white");
 				e.target.style.borderColor = "red";
 		}
@@ -99,9 +98,8 @@ var buildOptions = function buildOptions(e){
 	price - object with prices corresponding to building 
 	destination - the DOM element to append to
 */
-var makePanel = function makePanel(building, price, destination){
+var makePanel = function makePanel(building, price, destination, i){
 		var panel = document.createElement("div");
-		
 		var content = "<div>Production Values</div><ul>";
 		var key, value;
 		for (var i = 0; i < proTypes.length; i++){
@@ -112,18 +110,15 @@ var makePanel = function makePanel(building, price, destination){
 				} 
 		}
 		content += "</ul>";
-		content += "<div>Prices</div>";
-		content += "<ul data-list-type='{}-prices'>".format(building["name"]);
+		content += "<div>Prices</div><ul>";
 		for (var i = 0; i < priceTypes.length; i++){
 				key = priceTypes[i];
 				if (price.hasOwnProperty(key)){
 						value = price[key];
-						content += "<li data-price-type={} data-price-value={}>".format(key, String(value));
-						content += "{}: {}</li>".format(key, String(value));
+						content += "<li>{}: {}</li>".format(key, String(value));
 				} 
 		}
 		content += "</ul>";
-		//console.log(content);
 		setAttributes(panel,{
 				"class": "build-panel",
 				"id": building["name"],
@@ -135,8 +130,17 @@ var makePanel = function makePanel(building, price, destination){
 				"data-container": "body",
 				"data-content": content
 		});
+		/*
+			var img = document.createElement("img");
+			setAttributes(img,{
+			"src": "http://i.imgur.com/r3P0cm3.png",
+			"position": "absolute",
+			"clip": 
+			});
+		*/
 		destination.appendChild(panel);
 };
+
 
 /*Make all panels*/
 var makePanels = function makePanels(data){
@@ -151,7 +155,7 @@ var makePanels = function makePanels(data){
 		for (var i = 0; i < len; i++){
 				building = buildData[i];
 				price = buildPrice[i];
-				makePanel(building, price, buildGroup);
+				makePanel(building, price, buildGroup, i);
 		}
 		buildGroup.addEventListener("click", function(e){
 				buildOptions(e);
@@ -172,7 +176,37 @@ var setupBuild = function setupBuild(){
 		$.get("/get_functions", {type: "base_building_stats"}, function(data){
 				makePanels(data);
 		});
+		$.get("/get_functions", {type: "get_city_buildings", a: cityname}, function(data){
+				setupBuildings(data);
+				overviewBuildings(data);
+		});
 };
 
 
+var setupBuildings = function setupBuildings(data){
+		var info = JSON.parse(data);
+		var building;
+		for (var i = 0; i < info.length; i++){
+				building = info[i];
+				setupBuilding(building);
+		}
+};
+
+
+var setupBuilding = function setupBuilding(building){
+		var prices = {"food": "0", "wood": "0",
+									"gold": "0", "iron": "0"};
+		var x, y, lvl, type, upgrade;
+		
+		x = building["bx"];
+		y = building["by"];
+		type = building["type"];
+		lvl = building["level"];
+		upgrade = building["upgradePrice"];
+		for (var key in upgrade){
+				if (upgrade.hasOwnProperty(key))
+						prices[key] = upgrade[key];
+		}
+		generate2(x, y, type, lvl, prices);
+};
 

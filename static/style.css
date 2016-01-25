@@ -1,5 +1,7 @@
 body {
 		overflow: hidden;
+		height: 100%;
+		width: 100%;
 }
 
 #map-icon {
@@ -20,10 +22,13 @@ body {
 	
 }
 
+.alert {
+		display: none;
+}
+
 /*-------------------------------- Game -----------------------------------*/
 #game {
-    position: relative;
-    background-image: url("http://p1.pichost.me/i/23/1463598.jpg");
+		background-image: url("http://p1.pichost.me/i/23/1463598.jpg");
 		background-repeat: no-repeat;
 		background-size: cover;
 		z-index: 1;
@@ -33,119 +38,119 @@ body {
 /*-------------------------------- Navbar -----------------------------------*/
 
 .navbar-custom {
-    margin: 0px 0px 0px 0px;
-    border-radius: 0;
-    background-image:
-    linear-gradient(
+		margin: 0px 0px 0px 0px;
+		border-radius: 0;
+		background-image:
+		linear-gradient(
 						#001a33,
 						#34495E
 				);
-    z-index: 3;
+		z-index: 3;
 }
 
 
 /*-------------------------------- Options -----------------------------------*/
 
 #sideoptions {
-    position: absolute;
-    top: 75px;
-    left: 8px;
-    /* background-color: red;*/
-    height: 210px;
-    width: 45px;
-    z-index: 2;
+		position: absolute;
+		top: 75px;
+		left: 8px;
+		/* background-color: red;*/
+		height: 210px;
+		width: 45px;
+		z-index: 2;
 }
 
 .btn-option {
-    margin-top: 6px;
-    margin-bottom: 6px;
-    border-radius: 25px !important;
+		margin-top: 6px;
+		margin-bottom: 6px;
+		border-radius: 25px !important;
 }
 
 /*------------------------------ Overview ---------------------------------*/
 
 .modal {
-    position: absolute;
-    top: 50px;
-    right: 100px;
-    bottom: 0;
-    left: 0;
-    z-index: 10040;
+		position: absolute;
+		top: 50px;
+		right: 100px;
+		bottom: 0;
+		left: 0;
+		z-index: 10040;
 		text-transform: uppercase;
 }
 
 .modal-body {
-    height: 450px;
+		height: 450px;
 }
 
 .modal-backdrop {
-    background: none;
+		background: none;
 }
 
 .modal-header {
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    color: #ccffff;
+		border-top-left-radius: 5px;
+		border-top-right-radius: 5px;
+		color: #ccffff;
     
-    background-image:
-    linear-gradient(
+		background-image:
+		linear-gradient(
 						#001a33,
 						#34495E
 				);
 }
 
 .modal-content {
-    opacity: 0.9;
-    color: #ccffff;
+		opacity: 0.9;
+		color: #ccffff;
     
-    background-image:
-    radial-gradient(
+		background-image:
+		radial-gradient(
 						#34495E,
 						#001a33 
 				);
 }
 
 .nav-tabs > li > a:hover {
-    background-color:	#001a33;
+		background-color:	#001a33;
 }
 
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus {
-    color: white;
-    background-color:	#34495E;
+		color: white;
+		background-color:	#34495E;
 }
 
 .close {
-    color: white;
-    opacity: 1;
+		color: white;
+		opacity: 1;
 }
 
 ul.overview-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    border: none;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		border: none;
 }
 
 ul.overview-list > li {
-    border-bottom: 0.5px solid white;
-    margin: 0;
-    font-size: small;
+		border-bottom: 0.5px solid white;
+		margin: 0;
+		font-size: small;
 		/* text-transform: uppercase;*/
 }
 
 ul.overview-list > li span {
-    float: right;
+		float: right;
 }
 
 #cities > ul, #allies > ul {
-    height: 250px;
-    overflow-y: auto;
+		height: 250px;
+		overflow-y: auto;
 }
 
 #cities > ul > li, #allies > ul > li {
-    border-style: none;
+		border-style: none;
 }
 
 /*-------------------------------- Chat -----------------------------------*/
@@ -362,6 +367,7 @@ a.select-item:active {
 		text-align: center;
 		width: 100%;
 		background-color: #adbfd2;
+		text-align: center;
 }
 
 .popover-content ul {
