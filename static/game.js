@@ -45,8 +45,10 @@ Crafty.c("tileC", {
         this.areaMap([68,0],[136,32],[136,48],[68,84],[0,48],[0,32])
 						.addComponent("tile")
 						.bind("MouseOver", function(){
-								this.removeComponent("tile");
-								this.addComponent("tileS");//select sprite
+								if (isBuilding){
+										this.removeComponent("tile");
+										this.addComponent("tileS");//select sprite
+								}
 						}).bind("MouseOut", function(){
 								this.removeComponent("tileS");
 								this.addComponent("tile");//regular sprite
@@ -58,8 +60,10 @@ Crafty.c("city hallC", {
         this.areaMap([21,52],[116,52],[118,232],[21,232])
 						.addComponent("cityHall")
 						.bind("MouseOver", function(){
-								this.removeComponent("cityHall");
-								this.addComponent("cityHallS");//select sprite
+								if (isBuilding){
+										this.removeComponent("cityHall");
+										this.addComponent("cityHallS");//select sprite
+								}
 						}).bind("MouseOut", function(){
 								this.removeComponent("cityHallS");
 								this.addComponent("cityHall");//regular sprite
@@ -71,8 +75,10 @@ Crafty.c("mineC", {
         this.areaMap([21,52],[116,52],[118,232],[21,232])//change area map
 						.addComponent("mine")
 						.bind("MouseOver", function(){
-								this.removeComponent("mine");
-								this.addComponent("mineS");//select sprite
+								if (isBuilding){
+										this.removeComponent("mine");
+										this.addComponent("mineS");//select sprite
+								}
 						}).bind("MouseOut", function(){
 								this.removeComponent("mineS");
 								this.addComponent("mine");//regular sprite
@@ -84,21 +90,25 @@ Crafty.c("houseC", {
         this.areaMap([21,52],[116,52],[118,232],[21,232])//change area map
 						.addComponent("house")
 						.bind("MouseOver", function(){
-								this.removeComponent("house");
-								this.addComponent("houseS");//select sprite
+								if (isBuilding){
+										this.removeComponent("house");
+										this.addComponent("houseS");//select sprite
+								}
 						}).bind("MouseOut", function(){
 								this.removeComponent("houseS");
 								this.addComponent("house");//regular sprite
 						});
-    }
+		}
 });
 Crafty.c("woodmillC", {
     init: function(){
         this.areaMap([21,52],[116,52],[118,232],[21,232])//change area map
 						.addComponent("woodmill")
 						.bind("MouseOver", function(){
-								this.removeComponent("woodmill");
-								this.addComponent("woodmillS");//select sprite
+								if (isBuilding){
+										this.removeComponent("woodmill");
+										this.addComponent("woodmillS");//select sprite
+								}
 						}).bind("MouseOut", function(){
 								this.removeComponent("woodmillS");
 								this.addComponent("woodmill");//regular sprite
@@ -110,8 +120,10 @@ Crafty.c("mallC", {
         this.areaMap([21,52],[116,52],[118,232],[21,232])//change area map
 						.addComponent("mall")
 						.bind("MouseOver", function(){
-								this.removeComponent("mall");
-								this.addComponent("mallS");//select sprite
+								if (isBuilding){
+										this.removeComponent("mall");
+										this.addComponent("mallS");//select sprite
+								}
 						}).bind("MouseOut", function(){
 								this.removeComponent("mallS");
 								this.addComponent("mall");//regular sprite
@@ -123,8 +135,10 @@ Crafty.c("farmC", {
         this.areaMap([21,52],[116,52],[118,232],[21,232])//change area map
 						.addComponent("farm")
 						.bind("MouseOver", function(){
-								this.removeComponent("farm");
-								this.addComponent("farmS");//select sprite
+								if (isBuilding){
+										this.removeComponent("farm");
+										this.addComponent("farmS");//select sprite
+								}
 						}).bind("MouseOut", function(){
 								this.removeComponent("farmS");
 								this.addComponent("farm");//regular sprite
@@ -136,8 +150,10 @@ Crafty.c("hospitalC", {
         this.areaMap([21,52],[116,52],[118,232],[21,232])//change area map
 						.addComponent("hospital")
 						.bind("MouseOver", function(){
-								this.removeComponent("hospital");
-								this.addComponent("hospitalS");//select sprite
+								if (isBuilding){
+										this.removeComponent("hospital");
+										this.addComponent("hospitalS");//select sprite
+								}
 						}).bind("MouseOut", function(){
 								this.removeComponent("hospitalS");
 								this.addComponent("hospital");//regular sprite
@@ -149,8 +165,10 @@ Crafty.c("parkC", {
         this.areaMap([21,52],[116,52],[118,232],[21,232])//change area map
 						.addComponent("park")
 						.bind("MouseOver", function(){
-								this.removeComponent("park");
-								this.addComponent("parkS");//select sprite
+								if (isBuilding){
+										this.removeComponent("park");
+										this.addComponent("parkS");//select sprite
+								}
 						}).bind("MouseOut", function(){
 								this.removeComponent("parkS");
 								this.addComponent("park");//regular sprite
@@ -162,8 +180,10 @@ Crafty.c("barracksC", {
         this.areaMap([21,52],[116,52],[118,232],[21,232])//change area map
 						.addComponent("barracks")
 						.bind("MouseOver", function(){
-								this.removeComponent("barracks");
-								this.addComponent("barracksS");//select sprite
+								if (isBuilding){
+										this.removeComponent("barracks");
+										this.addComponent("barracksS");//select sprite
+								}
 						}).bind("MouseOut", function(){
 								this.removeComponent("barracksS");
 								this.addComponent("barracks");//regular sprite
@@ -239,6 +259,7 @@ var generate2 = function generate2(x, y, building, lvl, prc){
 				});
 		final.addComponent("" + building + "C");//Check out the components section to find the name
 		iso.place(x + 2, y + 1, 5, final);//place the building
+		var pos = iso.pos2px(x, y);
 };
 
 
