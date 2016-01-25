@@ -138,6 +138,7 @@ var makePanel = function makePanel(building, price, destination){
 		destination.appendChild(panel);
 };
 
+
 /*Make all panels*/
 var makePanels = function makePanels(data){
 		var buildGroup = document.getElementsByClassName("build-group")[0];
@@ -172,7 +173,18 @@ var setupBuild = function setupBuild(){
 		$.get("/get_functions", {type: "base_building_stats"}, function(data){
 				makePanels(data);
 		});
+		$.get("/get_functions", {type: "get_city_buildings", a: cityname}, function(data){
+				setupBuildings(data);
+		});
 };
 
 
-
+var setupBuildings = function setupBuildings(data){
+		var info = JSON.parse(data);
+		var building;
+		for (var i = 0; i < info.length; i++){
+				building = info[i];
+				
+		}
+		
+};

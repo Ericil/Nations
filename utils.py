@@ -664,4 +664,5 @@ def attack(defendingCity, attackingCity):
 
 
 addAccount("milo", "123", " ")
-addBuilding(getCityID("milopolis"), 1, 1, 5)
+#addAccount("test", "chicken", "mail")
+#addBuilding(getCityID("milopolis"), 1, 1, 5)

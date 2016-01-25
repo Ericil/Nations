@@ -69,31 +69,32 @@ var getMultipliers = function getMultipliers(){
 };
 
 var getCityNames = function getCityNames(){
-$.get("/get_functions", {type: "get_cityNames", a: username}, function(data){
-updateOverview(data, "cities");
-});
+		$.get("/get_functions", {type: "get_cityNames", a: username}, function(data){
+				updateOverview(data, "cities");
+		});
 };
 
 var getFriends = function getFriends(){
-$.get("/get_functions", {type: "get_friends", a: username}, function(data){
-updateOverview(data, "friends");
-updateSelect(data, "friends");
-});
+		$.get("/get_functions", {type: "get_friends", a: username}, function(data){
+				updateOverview(data, "friends");
+				updateSelect(data, "friends");
+		});
 };
 
 var setupInfo = function setupInfo(){
-getResources();
-getMultipliers();
-getCityNames();
-getFriends();
+		getResources();
+		getMultipliers();
+		getCityNames();
+		getFriends();
 };
 
 
 var updateInfo = function updateInfo(){
-$.get("/set_functions", {type: "update_resources", a: cityname}, function(){
-getResources();
-getMultipliers();
-});
+		$.get("/set_functions", {type: "update_resources"}, function(){
+				console.log("update resourcs");
+				getResources();
+				getMultipliers();
+		});
 }
 
 

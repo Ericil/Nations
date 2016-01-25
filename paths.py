@@ -137,8 +137,6 @@ def get_functions():
         """cityName"""
         cityID = utils.getCityID(a)
         hold = utils.getResources(cityID)
-        
-        print hold
         return json.dumps(hold)
 
     if function_type == "get_multipliers":
@@ -153,29 +151,29 @@ def get_functions():
         accountID = utils.findID(a)
         friendID = utils.findID(b)
         hold = utils.getmsgs(accountID, friendID)
-        return hold
+        return json.dumps(hold)
 
     if function_type == "get_city_on_map":
         """mapx, mapy"""
         hold = utils.getCity(a, b)
-        return hold
+        return json.dumps(hold)
         
     if function_type == "get_city_buildings":
         """cityName"""
         cityID = utils.getCityID(a)
         hold = utils.getBuildingsIn(cityID)
-        return hold
+        return json.dumps(hold)
 
     if function_type == "get_specific_building":
         """cityName, buildingx, buildingy"""
         cityID = utils.getCityID(a)
         hold = utils.getBuildingXY(cityID, b, c)
-        return hold
+        return json.dumps(hold)
 
     if function_type == "get_specific_building_stat":
         """buildingID"""
         hold = utils.getBuilding(a)
-        return hold
+        return json.dumps(hold)
 
     if function_type == "get_friends":
         """username"""
@@ -202,17 +200,16 @@ def set_functions():
     e = request.args.get("e")
     f = request.args.get("f")
     g = request.args.get("g")
-    
+
     if function_type == "add_building":
         """cityName, buildingx, buildingy, buildingtype"""
         cityID = utils.getCityID(a)
-        utils.addBuilding(cityID, b, c, d)
-        return "success"
+        success = utils.addBuilding(cityID, b, c, d)
+        return success
 
     if function_type == "update_resources":
         """cityName"""
-        cityID = utils.getCityID(a)
-        utils.updateAll(cityID)
+        utils.updateAll()
         return "success"
 
     #if function_type == "set_multipliers":

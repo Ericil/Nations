@@ -226,6 +226,20 @@ function generate1(floor, building, lvl, prc){
 		iso.place(floor.xCord + 2, floor.yCord + 1, 5, final);//place the building
 }
 
+function generate2(x, y, building, lvl, prc){
+		var final = Crafty.e("2D, DOM, Mouse")
+				.attr('z', (x+2 * y+1))//Z coordinate perspective
+				.attr({xCord: x, yCord: y})
+				.attr({level: lvl, food: prc["food"],
+							 gold: prc["gold"], wood: prc["wood"],
+							 iron: prc["iron"]})//Level and price //Can be retreived with this.attr("level")
+				.bind("Click", function(){
+						console.log("hello");
+				});
+		final.addComponent("" + building + "C");//Check out the components section to find the name
+		iso.place(x + 2, y + 1, 5, final);//place the building
+}
+
 
 function makeBuilding(floor){
 		var prices = {"food": "0", "wood": "0",
