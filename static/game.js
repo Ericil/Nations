@@ -13,7 +13,7 @@ calculateSize();
 
 Crafty.init(width, height, document.getElementById('game'));
 //use a div with id="game", first two numbers are pixel dimensions
-Crafty.sprite(136,260, "http://i.imgur.com/m0zz0uW.png", {
+Crafty.sprite(136,260, "http://i.imgur.com/r3P0cm3.png", {
     tile: [0,0,1,1],
     tileS: [0,1,1,1],
     cityHall:[1,0,1,1],
@@ -34,6 +34,8 @@ Crafty.sprite(136,260, "http://i.imgur.com/m0zz0uW.png", {
     parkS:[8,1,1,1], 
     barracks:[9,0,1,1], 
     barracksS:[9,1,1,1]
+		city:[10,0,1,1],
+    cityS:[10,1,1,1]
 });
 var iso = Crafty.isometric.size(136);
 //var asdf = document.getElementById("potato");
@@ -169,19 +171,31 @@ Crafty.c("barracksC", {
 	    });
     }
 });
-
+Crafty.c("cityC", {
+    init: function(){
+        this.areaMap([21,52],[116,52],[118,232],[21,232])//change area map
+						.addComponent("barracks")
+						.bind("MouseOver", function(){
+								this.removeComponent("city");
+								this.addComponent("cityS");//select sprite
+						}).bind("MouseOut", function(){
+								this.removeComponent("cityS");
+								this.addComponent("city");//regular sprite
+						});
+    }
+});
 
 
 /****Scenes****/
 Crafty.defineScene("smallMap", function(){
     for(var i = 8; i >= 0; i--) {
         for(var y = 0; y < 16; y++) {
-    	var gTile = Crafty.e("2D, DOM, Mouse, tileC")
-    	    .attr('z', (i+2 * y+1))//makes things look pretty
-    	    .attr({xCord: i, yCord: y})
-    	    .bind("Click", function(){
-							addBuilding(this);
-    			});
+    				var gTile = Crafty.e("2D, DOM, Mouse, tileC")
+    						.attr('z', (i+2 * y+1))//makes things look pretty
+    						.attr({xCord: i, yCord: y})
+    						.bind("Click", function(){
+										addBuilding(this);
+    						});
     				iso.place(i+2,y+1,0, gTile);
 				}
 		}
