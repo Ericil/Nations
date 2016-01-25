@@ -259,7 +259,7 @@ def getCityCoords(cityID):
     c = conn.cursor()
     p = c.execute("SELECT cx, cy FROM cities WHERE city_id = %s" %(cityID))
     for r in p:
-        return {"cx" r[0], "cy": r[1]}
+        return {"cx": r[0], "cy": r[1]}
 
 ## Returns a list of city_ids of that accountID
 def getCitiesID(accountID):
