@@ -366,6 +366,7 @@ a.select-item:active {
 		text-align: center;
 		width: 100%;
 		background-color: #adbfd2;
+		text-align: center;
 }
 
 .popover-content ul {

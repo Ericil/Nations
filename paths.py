@@ -6,16 +6,6 @@ app = Flask(__name__)
 
 offline = True
 
-def update_data(interval):
-    Timer(interval, update_data, [interval]).start()
-    utils.updateAll()
-    print "updating all"
-
-if offline:
-    print "update"
-    update_data(5)
-
-
 
 
 @app.route("/")
