@@ -8,7 +8,7 @@ DATABASE IS LOCATED AT database.py"""
 
 conn = sqlite3.connect("data.db")
 c = conn.cursor()
-
+"""
 q = "DROP TABLE IF EXISTS %s;"
 
 c.execute(q %("accounts"))
@@ -17,9 +17,9 @@ c.execute(q %("buildings"))
 c.execute(q %("messages"))
 c.execute(q %("friends"))
 c.execute(q %("citylinks"))
+"""
 
-
-q = "CREATE TABLE %s (%s);"
+q = "CREATE TABLE IF NOT EXISTS %s (%s);"
 
 # Create all tables
 

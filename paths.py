@@ -1,7 +1,21 @@
 import utils
 import json
+from threading import Timer
 from flask import Flask, render_template, request, redirect, url_for, session
 app = Flask(__name__)
+
+offline = True
+
+def update_data(interval):
+    Timer(interval, update_data, [interval]).start()
+    utils.updateAll()
+    print "updating all"
+
+if offline:
+    print "update"
+    update_data(5)
+
+
 
 @app.route("/")
 def intro():
@@ -16,6 +30,8 @@ def login():
         username = str(request.form["username"])
         if utils.pwordAuth(username, str(request.form["password"])):
             session["username"] = username
+            global offline
+            offline = False
             return redirect(url_for('play2', username = username))
         else:
             return render_template("login.html", text = "Username/Password does not match")
@@ -38,6 +54,8 @@ def register():
             if password1 == password2:
                 utils.addAccount(username, password1, email)
                 session["username"] = username
+                global offline
+                offline = False
                 return redirect(url_for('play2', username = username))
             else:
                 return render_template("register.html", text = "The passwords do not match")
@@ -92,6 +110,8 @@ def play2(username):
 @app.route("/logout", methods = ["GET", "POST"])
 def logfin():
     session.clear()
+    global offline
+    offline = True
     return render_template("login.html")
 
 #GET_FUNCTIONS
