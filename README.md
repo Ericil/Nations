@@ -13,8 +13,8 @@ Ever harbored dreams of world domination? Control cities and battle it out with 
 ##The Team
 Derry Li (Team Leader, Middle)  
 Sally Bao	(Front, toolbars, popouts, etc.)  
-Milo Bernfield-Millman	(Front, map generation , sprite integration)  
-Kaizen Castanos	 (Back, function, databases)  
+Milo Bernfield-Millman (Back, function, databases)  
+Kaizen Castanos	(Front, map generation , sprite integration)  
 
 ##Our Planning Page:
 https://docs.google.com/document/d/1GzjDbBjb7U2J2_oEzdGKYnv4UHfU81DCMv5M-MAW1YA/
