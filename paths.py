@@ -4,8 +4,6 @@ from threading import Timer
 from flask import Flask, render_template, request, redirect, url_for, session
 app = Flask(__name__)
 
-offline = True
-
 
 
 @app.route("/")
@@ -20,9 +18,9 @@ def login():
     if str(request.form["button"]) == "Log in!":
         username = str(request.form["username"])
         if utils.pwordAuth(username, str(request.form["password"])):
+            hold2 = utils.findID(username)
+            utils.updateStamp(hold2)
             session["username"] = username
-            global offline
-            offline = False
             return redirect(url_for('play2', username = username))
         else:
             return render_template("login.html", text = "Username/Password does not match")
@@ -45,8 +43,7 @@ def register():
             if password1 == password2:
                 utils.addAccount(username, password1, email)
                 session["username"] = username
-                global offline
-                offline = False
+
                 return redirect(url_for('play2', username = username))
             else:
                 return render_template("register.html", text = "The passwords do not match")
@@ -100,9 +97,10 @@ def play2(username):
 
 @app.route("/logout", methods = ["GET", "POST"])
 def logfin():
+    hold = session["username"]
+    hold2 = utils.findID(hold)
+    utils.saveStamp(hold2)
     session.clear()
-    global offline
-    offline = True
     return render_template("login.html")
 
 #GET_FUNCTIONS
@@ -153,6 +151,8 @@ def get_functions():
         """cityName"""
         cityID = utils.getCityID(a)
         hold = utils.getBuildingsIn(cityID)
+        for n in hold:
+            n["type"] = utils.findBuildingName(n["type"])
         return json.dumps(hold)
 
     if function_type == "get_specific_building":
@@ -163,9 +163,10 @@ def get_functions():
 
     if function_type == "get_specific_building_stat":
         """cityName, buildingx, buildingy"""
-        cityId = utils.getCityID(a)
+        cityID = utils.getCityID(a)
         buildingID = utils.getBuildingXY(cityID, b, c)
         hold = utils.getBuilding(buildingID)
+        hold["type"] = utils.findBuildingName(hold["type"])
         return json.dumps(hold)
 
     if function_type == "get_friends":
@@ -197,8 +198,10 @@ def set_functions():
     if function_type == "add_building":
         """cityName, buildingx, buildingy, buildingtype"""
         cityID = utils.getCityID(a)
-        success = utils.addBuilding(cityID, b, c, d)
-        return success
+        buildType = utils.findBuildingType(d)
+        success = utils.addBuilding(cityID, b, c, buildType)
+        return json.dumps(success)
+
 
     if function_type == "update_resources":
         """cityName"""

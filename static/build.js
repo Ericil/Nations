@@ -99,9 +99,8 @@ var buildOptions = function buildOptions(e){
 	price - object with prices corresponding to building 
 	destination - the DOM element to append to
 */
-var makePanel = function makePanel(building, price, destination){
+var makePanel = function makePanel(building, price, destination, i){
 		var panel = document.createElement("div");
-		
 		var content = "<div>Production Values</div><ul>";
 		var key, value;
 		for (var i = 0; i < proTypes.length; i++){
@@ -121,7 +120,6 @@ var makePanel = function makePanel(building, price, destination){
 				} 
 		}
 		content += "</ul>";
-		//console.log(content);
 		setAttributes(panel,{
 				"class": "build-panel",
 				"id": building["name"],
@@ -133,6 +131,14 @@ var makePanel = function makePanel(building, price, destination){
 				"data-container": "body",
 				"data-content": content
 		});
+		/*
+			var img = document.createElement("img");
+			setAttributes(img,{
+			"src": "http://i.imgur.com/r3P0cm3.png",
+			"position": "absolute",
+			"clip": 
+			});
+		*/
 		destination.appendChild(panel);
 };
 
@@ -150,7 +156,7 @@ var makePanels = function makePanels(data){
 		for (var i = 0; i < len; i++){
 				building = buildData[i];
 				price = buildPrice[i];
-				makePanel(building, price, buildGroup);
+				makePanel(building, price, buildGroup, i);
 		}
 		buildGroup.addEventListener("click", function(e){
 				buildOptions(e);
@@ -173,6 +179,7 @@ var setupBuild = function setupBuild(){
 		});
 		$.get("/get_functions", {type: "get_city_buildings", a: cityname}, function(data){
 				setupBuildings(data);
+				overviewBuildings(data);
 		});
 };
 
@@ -188,17 +195,21 @@ var setupBuildings = function setupBuildings(data){
 
 
 var setupBuilding = function setupBuilding(building){
+		console.log("inside setupBuilding");
 		var prices = {"food": "0", "wood": "0",
 									"gold": "0", "iron": "0"};
-		var x, y, lvl, upgrade;
+		var x, y, lvl, type, upgrade;
 		
 		x = building["bx"];
 		y = building["by"];
+		type = building["type"];
 		lvl = building["level"];
 		upgrade = building["upgradePrice"];
 		for (var key in upgrade){
 				if (upgrade.hasOwnProperty(key))
 						prices[key] = upgrade[key];
 		}
-		generate2(x, y, building, lvl, prices);
+		console.log("generate2");
+		generate2(x, y, type, lvl, prices);
+		console.log("finished generate2");
 };

@@ -54,7 +54,7 @@ Crafty.c("tileC", {
 						});
     }
 });
-Crafty.c("cityhallC", {
+Crafty.c("city hallC", {
     init: function(){
         this.areaMap([21,52],[116,52],[118,232],[21,232])
 						.addComponent("cityHall")
@@ -262,7 +262,7 @@ function addBuilding(floor){
 						a: cityname, b: floor.xCord,
 						c: floor.yCord, d: currentBuilding},
 							function(data){
-									if (data)
+									if (JSON.parse(data))
 											getBuilding(floor);
 									else
 											$(".alert").show();
@@ -276,6 +276,9 @@ function getBuilding(floor){
 				a: cityname, b: floor.xCord,
 				c: floor.yCord},
 					function(data){
-							makeBuilding(JSON.parse(data));
+							setupBuilding(JSON.parse(data));
+							$.get("/get_functions", {type: "get_city_buildings", a: cityname}, function(data){
+									overviewBuildings(data);
+							});
 					});
 }

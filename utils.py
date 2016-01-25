@@ -341,7 +341,7 @@ def getResourceIncreases(cityID):
     happiness = 0
     for b in buildings:
         if b["type"] == 1:# house
-            peopleHoused += allBuildings[0]["peopleHoused"]*b["level"]
+            peopleHoused += allBuildings[0]["housed"]*b["level"]
         if b["type"] == 2:# barracks
             soldiers += allBuildings[1]["soldiers"]*b["level"]
         if b["type"] == 4:# hospital
@@ -354,7 +354,7 @@ def getResourceIncreases(cityID):
         if b["type"] == 7:# farm
             food += allBuildings[6]["food"]*b["level"]
         if b["type"] == 8:# mall
-            gold += allBuildings[7]["shop"]*b["level"]
+            gold += allBuildings[7]["gold"]*b["level"]
         if b["type"] == 9:# park
             happiness += allBuildings[8]["happiness"]*b["level"]
     r = getResources(cityID)
@@ -395,6 +395,18 @@ def updateAll():
 #+========Buildings=======+#
 #+========================+#
 
+def findBuildingType(name):
+    for r in allBuildings:
+        if r["name"] == name:
+            return r["type"]
+    return 0
+
+def findBuildingName(buildType):
+    for r in allBuildings:
+        if r["type"] == buildType:
+            return r["name"]
+    return 0
+    
 ## returns a dictionary of prices (can include wood, iron, gold, or food)
 def upgradePrice(buildingID):
     conn = sqlite3.connect("data.db")
@@ -629,6 +641,7 @@ def getFriendsNames(userID):
 def attack(defendingCity, attackingCity):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
+    updateStamp(getCityOwner(attackingCity))
     aSoldiers = getResources(attackingCity)["soldiers"]
     dSoldiers = int(getResources(defendingCity)["soldiers"]*1.2)# defending cities get a bonus
     # if attackers have more
