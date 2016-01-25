@@ -54,7 +54,7 @@ allBuildings = [
 {"name":"barracks", "type":2, "soldiers":.5},# makes soldiers
 {"name":"city hall", "type":3},# dictates highest level
 {"name":"hospital", "type":4, "food":.5},# lowers disease, restores wounded soldiers, increase food?
-{"name":"mine", "type":5, "iron":1},
+{"name":"mine", "type":5, "iron":.5},
 {"name":"woodmill", "type":6, "wood":.5},
 {"name":"farm", "type":7, "food":.5},
 {"name":"mall", "type":8, "gold":.5},# increases gold
@@ -131,7 +131,6 @@ def addAccount(uname, pword, email):
     conn.commit()
 
 
-
 def changePword(uname, oldP, newP, cNewP):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
@@ -145,7 +144,6 @@ def changePword(uname, oldP, newP, cNewP):
     else:
         c.execute("UPDATE accounts SET pword = '?' WHERE uname = '?';", (newP, uname))
         conn.commit()
-
         return "Password successfully updated"
 
 
@@ -156,7 +154,7 @@ def findID(uname):
     p = c.execute("SELECT account_id FROM accounts WHERE uname = '%s';" %(uname))
     for r in p:
         return r[0]
-    return -1
+    return 0
 
 ## finds the uname for account with ID
 def findUname(ID):
@@ -238,14 +236,12 @@ def addCity(cityName, accountID, cx, cy, wood, iron, gold, food):
     conn.commit()
 
 
-
 ## links cityID to the city with the cityName
 def linkCity(cityID, cityLinkName):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
     c.execute("INSERT INTO citylinks VALUES (?, ?)", (cityID, cityLinkName))
     conn.commit()
-
 
 ## gets the linked city's weather
 def getWeatherOf(cityID):
@@ -256,6 +252,8 @@ def getWeatherOf(cityID):
         return currWeather[r[0]]
 
 
+
+
 ## makes the owner of the cityID accountID
 def setCityOwner(accountID, cityID):
     conn = sqlite3.connect("data.db")
@@ -263,7 +261,6 @@ def setCityOwner(accountID, cityID):
 
     c.execute("UPDATE cities SET account_id = ? WHERE city_id = ?;", (accountID, cityID))
     conn.commit()
-
 
 
 ## Returns a list of city_ids of that accountID
@@ -315,6 +312,7 @@ def getCityName(cityID):
         return r[0]
 
 
+
 # gets the city id from the name
 def getCityID(cityName):
     conn = sqlite3.connect("data.db")
@@ -355,9 +353,12 @@ def getResourceIncreases(cityID):
             peopleHoused += allBuildings[0]["peopleHoused"]*b["level"]
         if b["type"] == 2:# barracks
             soldiers += allBuildings[1]["soldiers"]*b["level"]
+        if b["type"] == 3:# city hall
+            # city hall stuff
+            break
         if b["type"] == 4:# hospital
             # do the hospital stuff
-            food += allBuildings[3]["food"]*b["level"]
+            break
         if b["type"] == 5:# mine
             iron += allBuildings[4]["iron"]*b["level"]
         if b["type"] == 6:# woodmill
@@ -376,8 +377,8 @@ def getResourceIncreases(cityID):
     return {"wood":wood, "iron":iron, "gold":gold, "food":food, "population":population, "soldiers":soldiers, "happiness":happiness}
 
 
-## automatically update all values in cityID
-def updateCity(cityID):
+## automatically update all values
+def updateAll(cityID):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
     r = getResources(cityID)
@@ -390,17 +391,8 @@ def updateCity(cityID):
     r["population"]+rInc["population"],
     r["soldiers"]+rInc["soldiers"],
     r["happiness"]+rInc["happiness"])
-    conn.commit()
 
 
-## update all cities
-def updateAll():
-    conn = sqlite3.connect("data.db")
-    c = conn.cursor()
-    p = c.execute("SELECT city_id FROM cities;")
-    for r in p:
-        updateCity(r[0])
-    print getResources(1)
 
 #+========================+#
 #+========Buildings=======+#
@@ -442,7 +434,7 @@ def addBuilding(cityID, bx, by, type):
             return False
 
     for key in price.keys():
-        c.execute("UPDATE cities SET %s = ? WHERE city_id = ?;" %(key), (resources[key]-price[key], cityID))
+        c.execute("UPDATE cities SET %s = ? WHERE city_id = ?;" %(key), (price[key], cityID))
     c.execute("INSERT INTO buildings(city_id, bx, by, type, level) VALUES (?, ?, ?, ?, ?);", (cityID, bx, by, type, 1))
     conn.commit()
     return True
@@ -452,10 +444,10 @@ def addBuilding(cityID, bx, by, type):
 def getBuildingsIn(cityID):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
-    p = c.execute("SELECT city_id, bx, by, type, level FROM buildings WHERE city_id = %s;" %(cityID))
+    p = c.execute("SELECT city_id, bx, by, type, level, buildingID FROM buildings WHERE city_id = %s;" %(cityID))
     buildings = []
     for r in p:
-        buildings.append({"city_id":r[0], "bx":r[1], "by":r[2],"type":r[3], "level":r[4]})
+        buildings.append({"city_id":r[0], "bx":r[1], "by":r[2],"type":r[3], "level":r[4], "upgradePrice":upgradePrice(r[5])})
     return buildings
 
 
@@ -507,7 +499,6 @@ def levelUpBuilding(buildingID):
         # Check for price
         c.execute("UPDATE buildings SET level = ? WHERE building_id = ?;", (level+1, buildingID))
         conn.commit()
-
         return True
     return False
     # returns false if the price is too high or the level is too high
@@ -524,7 +515,6 @@ def deleteBuilding(buildingID):
     c = conn.cursor()
     c.execute("DELETE FROM buildings WHERE building_id = %s;" %(buildingID))
     conn.commit()
-
 
 
 
@@ -553,7 +543,6 @@ def addmsg(fromID, toID, message):
     time = getTime()
     c.execute("INSERT INTO messages VALUES (?, ?, ?, ?, ?)", (fromID, toID, message, time, 0))
     conn.commit()
-
 
 
 ## returns a list of dictionaries of messages between fromUser and toUser (fromUser is logged in)
@@ -588,14 +577,12 @@ def setAllSeenFrom(userID, fromID):
     c.execute("UPDATE messages SET seen = 1 WHERE from_id = ? AND to_id = ?;", (fromID, userID))
     conn.commit()
 
-
 ## adds the friendID to the userID friend list
 def addFriend(userID, friendID):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
     c.execute("INSERT INTO friends VALUES (?, ?);", (userID, friendID))
     conn.commit()
-
 
 ## gets all friends of account with uname = uname
 def getFriends(userID):
@@ -661,7 +648,14 @@ def attack(defendingCity, attackingCity):
 
 
 
+createWorld()
+conn = sqlite3.connect("data.db")
+c = conn.cursor()
 
-
+addAccount("test", "123", "")
 addAccount("milo", "123", " ")
-addBuilding(getCityID("milopolis"), 1, 1, 5)
+addAccount("other", "123", "atgmaildotcom")
+
+p = c.execute("SELECT cx, cy, city_name, city_id FROM cities;")
+for r in p:
+    print r[2]+": "+str(r[0])+", "+str(r[1])+" ("+str(getWeatherOf(r[3]))+")"
