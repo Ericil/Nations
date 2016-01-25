@@ -17,6 +17,7 @@ c.execute(q %("buildings"))
 c.execute(q %("messages"))
 c.execute(q %("friends"))
 c.execute(q %("citylinks"))
+c.execute(q %("updatetimes"))
 """
 
 q = "CREATE TABLE IF NOT EXISTS %s (%s);"
