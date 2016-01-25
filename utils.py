@@ -360,7 +360,6 @@ def getResourceIncreases(cityID):
             food += allBuildings[3]["food"]*b["level"]
         if b["type"] == 5:# mine
             iron += allBuildings[4]["iron"]*b["level"]
-            print iron
         if b["type"] == 6:# woodmill
             wood += allBuildings[5]["wood"]*b["level"]
         if b["type"] == 7:# farm
@@ -383,7 +382,6 @@ def updateCity(cityID):
     c = conn.cursor()
     r = getResources(cityID)
     rInc = getResourceIncreases(cityID)
-    print rInc
     updateResources(cityID,
     r["wood"]+rInc["wood"],
     r["iron"]+rInc["iron"],
@@ -399,7 +397,6 @@ def updateCity(cityID):
 def updateAll():
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
-    print getResources(1)
     p = c.execute("SELECT city_id FROM cities;")
     for r in p:
         updateCity(r[0])
@@ -445,10 +442,9 @@ def addBuilding(cityID, bx, by, type):
             return False
 
     for key in price.keys():
-        c.execute("UPDATE cities SET %s = ? WHERE city_id = ?;" %(key), (price[key], cityID))
+        c.execute("UPDATE cities SET %s = ? WHERE city_id = ?;" %(key), (resources[key]-price[key], cityID))
     c.execute("INSERT INTO buildings(city_id, bx, by, type, level) VALUES (?, ?, ?, ?, ?);", (cityID, bx, by, type, 1))
     conn.commit()
-
     return True
 
 
@@ -668,6 +664,4 @@ def attack(defendingCity, attackingCity):
 
 
 addAccount("milo", "123", " ")
-print getResources(1)
-print addBuilding(getCityID("milopolis"), 1, 1, 5)
-print getBuildingsIn(1)
+addBuilding(getCityID("milopolis"), 1, 1, 5)
