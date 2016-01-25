@@ -55,7 +55,6 @@ var updateNavbar = function updateNavbar(data){
 
 var getResources = function getResources(){
 		$.get("/get_functions", {type: "get_resources", a: cityname}, function(data){
-				//console.log(data);
 				updateOverview(data, "resources");
 				updateNavbar(data);
 		});
@@ -63,7 +62,6 @@ var getResources = function getResources(){
 
 var getMultipliers = function getMultipliers(){
 		$.get("/get_functions", {type: "get_multipliers", a: cityname}, function(data){
-				console.log(data);
 				updateOverview(data, "multipliers");
 		});
 };
@@ -91,7 +89,6 @@ var setupInfo = function setupInfo(){
 
 var updateInfo = function updateInfo(){
 		$.get("/set_functions", {type: "update_resources"}, function(){
-				console.log("update resourcs");
 				getResources();
 				getMultipliers();
 		});
