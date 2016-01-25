@@ -330,8 +330,7 @@ def getResources(cityID):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
     p = []
-    if cityID != None:
-        p = c.execute("SELECT wood, iron, gold, food, population, soldiers, happiness FROM cities WHERE city_id = %s;" %(cityID))
+    p = c.execute("SELECT wood, iron, gold, food, population, soldiers, happiness FROM cities WHERE city_id = %s;" %(cityID))
     for r in p:
         ret = {"wood":r[0], "iron":r[1], "gold":r[2],"food":r[3], "population":r[4], "soldiers":r[5], "happiness":r[6]}
         conn.close()
@@ -348,8 +347,6 @@ def updateResources(cityID, wood, iron, gold, food, population, soldiers, happin
 
 ## get the increases in all resources
 def getResourceIncreases(cityID):
-    if cityID == None:
-        return
     buildings = getBuildingsIn(cityID)
     peopleHoused = 0
     soldiers = 0
@@ -463,6 +460,8 @@ def buildingPrice(type):
 def addBuilding(cityID, bx, by, type):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
+    if type == 3:
+        return False
     resources = getResources(cityID)
     price = buildingPrice(type)
     for key in price.keys():
@@ -481,10 +480,8 @@ def addBuilding(cityID, bx, by, type):
 def getBuildingsIn(cityID):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
-    p = []
     buildings = []
-    if cityID != None:
-        p = c.execute("SELECT city_id, bx, by, type, level FROM buildings WHERE city_id = %s;" %(cityID))
+    p = c.execute("SELECT city_id, bx, by, type, level FROM buildings WHERE city_id = %s;" %(cityID))
     for r in p:
         buildings.append({"city_id":r[0], "bx":r[1], "by":r[2],"type":r[3], "level":r[4]})
     conn.close()
@@ -747,21 +744,3 @@ addAccount("test", "123", "")
 addBuilding(getCityID("testpolis"), 1, 1, 7)
 addAccount("milo", "123", " ")
 levelUpBuilding(getBuildingXY(getCityID("testpolis"), 1, 1))
-
-
-"""
-addAccount("milo", "123", " ")
-
-addAccount("other", "123", "atgmaildotcom")
-
-p = c.execute("SELECT cx, cy, city_name, city_id FROM cities;")
-for r in p:
-    print r[2]+": "+str(r[0])+", "+str(r[1])+" ("+str(getWeatherOf(r[3]))+")"
-
-
-addBuilding(getCityID("testpolis"), 1, 1, 5)
-print getResources(1)
-updateStamp(1)
-print getResources(1)
-
-"""
