@@ -43,7 +43,7 @@ allBuildings = [
 {"name":"barracks", "type":2, "soldiers":.5},# makes soldiers
 {"name":"city hall", "type":3},# dictates highest level
 {"name":"hospital", "type":4, "food":.5},# lowers disease, restores wounded soldiers, increase food?
-{"name":"mine", "type":5, "iron":1},
+{"name":"mine", "type":5, "iron":.5},
 {"name":"woodmill", "type":6, "wood":.5},
 {"name":"farm", "type":7, "food":.5},
 {"name":"mall", "type":8, "gold":.5},# increases gold
@@ -51,15 +51,15 @@ allBuildings = [
 ]
 
 prices = [
-{"type":1, "wood":100, "gold":100},
-{"type":2, "wood":100, "iron":100, "gold":200},
-{"type":3, "wood":50, "iron":50, "food":50, "gold":50},
-{"type":4, "wood":150, "iron":150, "food": 50},
-{"type":5, "wood":100, "gold":100},
-{"type":6, "iron":100, "gold":100},
-{"type":7, "wood":50, "iron":50, "gold":50},
-{"type":8, "wood":100, "iron":100},
-{"type":9, "wood":200, "iron":200, "gold":200},
+{"type":1, "wood":200, "gold":200},
+{"type":2, "wood":200, "iron":200, "gold":200},
+{"type":3, "wood":100, "iron":100, "food":100, "gold":100},
+{"type":4, "wood":300, "iron":300, "food": 100},
+{"type":5, "wood":200, "gold":200},
+{"type":6, "iron":200, "gold":200},
+{"type":7, "wood":100, "iron":100, "gold":100},
+{"type":8, "wood":300, "iron":300},
+{"type":9, "wood":400, "iron":400, "gold":400},
 ]
 
 # Updated at times:
@@ -115,6 +115,7 @@ def addAccount(uname, pword, email):
     coords = findNewCoords()
     c.execute("INSERT INTO accounts(uname, pword, email) VALUES (?, ?, ?);", (uname, pword, email))
     conn.commit()
+    conn.close()
     addCity(uname+"polis", findID(uname), coords[0], coords[1], wood, iron, gold, food)
     #linkCity(getCityID(uname+"polis"), allCities[random.randrange(len(allCities))])
     saveStamp(findID(uname))
@@ -134,6 +135,7 @@ def changePword(uname, oldP, newP, cNewP):
     else:
         c.execute("UPDATE accounts SET pword = '?' WHERE uname = '?';", (newP, uname))
         conn.commit()
+        conn.close()
 
         return "Password successfully updated"
 
@@ -165,11 +167,12 @@ def findUname(ID):
 def createWorld():
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
+    addAccount("AI", "", "AI@NOTAREAL.COM")
     count = 0
     while count < aiCount:
         coords = findNewCoords()
         city = allCities[random.randrange(len(allCities))]
-        addCity(city, 0, coords[0], coords[1], 200, 200, 200, 200)
+        addCity(city, 1, coords[0], coords[1], 200, 200, 200, 200)
         linkCity(getCityID(city), city)
         count += 1
 
@@ -225,6 +228,7 @@ def addCity(cityName, accountID, cx, cy, wood, iron, gold, food):
         cityID = r[0]
     c.execute("INSERT INTO buildings(city_id, bx, by, type, level) VALUES (?, ?, ?, ?, ?);", (cityID, 0, 0, 3, 1))
     conn.commit()
+    conn.close()
 
 
 
@@ -234,6 +238,7 @@ def linkCity(cityID, cityLinkName):
     c = conn.cursor()
     c.execute("INSERT INTO citylinks VALUES (?, ?)", (cityID, cityLinkName))
     conn.commit()
+    conn.close()
 
 
 ## gets the linked city's weather
@@ -252,6 +257,7 @@ def setCityOwner(accountID, cityID):
 
     c.execute("UPDATE cities SET account_id = ? WHERE city_id = ?;", (accountID, cityID))
     conn.commit()
+    conn.close()
 
 ## get the x and y values of a city in a dictionary
 def getCityCoords(cityID):
@@ -323,9 +329,13 @@ def getCityID(cityName):
 def getResources(cityID):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
-    p = c.execute("SELECT wood, iron, gold, food, population, soldiers, happiness FROM cities WHERE city_id = %s;" %(cityID))
+    p = []
+    if cityID != None:
+        p = c.execute("SELECT wood, iron, gold, food, population, soldiers, happiness FROM cities WHERE city_id = %s;" %(cityID))
     for r in p:
-        return {"wood":r[0], "iron":r[1], "gold":r[2],"food":r[3], "population":r[4], "soldiers":r[5], "happiness":r[6]}
+        ret = {"wood":r[0], "iron":r[1], "gold":r[2],"food":r[3], "population":r[4], "soldiers":r[5], "happiness":r[6]}
+        conn.close()
+        return ret
 
 ## Updates all resources with the cityID
 def updateResources(cityID, wood, iron, gold, food, population, soldiers, happiness):
@@ -334,9 +344,12 @@ def updateResources(cityID, wood, iron, gold, food, population, soldiers, happin
     c.execute("UPDATE cities SET wood = ?, iron = ?, gold = ?, food = ?, population = ?, soldiers = ?, happiness = ? WHERE city_id = ?;",
     (wood, iron, gold, food, population, soldiers, happiness, cityID))
     conn.commit()
+    conn.close()
 
 ## get the increases in all resources
 def getResourceIncreases(cityID):
+    if cityID == None:
+        return
     buildings = getBuildingsIn(cityID)
     peopleHoused = 0
     soldiers = 0
@@ -368,6 +381,7 @@ def getResourceIncreases(cityID):
     happiness += (max(0, peopleHoused - r["population"])) + (r["food"] - r["population"])
     # population growth calculation:
     population = (r["food"] - r["population"]) + (r["happiness"] - r["population"])
+    #weatherMult = int(getWeatherOf(cityID)/10)
     return {"wood":wood, "iron":iron, "gold":gold, "food":food, "population":population, "soldiers":soldiers, "happiness":happiness}
 
 
@@ -386,6 +400,7 @@ def updateCity(cityID):
     r["soldiers"]+rInc["soldiers"],
     r["happiness"]+rInc["happiness"])
     conn.commit()
+    conn.close()
 
 
 ## update all cities
@@ -393,9 +408,12 @@ def updateAll():
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
     p = c.execute("SELECT city_id FROM cities;")
+    cities = []
     for r in p:
-        updateCity(r[0])
-    print getResources(1)
+        cities.append(r[0])
+    conn.close()
+    for city in cities:
+        updateCity(city)
 
 #+========================+#
 #+========Buildings=======+#
@@ -421,6 +439,7 @@ def upgradePrice(buildingID):
     for r in p:
         type = r[0]
         level = r[1]
+    conn.close()
     price = {}
     for key in prices[type-1].keys():
         if (key != "type"):
@@ -452,6 +471,7 @@ def addBuilding(cityID, bx, by, type):
         c.execute("UPDATE cities SET %s = ? WHERE city_id = ?;" %(key), (resources[key]-price[key], cityID))
     c.execute("INSERT INTO buildings(city_id, bx, by, type, level) VALUES (?, ?, ?, ?, ?);", (cityID, bx, by, type, 1))
     conn.commit()
+    conn.close()
     return True
 
 
@@ -459,10 +479,13 @@ def addBuilding(cityID, bx, by, type):
 def getBuildingsIn(cityID):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
-    p = c.execute("SELECT city_id, bx, by, type, level FROM buildings WHERE city_id = %s;" %(cityID))
+    p = []
     buildings = []
+    if cityID != None:
+        p = c.execute("SELECT city_id, bx, by, type, level FROM buildings WHERE city_id = %s;" %(cityID))
     for r in p:
         buildings.append({"city_id":r[0], "bx":r[1], "by":r[2],"type":r[3], "level":r[4]})
+    conn.close()
     return buildings
 
 
@@ -473,6 +496,7 @@ def getBuildingXY(cityID, bx, by):
     p = c.execute("SELECT building_id FROM buildings WHERE city_id = ? AND bx = ? AND by = ?;", (cityID, bx, by))
     for r in p:
         return r[0]
+    conn.close()
     return 0
 
 
@@ -483,6 +507,7 @@ def getBuilding(buildingID):
     p = c.execute("SELECT city_id, bx, by, type, level FROM buildings WHERE building_id = %s;" %(buildingID))
     for r in p:
         return {"city_id":r[0], "bx":r[1], "by":r[2],"type":r[3], "level":r[4], "upgradePrice":upgradePrice(buildingID)}
+        conn.close()
     return {}
 
 ## increases level of a building if its level is less than cityhall level and if there is enough of the resources
@@ -493,6 +518,7 @@ def levelUpBuilding(buildingID):
     p = c.execute("SELECT city_id FROM buildings WHERE building_id = %s" %(buildingID))
     for r in p:
         cityID = r[0]
+    conn.close()
     resources = getResources(cityID)
     price = upgradePrice(buildingID)
     for key in price.keys():
@@ -514,6 +540,7 @@ def levelUpBuilding(buildingID):
         # Check for price
         c.execute("UPDATE buildings SET level = ? WHERE building_id = ?;", (level+1, buildingID))
         conn.commit()
+        conn.close()
 
         return True
     return False
@@ -531,6 +558,7 @@ def deleteBuilding(buildingID):
     c = conn.cursor()
     c.execute("DELETE FROM buildings WHERE building_id = %s;" %(buildingID))
     conn.commit()
+    conn.close()
 
 
 
@@ -560,6 +588,7 @@ def addmsg(fromID, toID, message):
     time = getTime()
     c.execute("INSERT INTO messages VALUES (?, ?, ?, ?, ?)", (fromID, toID, message, time, 0))
     conn.commit()
+    conn.close()
 
 
 
@@ -574,6 +603,7 @@ def getmsgs(fromUser, toUser):
     p = c.execute("SELECT from_id, message, time, seen FROM messages WHERE from_id = ? AND to_id = ?;", (toUser, fromUser))
     for r in p:
         list.append({"from_id":r[0], "message":r[1], "timestamp":r[2], "seen":r[3]})
+    conn.close()
     return list
 
 ## returns all friends who have unseen messages
@@ -586,6 +616,7 @@ def getUnseenFriends(userID):
         if r[1] == 0:
             if unseen.count(r[0]) == 0:
                 unseen.append(r[0])
+    conn.close()
     return unseen
 
 ## set all of the messages from fromID to userID to seen
@@ -594,6 +625,7 @@ def setAllSeenFrom(userID, fromID):
     c = conn.cursor()
     c.execute("UPDATE messages SET seen = 1 WHERE from_id = ? AND to_id = ?;", (fromID, userID))
     conn.commit()
+    conn.close()
 
 
 ## adds the friendID to the userID friend list
@@ -602,6 +634,7 @@ def addFriend(userID, friendID):
     c = conn.cursor()
     c.execute("INSERT INTO friends VALUES (?, ?);", (userID, friendID))
     conn.commit()
+    conn.close()
 
 
 ## gets all friends of account with uname = uname
@@ -612,6 +645,7 @@ def getFriends(userID):
     list = []
     for r in p:
         list.append(r[0])
+    conn.close()
     return list
 
 
@@ -625,6 +659,7 @@ def findAllNonFriends(userID):
     for r in p:
         if (not userID == findID(r[0])) and friends.count(r[0]) == 0:
             nonfriends.append(r[0])
+    conn.close()
     return nonfriends
 
 
@@ -677,11 +712,15 @@ def saveStamp(userID):
     for r in p:
         if r[0] == userID:
             b = True
+    conn.close()
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
     if b:
         c.execute("UPDATE updatetimes SET time = ? WHERE account_id = ?;", (int(time.time()), userID))
     else:
         c.execute("INSERT INTO updatetimes VALUES (?, ?);", (userID, int(time.time())))
     conn.commit()
+    conn.close()
 
 ## gets the time the player was last updated, updates, and saves the timestamp
 def updateStamp(userID):
@@ -691,6 +730,7 @@ def updateStamp(userID):
     updateTimes = 0
     for r in p:
         updateTimes = (int(time.time())-r[0])/5
+    conn.close()
     x = 0
     while x < updateTimes:
         updateAll()
@@ -701,6 +741,7 @@ def updateStamp(userID):
 #createWorld()
 
 addAccount("test", "123", "")
+addAccount("milo", "123", " ")
 """
 addAccount("milo", "123", " ")
 
