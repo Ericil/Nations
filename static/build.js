@@ -3,6 +3,7 @@ console.log("Here is the build");
 var len;
 var pos = 6;
 var isBuilding = false;
+var currentBuilding;
 var proTypes = ["housed", "soldiers",
 								"food", "iron", "wood", "gold", "happiness"];
 var priceTypes = ["gold", "iron", "food", "wood"];
@@ -82,10 +83,13 @@ function setAttributes(element, attributes){
 		});
 }
 
-var buildOptions = function buildOptions(){
+var buildOptions = function buildOptions(e){
 		e.preventDefault();
 		if (e.target.className == "build-panel"){
-				console.log("to be continued");
+				currentBuilding = e.target.id;
+				//console.log(currentBuilding);
+				$(".build-panel").css("border-color", "white");
+				e.target.style.borderColor = "red";
 		}
 };
 
@@ -108,15 +112,18 @@ var makePanel = function makePanel(building, price, destination){
 				} 
 		}
 		content += "</ul>";
-		content += "<div>Prices</div><ul>";
+		content += "<div>Prices</div>";
+		content += "<ul data-list-type='{}-prices'>".format(building["name"]);
 		for (var i = 0; i < priceTypes.length; i++){
 				key = priceTypes[i];
 				if (price.hasOwnProperty(key)){
 						value = price[key];
-						content += "<li>{}: {}</li>".format(key, String(value));
+						content += "<li data-price-type={} data-price-value={}>".format(key, String(value));
+						content += "{}: {}</li>".format(key, String(value));
 				} 
 		}
 		content += "</ul>";
+		//console.log(content);
 		setAttributes(panel,{
 				"class": "build-panel",
 				"id": building["name"],
@@ -163,7 +170,6 @@ var setupBuild = function setupBuild(){
 		next.addEventListener("click", slideNext);
 
 		$.get("/get_functions", {type: "base_building_stats"}, function(data){
-				//console.log(data);
 				makePanels(data);
 		});
 };
