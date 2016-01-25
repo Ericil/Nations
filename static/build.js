@@ -166,7 +166,6 @@ var setupBuild = function setupBuild(){
 		next.addEventListener("click", slideNext);
 
 		var upgrade = document.getElementById("upgrade");
-		console.log(upgrade);
 		upgrade.addEventListener("click", function(e){
 				e.preventDefault();
 				upgradeBuilding();
@@ -194,8 +193,9 @@ var setupBuildings = function setupBuildings(data){
 
 
 var setupBuilding = function setupBuilding(building){
-		var prices = {"food": "0", "wood": "0",
-									"gold": "0", "iron": "0"};
+		console.log(building);
+		var prices = {"food": 0, "wood": 0,
+									"gold": 0, "iron": 0};
 		var x, y, lvl, type, upgrade;
 		
 		x = building["bx"];
@@ -211,14 +211,16 @@ var setupBuilding = function setupBuilding(building){
 };
 
 var upgradeBuilding = function upgradeBuilding(){
-		var x = $("upgrade-bar").data("x");
-		var y = $("upgrade-bar").data("y");
+		var x = $(".upgrade-bar").data("x");
+		var y = $(".upgrade-bar").data("y");
+		console.log("inside upgrade");
+		console.log(x);
+		console.log(y);
 		$.get("/set_functions", {
 				type: "set_building", a: cityname, b: x, c: y},
 					function(data){
 							if (JSON.parse(data))
-									getBuilding(x, y);
-							
+									getBuilding(x, y);		
 					});
 }
 

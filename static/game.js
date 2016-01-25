@@ -264,6 +264,8 @@ var generate2 = function generate2(x, y, building, lvl, prc){
 								$("#upgrade-iron").html("Iron: " + prc["iron"]);
 								$("#upgrade-food").html("Food: " + prc["food"]);
 								$(".upgrade-bar").data("x", x).data("y", y).fadeIn();
+								console.log(x);
+								console.log(y);
 						}
 				});
 		final.addComponent("" + building + "C");//Check out the components section to find the name

@@ -262,7 +262,10 @@ def set_functions():
     if function_type == "set_building":
         """cityName, bx, by"""
         cityID = utils.getCityID(a)
+        print a
+        print cityID
         buildingID = utils.getBuildingXY(cityID, b, c)
+        print buildingID
         success = utils.levelUpBuilding(buildingID);
         return json.dumps(success)
 
