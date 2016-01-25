@@ -112,15 +112,18 @@ var makePanel = function makePanel(building, price, destination){
 				} 
 		}
 		content += "</ul>";
-		content += "<div>Prices</div><ul>";
+		content += "<div>Prices</div>";
+		content += "<ul data-list-type='{}-prices'>".format(building["name"]);
 		for (var i = 0; i < priceTypes.length; i++){
 				key = priceTypes[i];
 				if (price.hasOwnProperty(key)){
 						value = price[key];
-						content += "<li>{}: {}</li>".format(key, String(value));
+						content += "<li data-price-type={} data-price-value={}>".format(key, String(value));
+						content += "{}: {}</li>".format(key, String(value));
 				} 
 		}
 		content += "</ul>";
+		//console.log(content);
 		setAttributes(panel,{
 				"class": "build-panel",
 				"id": building["name"],
