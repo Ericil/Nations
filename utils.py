@@ -395,6 +395,12 @@ def updateAll():
 #+========Buildings=======+#
 #+========================+#
 
+def findBuildingType(name):
+    for r in allBuildings:
+        if r["name"] == name:
+            return r["type"]
+    return 0
+    
 ## returns a dictionary of prices (can include wood, iron, gold, or food)
 def upgradePrice(buildingID):
     conn = sqlite3.connect("data.db")
@@ -629,6 +635,7 @@ def getFriendsNames(userID):
 def attack(defendingCity, attackingCity):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
+    updateStamp(getCityOwner(attackingCity))
     aSoldiers = getResources(attackingCity)["soldiers"]
     dSoldiers = int(getResources(defendingCity)["soldiers"]*1.2)# defending cities get a bonus
     # if attackers have more
