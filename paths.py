@@ -163,7 +163,7 @@ def get_functions():
         """buildingID"""
         hold = utils.getBuilding(a)
         return hold
-
+    
     if function_type == "get_friends":
         """username"""
         accountID = utils.findID(a)
@@ -175,7 +175,12 @@ def get_functions():
         """returns a list of dictionaries"""
         d = {"buildings": utils.allBuildings,
              "prices": utils.prices}
-        return json.dumps(d)    
+        return json.dumps(d)
+
+    if function_type == "find_build_type":
+        """building name"""
+        hold = utils.findBuildingType(a)
+        return hold
 
 
 """<-------------------------------SET_FUNCTIONS------------------------------->"""
