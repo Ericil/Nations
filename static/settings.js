@@ -67,6 +67,6 @@ $(document).ready(function(){
 		var map = document.getElementById("map-icon");
 		map.addEventListener("click", switchMap);
 
-		//updateInterval = setInterval(updateInfo, 5000);
+		updateInterval = setInterval(updateInfo, 5000);
 		
 });
