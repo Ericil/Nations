@@ -1,18 +1,7 @@
 import sqlite3
 import random
-""" TABLES:
-
-
-accounts (account_id INTEGER PRIMARY KEY, uname TEXT, pword TEXT, email TEXT)
-
-cities (city_id INTEGER PRIMARY KEY, account_id INTEGER, city_name TEXT, cx INTEGER, cy INTEGER)
-
-buildings (building_id INTEGER PRIMARY KEY, city_id INTEGER, bx INTEGER, by INTEGER, type INTEGER, level INTEGER)
-
-messages (from_id INTEGER, to_id INTEGER, message INTEGER, time INTEGER, seen INTEGER)
-
-"""
 import init
+import time
 
 ## return a dictionary with weather
 def getCitiesWeather():
@@ -75,7 +64,7 @@ prices = [
 
 # Updated at times:
 
-currWeather = getCitiesWeather()
+#currWeather = getCitiesWeather()
 
 #+========================+#
 #+=====++ Accounts ++=====+#
@@ -128,8 +117,7 @@ def addAccount(uname, pword, email):
     conn.commit()
     addCity(uname+"polis", findID(uname), coords[0], coords[1], wood, iron, gold, food)
     linkCity(getCityID(uname+"polis"), allCities[random.randrange(len(allCities))])
-    conn.commit()
-
+    saveStamp(findID(uname))
 
 def changePword(uname, oldP, newP, cNewP):
     conn = sqlite3.connect("data.db")
@@ -366,7 +354,7 @@ def getResourceIncreases(cityID):
         if b["type"] == 7:# farm
             food += allBuildings[6]["food"]*b["level"]
         if b["type"] == 8:# mall
-            gold += allBuildings[7]["shop"]*b["level"]
+            gold += allBuildings[7]["gold"]*b["level"]
         if b["type"] == 9:# park
             happiness += allBuildings[8]["happiness"]*b["level"]
     r = getResources(cityID)
@@ -522,20 +510,6 @@ def deleteBuilding(buildingID):
 #+========Messages========+#
 #+========================+#
 
-## returns the current date and time
-def getTime():
-    import datetime
-    d = str(datetime.datetime.now())
-    d = d.split(" ")
-    date = ""
-
-    time = d[1].split(":")
-    day = d[0].split("-")
-
-    date += day[1]+"/"+day[2]+"/"+day[0]+" at "
-    date += time[0]+":"+time[1]
-    return date
-
 ## add message between fromUser and toUser
 def addmsg(fromID, toID, message):
     conn = sqlite3.connect("data.db")
@@ -645,17 +619,3 @@ def attack(defendingCity, attackingCity):
         c.execute("UPDATE cities SET soldiers = ? WHERE city_id = ?;", (dSoldiers, defendingCity))
     c.execute("UPDATE cities SET soldiers = ? WHERE city_id = ?;", (aSoldiers, attackingCity))
     conn.commit()
-
-
-
-createWorld()
-conn = sqlite3.connect("data.db")
-c = conn.cursor()
-
-addAccount("test", "123", "")
-addAccount("milo", "123", " ")
-addAccount("other", "123", "atgmaildotcom")
-
-p = c.execute("SELECT cx, cy, city_name, city_id FROM cities;")
-for r in p:
-    print r[2]+": "+str(r[0])+", "+str(r[1])+" ("+str(getWeatherOf(r[3]))+")"

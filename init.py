@@ -17,6 +17,7 @@ c.execute(q %("buildings"))
 c.execute(q %("messages"))
 c.execute(q %("friends"))
 c.execute(q %("citylinks"))
+c.execute(q %("updatetimes"))
 """
 
 q = "CREATE TABLE IF NOT EXISTS %s (%s);"
@@ -37,6 +38,8 @@ c.execute(q %("messages", 'from_id INTEGER, to_id INTEGER, message TEXT, time IN
 c.execute(q %("friends", 'you INTEGER, them INTEGER'))
 
 c.execute(q %("citylinks", 'city_id INTEGER, place TEXT'))
+
+c.execute(q %("updatetimes", 'account_id INTEGER, time INTEGER'))
 
 conn.commit()
 conn.close()
