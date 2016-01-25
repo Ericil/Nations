@@ -34,9 +34,15 @@ xMax = 8
 yMax = 16
 aiCount = 10
 
+# == starting values ==
 startPop = 100; # a constant that represents how much population the city starts with
 startSol = 50; # a constant that represents how many soldiers the city starts with
 startHappiness = 100;# a constant that is how happy a city starts out as
+startwood = 2000
+startiron = 2000
+startgold = 2000
+startfood = 2000
+# =====================
 
 allBuildings = [
 {"name":"house", "type":1, "housed":1000},# houses people, increase gold?
@@ -105,18 +111,12 @@ def addAccount(uname, pword, email):
         if r[0] == email:
             return "There is already an account associated with this email"
 
-    # == temp starting values ==
-    wood = 2000
-    iron = 2000
-    gold = 2000
-    food = 2000
-    # ==========================
 
     coords = findNewCoords()
     c.execute("INSERT INTO accounts(uname, pword, email) VALUES (?, ?, ?);", (uname, pword, email))
     conn.commit()
     conn.close()
-    addCity(uname+"polis", findID(uname), coords[0], coords[1], wood, iron, gold, food)
+    addCity(uname+"polis", findID(uname), coords[0], coords[1], startwood, startiron, startgold, startfood)
     #linkCity(getCityID(uname+"polis"), allCities[random.randrange(len(allCities))])
     saveStamp(findID(uname))
 
@@ -744,3 +744,6 @@ addAccount("test", "123", "")
 addBuilding(getCityID("testpolis"), 1, 1, 7)
 addAccount("milo", "123", " ")
 levelUpBuilding(getBuildingXY(getCityID("testpolis"), 1, 1))
+print getResources(getCityID("testpolis"))
+updateStamp(getCityID("testpolis"))
+print getResources(getCityID("testpolis"))
