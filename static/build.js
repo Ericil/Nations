@@ -170,6 +170,7 @@ var setupBuild = function setupBuild(){
 		upgrade.addEventListener("click", function(e){
 				e.preventDefault();
 				upgradeBuilding();
+				$(".upgrade-bar").fadeOut();
 		});
 
 		$.get("/get_functions", {type: "base_building_stats"}, function(data){
