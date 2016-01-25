@@ -156,7 +156,7 @@ def findID(uname):
     p = c.execute("SELECT account_id FROM accounts WHERE uname = '%s';" %(uname))
     for r in p:
         return r[0]
-    return -1
+    return 0
 
 ## finds the uname for account with ID
 def findUname(ID):
