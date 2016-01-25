@@ -34,9 +34,15 @@ xMax = 8
 yMax = 16
 aiCount = 10
 
+# == starting values ==
 startPop = 100; # a constant that represents how much population the city starts with
 startSol = 50; # a constant that represents how many soldiers the city starts with
 startHappiness = 100;# a constant that is how happy a city starts out as
+startwood = 2000
+startiron = 2000
+startgold = 2000
+startfood = 2000
+# =====================
 
 allBuildings = [
 {"name":"house", "type":1, "housed":1000},# houses people, increase gold?
@@ -105,18 +111,12 @@ def addAccount(uname, pword, email):
         if r[0] == email:
             return "There is already an account associated with this email"
 
-    # == temp starting values ==
-    wood = 2000
-    iron = 2000
-    gold = 2000
-    food = 2000
-    # ==========================
 
     coords = findNewCoords()
     c.execute("INSERT INTO accounts(uname, pword, email) VALUES (?, ?, ?);", (uname, pword, email))
     conn.commit()
     conn.close()
-    addCity(uname+"polis", findID(uname), coords[0], coords[1], wood, iron, gold, food)
+    addCity(uname+"polis", findID(uname), coords[0], coords[1], startwood, startiron, startgold, startfood)
     #linkCity(getCityID(uname+"polis"), allCities[random.randrange(len(allCities))])
     saveStamp(findID(uname))
 
@@ -330,8 +330,7 @@ def getResources(cityID):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
     p = []
-    if cityID != None:
-        p = c.execute("SELECT wood, iron, gold, food, population, soldiers, happiness FROM cities WHERE city_id = %s;" %(cityID))
+    p = c.execute("SELECT wood, iron, gold, food, population, soldiers, happiness FROM cities WHERE city_id = %s;" %(cityID))
     for r in p:
         ret = {"wood":r[0], "iron":r[1], "gold":r[2],"food":r[3], "population":r[4], "soldiers":r[5], "happiness":r[6]}
         conn.close()
@@ -348,8 +347,6 @@ def updateResources(cityID, wood, iron, gold, food, population, soldiers, happin
 
 ## get the increases in all resources
 def getResourceIncreases(cityID):
-    if cityID == None:
-        return
     buildings = getBuildingsIn(cityID)
     peopleHoused = 0
     soldiers = 0
@@ -463,6 +460,8 @@ def buildingPrice(type):
 def addBuilding(cityID, bx, by, type):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
+    if type == 3:
+        return False
     resources = getResources(cityID)
     price = buildingPrice(type)
     for key in price.keys():
@@ -481,10 +480,8 @@ def addBuilding(cityID, bx, by, type):
 def getBuildingsIn(cityID):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
-    p = []
     buildings = []
-    if cityID != None:
-        p = c.execute("SELECT city_id, bx, by, type, level FROM buildings WHERE city_id = %s;" %(cityID))
+    p = c.execute("SELECT city_id, bx, by, type, level FROM buildings WHERE city_id = %s;" %(cityID))
     for r in p:
         buildings.append({"city_id":r[0], "bx":r[1], "by":r[2],"type":r[3], "level":r[4]})
     conn.close()
@@ -747,21 +744,6 @@ addAccount("test", "123", "")
 addBuilding(getCityID("testpolis"), 1, 1, 7)
 addAccount("milo", "123", " ")
 levelUpBuilding(getBuildingXY(getCityID("testpolis"), 1, 1))
-
-
-"""
-addAccount("milo", "123", " ")
-
-addAccount("other", "123", "atgmaildotcom")
-
-p = c.execute("SELECT cx, cy, city_name, city_id FROM cities;")
-for r in p:
-    print r[2]+": "+str(r[0])+", "+str(r[1])+" ("+str(getWeatherOf(r[3]))+")"
-
-
-addBuilding(getCityID("testpolis"), 1, 1, 5)
-print getResources(1)
-updateStamp(1)
-print getResources(1)
-
-"""
+print getResources(getCityID("testpolis"))
+updateStamp(getCityID("testpolis"))
+print getResources(getCityID("testpolis"))
