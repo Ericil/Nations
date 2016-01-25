@@ -26,7 +26,7 @@ def getCitiesWeather():
 #+===++ Static Vars ++====+#
 #+========================+#
 
-#allCities = getCitiesWeather().keys()
+allCities = getCitiesWeather().keys()
 
 timeInterval = 5## in seconds
 
@@ -64,7 +64,7 @@ prices = [
 
 # Updated at times:
 
-#currWeather = getCitiesWeather()
+currWeather = getCitiesWeather()
 
 #+========================+#
 #+=====++ Accounts ++=====+#
@@ -436,6 +436,8 @@ def upgradePrice(buildingID):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
     p = c.execute("SELECT type, level FROM buildings WHERE building_id = %s" %(buildingID))
+    type = 0
+    level = 0
     for r in p:
         type = r[0]
         level = r[1]
@@ -516,9 +518,9 @@ def levelUpBuilding(buildingID):
     c = conn.cursor()
 
     p = c.execute("SELECT city_id FROM buildings WHERE building_id = %s" %(buildingID))
+    cityID = 0
     for r in p:
         cityID = r[0]
-    conn.close()
     resources = getResources(cityID)
     price = upgradePrice(buildingID)
     for key in price.keys():
@@ -545,6 +547,7 @@ def levelUpBuilding(buildingID):
         return True
     return False
     # returns false if the price is too high or the level is too high
+
 
 ## gets the building type name
 def getBuildingName(buildingID):
@@ -743,6 +746,8 @@ def updateStamp(userID):
 addAccount("test", "123", "")
 addBuilding(getCityID("testpolis"), 1, 1, 7)
 addAccount("milo", "123", " ")
+levelUpBuilding(getBuildingXY(getCityID("testpolis"), 1, 1))
+
 
 """
 addAccount("milo", "123", " ")
@@ -755,7 +760,6 @@ for r in p:
 
 
 addBuilding(getCityID("testpolis"), 1, 1, 5)
->>>>>>> master
 print getResources(1)
 updateStamp(1)
 print getResources(1)
