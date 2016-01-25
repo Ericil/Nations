@@ -248,6 +248,7 @@ var generateCity = function generateCity(x, y, dictionary){
 };
 
 var generate2 = function generate2(x, y, building, lvl, prc){
+		console.log(prc);
 		var final = Crafty.e("2D, DOM, Mouse")
 				.attr('z', (x+2 * y+1))//Z coordinate perspective
 				.attr({xCord: x, yCord: y})
@@ -255,11 +256,18 @@ var generate2 = function generate2(x, y, building, lvl, prc){
 							 gold: prc["gold"], wood: prc["wood"],
 							 iron: prc["iron"]})//Level and price //Can be retreived with this.attr("level")
 				.bind("Click", function(){
-						console.log("hello");
+						if (isBuilding){
+								var head = document.getElementsByClassName("upgrade-head")[0];
+								head.innerHTML = "{} Level {}".format(building, lvl);
+								$("#upgrade-gold").html("Gold: " + prc["gold"]);
+								$("#upgrade-wood").html("Wood: " + prc["wood"]);
+								$("#upgrade-iron").html("Iron: " + prc["iron"]);
+								$("#upgrade-food").html("Food: " + prc["food"]);
+								$(".upgrade-bar").data("x", x).data("y", y).fadeIn();
+						}
 				});
 		final.addComponent("" + building + "C");//Check out the components section to find the name
 		iso.place(x + 2, y + 1, 5, final);//place the building
-		var pos = iso.pos2px(x, y);
 };
 
 
@@ -271,18 +279,17 @@ function addBuilding(floor){
 						c: floor.yCord, d: currentBuilding},
 							function(data){
 									if (JSON.parse(data))
-											getBuilding(floor);
+											getBuilding(floor.xCord, floor.yCord);
 									else
 											$(".alert").show();
 							});
 		}
 }
 
-function getBuilding(floor){
+var getBuilding = function getBuilding(x, y){
 		$.get("/get_functions", {
 				type: "get_specific_building_stat",
-				a: cityname, b: floor.xCord,
-				c: floor.yCord},
+				a: cityname, b: x, c: y},
 					function(data){
 							setupBuilding(JSON.parse(data));
 							$.get("/get_functions",
@@ -291,4 +298,4 @@ function getBuilding(floor){
 												overviewBuildings(data);
 										});
 					});
-}
+};

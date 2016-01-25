@@ -85,13 +85,12 @@ var switchMap = function switchMap(){
 
 var updateInterval;
 $(document).ready(function(){
-		console.log("ready");
 		hoverOptions();
 		clickOptions();
 		setupChat();
 		setupBuild();
 		setupInfo();
-
+		
 		var map = document.getElementById("map-icon");
 		map.addEventListener("click", switchMap);
 

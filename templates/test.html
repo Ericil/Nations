@@ -21,8 +21,9 @@
 	
 		<!-- Nav bar: Contains resources and settings -->
 		{% include 'navbar.html' %}
-
+		
 		<div id="game"></div>
+		
 		<!-- Overview -->
 		{% include 'overview.html' %}
 
@@ -35,18 +36,21 @@
 		<!-- chat -->
 		{% include 'chat.html' %}
 
+		{% include 'upgrade.html' %}
 	
-		<img id="map-icon" src="http://blog.sajandu.com/wp-content/uploads/2015/05/WEB.png" class="img-thumbnail" alt="Mappe"></div>
+		<img id="map-icon" src="http://blog.sajandu.com/wp-content/uploads/2015/05/WEB.png" class="img-thumbnail" alt="Mappe">
 
 		<div class="alert alert-danger fade in">
 			<a href="#" class="close" data-dismiss="alert" aria-label="close"">&times;</a>Not enough resources!
 		</div>
+
+		<img id="1" class="sprite" src="{{url_for('static', filename='sprites/1.png')}}">
 		
-			<script src="{{url_for('static', filename='overview.js')}}"></script>
-			<script src="{{url_for('static', filename='build.js')}}"></script>
-			<script src="{{url_for('static', filename='chat.js')}}"></script>
-			<script src="{{url_for('static', filename='settings.js')}}"></script>
-			<script src="{{url_for('static', filename='game.js')}}"></script>
+		<script src="{{url_for('static', filename='overview.js')}}"></script>
+		<script src="{{url_for('static', filename='build.js')}}"></script>
+		<script src="{{url_for('static', filename='chat.js')}}"></script>
+		<script src="{{url_for('static', filename='settings.js')}}"></script>
+		<script src="{{url_for('static', filename='game.js')}}"></script>
   </body>
 
 </html>
