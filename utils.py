@@ -253,7 +253,13 @@ def setCityOwner(accountID, cityID):
     c.execute("UPDATE cities SET account_id = ? WHERE city_id = ?;", (accountID, cityID))
     conn.commit()
 
-
+## get the x and y values of a city in a dictionary
+def getCityCoords(cityID):
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    p = c.execute("SELECT cx, cy FROM cities WHERE city_id = %s" %(cityID))
+    for r in p:
+        return {"cx" r[0], "cy": r[1]}
 
 ## Returns a list of city_ids of that accountID
 def getCitiesID(accountID):
@@ -406,7 +412,7 @@ def findBuildingName(buildType):
         if r["type"] == buildType:
             return r["name"]
     return 0
-    
+
 ## returns a dictionary of prices (can include wood, iron, gold, or food)
 def upgradePrice(buildingID):
     conn = sqlite3.connect("data.db")
