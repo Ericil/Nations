@@ -260,9 +260,14 @@ def set_functions():
         return "success"
 
     if function_type == "set_building":
-        """buildingID"""
-        utils.LevelUpBuilding(a);
-        return "success"
+        """cityName, bx, by"""
+        cityID = utils.getCityID(a)
+        print a
+        print cityID
+        buildingID = utils.getBuildingXY(cityID, b, c)
+        print buildingID
+        success = utils.levelUpBuilding(buildingID);
+        return json.dumps(success)
 
 if __name__ == "__main__":
     app.secret_key= 'OIBO&*(YOMNKIU123!@!@(O'
