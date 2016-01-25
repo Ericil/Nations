@@ -106,10 +106,10 @@ def addAccount(uname, pword, email):
             return "There is already an account associated with this email"
 
     # == temp starting values ==
-    wood = 200
-    iron = 200
-    gold = 200
-    food = 200
+    wood = 2000
+    iron = 2000
+    gold = 2000
+    food = 2000
     # ==========================
 
     coords = findNewCoords()
@@ -341,7 +341,7 @@ def getResourceIncreases(cityID):
     happiness = 0
     for b in buildings:
         if b["type"] == 1:# house
-            peopleHoused += allBuildings[0]["peopleHoused"]*b["level"]
+            peopleHoused += allBuildings[0]["housed"]*b["level"]
         if b["type"] == 2:# barracks
             soldiers += allBuildings[1]["soldiers"]*b["level"]
         if b["type"] == 4:# hospital
@@ -354,7 +354,7 @@ def getResourceIncreases(cityID):
         if b["type"] == 7:# farm
             food += allBuildings[6]["food"]*b["level"]
         if b["type"] == 8:# mall
-            gold += allBuildings[7]["shop"]*b["level"]
+            gold += allBuildings[7]["gold"]*b["level"]
         if b["type"] == 9:# park
             happiness += allBuildings[8]["happiness"]*b["level"]
     r = getResources(cityID)
@@ -399,6 +399,12 @@ def findBuildingType(name):
     for r in allBuildings:
         if r["name"] == name:
             return r["type"]
+    return 0
+
+def findBuildingName(buildType):
+    for r in allBuildings:
+        if r["type"] == buildType:
+            return r["name"]
     return 0
     
 ## returns a dictionary of prices (can include wood, iron, gold, or food)
@@ -689,7 +695,19 @@ def updateStamp(userID):
 #createWorld()
 
 addAccount("test", "123", "")
+"""
+addAccount("milo", "123", " ")
+
+addAccount("other", "123", "atgmaildotcom")
+
+p = c.execute("SELECT cx, cy, city_name, city_id FROM cities;")
+for r in p:
+    print r[2]+": "+str(r[0])+", "+str(r[1])+" ("+str(getWeatherOf(r[3]))+")"
+
+
 addBuilding(getCityID("testpolis"), 1, 1, 5)
 print getResources(1)
 updateStamp(1)
 print getResources(1)
+
+"""
