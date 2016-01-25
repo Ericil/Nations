@@ -17,6 +17,7 @@ if offline:
 
 
 
+
 @app.route("/")
 def intro():
     return render_template("login.html")
@@ -171,8 +172,10 @@ def get_functions():
         return json.dumps(hold)
 
     if function_type == "get_specific_building_stat":
-        """buildingID"""
-        hold = utils.getBuilding(a)
+        """cityName, buildingx, buildingy"""
+        cityId = utils.getCityID(a)
+        buildingID = utils.getBuildingXY(cityID, b, c)
+        hold = utils.getBuilding(buildingID)
         return json.dumps(hold)
 
     if function_type == "get_friends":

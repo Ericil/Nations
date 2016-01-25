@@ -20,6 +20,10 @@ body {
 	
 }
 
+.alert {
+		display: none;
+}
+
 /*-------------------------------- Game -----------------------------------*/
 #game {
     position: relative;

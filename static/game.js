@@ -180,7 +180,7 @@ Crafty.defineScene("smallMap", function(){
     	    .attr('z', (i+2 * y+1))//makes things look pretty
     	    .attr({xCord: i, yCord: y})
     	    .bind("Click", function(){
-							makeBuilding(this);
+							addBuilding(this);
     			});
     				iso.place(i+2,y+1,0, gTile);
 				}
@@ -241,21 +241,27 @@ function generate2(x, y, building, lvl, prc){
 }
 
 
-function makeBuilding(floor){
-		var prices = {"food": "0", "wood": "0",
-									"gold": "0", "iron": "0"};
-		
+function addBuilding(floor){
 		if (isBuilding && typeof currentBuilding != 'undefined'){
-				console.log("Inside if");
-				var current = $("[data-list-type='" + currentBuilding +"']");
-				
-				current.each(function(index){
-						var type = this.data("price-type");
-						var value = this.data("price-value");
-						console.log(type);
-						console.log(value);
-						prices[type] = value;
-				});
-				generate1(floor, currentBuilding, "1", prices);
+				$.get("/set_functions", {
+						type: "add_building",
+						a: cityname, b: floor.xCord,
+						c: floor.yCord, d: currentBuilding},
+							function(data){
+									if (data)
+											getBuilding(floor);
+									else
+											$(".alert").show();
+							});
 		}
+}
+
+function getBuilding(floor){
+		$.get("/get_functions", {
+				type: "get_specific_building_stat",
+				a: cityname, b: floor.xCord,
+				c: floor.yCord},
+					function(data){
+							makeBuilding(JSON.parse(data));
+					});
 }

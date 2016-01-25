@@ -112,14 +112,12 @@ var makePanel = function makePanel(building, price, destination){
 				} 
 		}
 		content += "</ul>";
-		content += "<div>Prices</div>";
-		content += "<ul data-list-type='{}-prices'>".format(building["name"]);
+		content += "<div>Prices</div><ul>";
 		for (var i = 0; i < priceTypes.length; i++){
 				key = priceTypes[i];
 				if (price.hasOwnProperty(key)){
 						value = price[key];
-						content += "<li data-price-type={} data-price-value={}>".format(key, String(value));
-						content += "{}: {}</li>".format(key, String(value));
+						content += "<li>{}: {}</li>".format(key, String(value));
 				} 
 		}
 		content += "</ul>";
@@ -184,7 +182,23 @@ var setupBuildings = function setupBuildings(data){
 		var building;
 		for (var i = 0; i < info.length; i++){
 				building = info[i];
-				
+				setupBuilding(building);
 		}
+};
+
+
+var setupBuilding = function setupBuilding(building){
+		var prices = {"food": "0", "wood": "0",
+									"gold": "0", "iron": "0"};
+		var x, y, lvl, upgrade;
 		
+		x = building["bx"];
+		y = building["by"];
+		lvl = building["level"];
+		upgrade = building["upgradePrice"];
+		for (var key in upgrade){
+				if (upgrade.hasOwnProperty(key))
+						prices[key] = upgrade[key];
+		}
+		generate2(x, y, building, lvl, prices);
 };
