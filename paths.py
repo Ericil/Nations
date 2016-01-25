@@ -172,22 +172,23 @@ def get_functions():
     if function_type == "get_map":
         """cityName"""
         cityID = utils.getCityID(a)
-        coord = getCityCoords(cityID)
+        coord = utils.getCityCoords(cityID)
         x = coord["cx"]
         y = coord["cy"]
         worldMap = utils.generateMap(x, y)
         d = {}
-        for column in range(worldMap[0].length):
-            for row in range(worldMap.length):
-              name = worldMap[column][row]
-              cityID = utils.getCityID(name)
-              accoundID = utils.getCityOwner(cityID)
-              username = utils.findUname(accountID)
-              d["cityname"] = name
-              d["username"] = username
-              d["xcor"] = a + column
-              d["ycor"] = b + row
-              worldMap[column][row] = d
+        for row in range(len(worldMap)):
+            for col in range(len(worldMap[row])):
+              name = worldMap[row][col]
+              if (name):
+                  cityID = utils.getCityID(name)
+                  accountID = utils.getCityOwner(cityID)
+                  username = utils.findUname(accountID)
+                  d["cityname"] = name
+                  d["username"] = username
+                  d["xcor"] = x + col
+                  d["ycor"] = y + row
+                  worldMap[row][col] = d
         return json.dumps(worldMap)
         
     if function_type == "get_friends":

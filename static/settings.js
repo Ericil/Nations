@@ -55,10 +55,11 @@ var toggle_visible = function toggle_visible(id){
 };
 
 var switchMap = function switchMap(){
-		console.log(currentMap);
+		var source;
 		if (currentMap == "smallMap"){
 				$("chatbox").hide();
 				$("#chat-select").hide();
+				source = "https://lh3.googleusercontent.com/-A2vLgCVtq3Y/AAAAAAAAAAI/AAAAAAAAAAA/gt9E5dEILXM/photo.jpg";
 				currentMap = "bigMap";
 				$.get("/get_functions", {type: "get_map", a: cityname}, function(data){
 						console.log(data);
@@ -67,6 +68,7 @@ var switchMap = function switchMap(){
 				});
 		}
 		else {
+				source = "http://blog.sajandu.com/wp-content/uploads/2015/05/WEB.png";
 				currentMap = "smallMap";
 				change(currentMap);
 				$.get("/get_functions", {type: "get_city_buildings", a: cityname}, function(data){
@@ -76,6 +78,7 @@ var switchMap = function switchMap(){
 		}
 		toggle_visible("build-bar");
 		toggle_visible("sideoptions");
+		$("#map-icon").attr("src", source);
 };
 
 

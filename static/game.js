@@ -12,7 +12,7 @@ calculateSize();
 
 Crafty.init(width, height, document.getElementById('game'));
 //use a div with id="game", first two numbers are pixel dimensions
-Crafty.sprite(136,260, "http://i.imgur.com/r3P0cm3.png", {
+Crafty.sprite(136,260, "http://i.imgur.com/Bo8hhzg.png", {
     tile: [0,0,1,1],
     tileS: [0,1,1,1],
     cityHall:[1,0,1,1],
@@ -173,7 +173,7 @@ Crafty.c("barracksC", {
 Crafty.c("cityC", {
     init: function(){
         this.areaMap([21,52],[116,52],[118,232],[21,232])//change area map
-						.addComponent("barracks")
+						.addComponent("city")
 						.bind("MouseOver", function(){
 								this.removeComponent("city");
 								this.addComponent("cityS");//select sprite
@@ -200,14 +200,15 @@ Crafty.defineScene("smallMap", function(){
 		}
 });
 Crafty.defineScene("bigMap", function(){
-		for(var i = 8; i >= 0; i--) {
-				for(var y = 0; y < 16; y++) {
+		for(var i = 0; i < cityDictionaries.length; i++) {
+				for(var y = 0; y < cityDictionaries[i].length; y++) {
 						var city = cityDictionaries[i][y];
 						var gTile = Crafty.e("2D, DOM, tile, Mouse, tileC")
 								.attr('z', (i+2 * y+1))//makes things look pretty
 								.attr({xCord: i, yCord: y});
 						iso.place(i+2,y+1,0, gTile);
-						generateCity(i, y, city);
+						if (city != "")
+								generateCity(i, y, city);
 				}
 		}
 });
@@ -263,8 +264,10 @@ function getBuilding(floor){
 				c: floor.yCord},
 					function(data){
 							setupBuilding(JSON.parse(data));
-							$.get("/get_functions", {type: "get_city_buildings", a: cityname}, function(data){
-									overviewBuildings(data);
-							});
+							$.get("/get_functions",
+										{type: "get_city_buildings", a: cityname},
+										function(data){
+												overviewBuildings(data);
+										});
 					});
 }
