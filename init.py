@@ -38,5 +38,7 @@ c.execute(q %("friends", 'you INTEGER, them INTEGER'))
 
 c.execute(q %("citylinks", 'city_id INTEGER, place TEXT'))
 
+c.execute(q %("updatetimes", 'account_id INTEGER, time INTEGER'))
+
 conn.commit()
 conn.close()

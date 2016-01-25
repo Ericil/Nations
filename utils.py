@@ -1,17 +1,6 @@
 import sqlite3
 import random
-""" TABLES:
-
-
-accounts (account_id INTEGER PRIMARY KEY, uname TEXT, pword TEXT, email TEXT)
-
-cities (city_id INTEGER PRIMARY KEY, account_id INTEGER, city_name TEXT, cx INTEGER, cy INTEGER)
-
-buildings (building_id INTEGER PRIMARY KEY, city_id INTEGER, bx INTEGER, by INTEGER, type INTEGER, level INTEGER)
-
-messages (from_id INTEGER, to_id INTEGER, message INTEGER, time INTEGER, seen INTEGER)
-
-"""
+import time
 import init
 
 ## return a dictionary with weather
@@ -37,7 +26,7 @@ def getCitiesWeather():
 #+===++ Static Vars ++====+#
 #+========================+#
 
-allCities = getCitiesWeather().keys()
+#allCities = getCitiesWeather().keys()
 
 timeInterval = 10## In milliseconds
 
@@ -75,7 +64,7 @@ prices = [
 
 # Updated at times:
 
-currWeather = getCitiesWeather()
+#currWeather = getCitiesWeather()
 
 #+========================+#
 #+=====++ Accounts ++=====+#
@@ -127,8 +116,8 @@ def addAccount(uname, pword, email):
     c.execute("INSERT INTO accounts(uname, pword, email) VALUES (?, ?, ?);", (uname, pword, email))
     conn.commit()
     addCity(uname+"polis", findID(uname), coords[0], coords[1], wood, iron, gold, food)
-    linkCity(getCityID(uname+"polis"), allCities[random.randrange(len(allCities))])
-    conn.commit()
+    #linkCity(getCityID(uname+"polis"), allCities[random.randrange(len(allCities))])
+    saveStamp(findID(uname))
 
 
 
@@ -660,8 +649,40 @@ def attack(defendingCity, attackingCity):
     conn.commit()
 
 
+## Saves a timestamp for the last time that player's data was updated
+def saveStamp(userID):
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    p = c.execute("SELECT account_id FROM updatetimes")
+    b = False
+    for r in p:
+        if r[0] == userID:
+            b = True
+    if b:
+        c.execute("UPDATE updatetimes SET time = ? WHERE account_id = ?;", (int(time.time()), userID))
+    else:
+        c.execute("INSERT INTO updatetimes VALUES (?, ?);", (userID, int(time.time())))
+    conn.commit()
+
+## gets the time the player was last updated, updates, and saves the timestamp
+def updateStamp(userID):
+    conn = sqlite3.connect("data.db")
+    c = conn.cursor()
+    p = c.execute("SELECT time FROM updatetimes WHERE account_id = %s" %(userID))
+    updateTimes = 0
+    for r in p:
+        updateTimes = (int(time.time())-r[0])/5
+    x = 0
+    while x < updateTimes:
+        updateAll()
+        x += 1
+    saveStamp(userID)
 
 
+#createWorld()
 
-addAccount("milo", "123", " ")
-addBuilding(getCityID("milopolis"), 1, 1, 5)
+addAccount("test", "123", "")
+addBuilding(getCityID("testpolis"), 1, 1, 5)
+print getResources(1)
+updateStamp(1)
+print getResources(1)
