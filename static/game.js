@@ -4,9 +4,8 @@ var width;
 var height;
 
 var calculateSize = function calculateSize(){
-    var navHeight = document.getElementsByTagName("nav")[0].clientHeight;
-    width = window.innerWidth;
-    height = window.innerHeight - navHeight;
+		width = window.outerWidth;
+		height = window.outerHeight;
 };
 
 calculateSize();
@@ -201,44 +200,31 @@ Crafty.defineScene("smallMap", function(){
 		}
 });
 Crafty.defineScene("bigMap", function(){
-    for(var i = 4; i >= 0; i--) {
-        for(var y = 0; y < 4; y++) {
-    	var gTile = Crafty.e("2D, DOM, tile, Mouse, tileC")
-    	    .attr('z', (i+2 * y+1))//makes things look pretty
-    	    .attr({xCord: i, yCord: y});
-    				iso.place(i,y,0, gTile);
-        }
-    }
+		for(var i = 8; i >= 0; i--) {
+				for(var y = 0; y < 16; y++) {
+						var city = cityDictionaries[i][y];
+						var gTile = Crafty.e("2D, DOM, tile, Mouse, tileC")
+								.attr('z', (i+2 * y+1))//makes things look pretty
+								.attr({xCord: i, yCord: y});
+						iso.place(i+2,y+1,0, gTile);
+						generateCity(i, y, city);
+				}
+		}
 });
 
 Crafty.enterScene("smallMap");//Starts off in the small map
 function change(name){
-    Crafty.enterScene(name); //either bigMap or smallMap
+		Crafty.enterScene(name); //either bigMap or smallMap
 }
 
 /****Extra Functions****/
-function generate(thingy){
-    var tile = Crafty.e("2D, DOM, cityHall, Mouse, cityHallC")
-	.attr('z', (thingy.xCord+2 * thingy.yCord+1))
-    .bind("Click", function(){
-        //place click function here
-    });
-    iso.place(thingy.xCord,thingy.yCord,5,tile);
-}
-
-function generate1(floor, building, lvl, prc){
+var generateCity = function generateCity(x, y, dictionary){
 		var final = Crafty.e("2D, DOM, Mouse")
-				.attr('z', (floor.xCord+2 * floor.yCord+1))//Z coordinate perspective
-				.attr({xCord: floor.xCord, yCord: floor.yCord})
-				.attr({level: lvl, food: prc["food"],
-							 gold: prc["gold"], wood: prc["wood"],
-							 iron: prc["iron"]})//Level and price //Can be retreived with this.attr("level")
-				.bind("Click", function(){
-						console.log("hello");
-				});
-		final.addComponent("" + building + "C");//Check out the components section to find the name
-		iso.place(floor.xCord + 2, floor.yCord + 1, 5, final);//place the building
-}
+				.attr('z', (x+2 * y+1))
+				.attr({xCord: x, yCord: y})
+				.addComponent("cityC");
+		iso.place(x+2, y+1, 5, final);
+};
 
 var generate2 = function generate2(x, y, building, lvl, prc){
 		var final = Crafty.e("2D, DOM, Mouse")

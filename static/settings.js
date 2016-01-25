@@ -1,6 +1,7 @@
 console.log("These are the settings");
 
-var currentMap;
+var currentMap = "smallMap";
+var cityDictionaries;
 
 /*Adds mouseover events to buttons
 	Mouse over and out on options button to view options
@@ -45,14 +46,38 @@ var clickOptions = function clickOptions(){
     });
 };
 
+var toggle_visible = function toggle_visible(id){
+		var el = document.getElementById(id);
+		if (el.style.visibility == "hidden")
+				el.style.visibility = "visible";
+		else
+				el.style.visibility = "hidden";
+};
 
 var switchMap = function switchMap(){
-		if (currentMap == "smallMap")
-				currentMap == "bigMap";
-		else
-				currentMap == "smallMap";
-		change(currentMap);
-}
+		console.log(currentMap);
+		if (currentMap == "smallMap"){
+				$("chatbox").hide();
+				$("#chat-select").hide();
+				currentMap = "bigMap";
+				$.get("/get_functions", {type: "get_map", a: cityname}, function(data){
+						console.log(data);
+						cityDictionaries = JSON.parse(data);
+						change(currentMap);
+				});
+		}
+		else {
+				currentMap = "smallMap";
+				change(currentMap);
+				$.get("/get_functions", {type: "get_city_buildings", a: cityname}, function(data){
+						setupBuildings(data);
+						overviewBuildings(data);
+				});
+		}
+		toggle_visible("build-bar");
+		toggle_visible("sideoptions");
+};
+
 
 
 var updateInterval;

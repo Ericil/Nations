@@ -169,6 +169,27 @@ def get_functions():
         hold["type"] = utils.findBuildingName(hold["type"])
         return json.dumps(hold)
 
+    if function_type == "get_map":
+        """cityName"""
+        cityID = utils.getCityID(a)
+        coord = getCityCoords(cityID)
+        x = coord["cx"]
+        y = coord["cy"]
+        worldMap = utils.generateMap(x, y)
+        d = {}
+        for column in range(worldMap[0].length):
+            for row in range(worldMap.length):
+              name = worldMap[column][row]
+              cityID = utils.getCityID(name)
+              accoundID = utils.getCityOwner(cityID)
+              username = utils.findUname(accountID)
+              d["cityname"] = name
+              d["username"] = username
+              d["xcor"] = a + column
+              d["ycor"] = b + row
+              worldMap[column][row] = d
+        return json.dumps(worldMap)
+        
     if function_type == "get_friends":
         """username"""
         accountID = utils.findID(a)
