@@ -341,7 +341,7 @@ def getResourceIncreases(cityID):
     happiness = 0
     for b in buildings:
         if b["type"] == 1:# house
-            peopleHoused += allBuildings[0]["peopleHoused"]*b["level"]
+            peopleHoused += allBuildings[0]["housed"]*b["level"]
         if b["type"] == 2:# barracks
             soldiers += allBuildings[1]["soldiers"]*b["level"]
         if b["type"] == 4:# hospital
@@ -441,7 +441,7 @@ def addBuilding(cityID, bx, by, type):
     c.execute("INSERT INTO buildings(city_id, bx, by, type, level) VALUES (?, ?, ?, ?, ?);", (cityID, bx, by, type, 1))
     conn.commit()
     return True
-
+    
 
 ## gets a list of dictionaries, gathering all info about all buildings in city with cityID
 def getBuildingsIn(cityID):
