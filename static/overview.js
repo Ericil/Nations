@@ -18,7 +18,6 @@ var updateOverview = function updatOverview(data, type){
 				var item;
 				for (var key in info){
 						if (info.hasOwnProperty(key)){
-								console.log("key: " + key);
 								item = document.getElementById("view-" + key);
 								if (type == "resources")
 										item.children[0].innerHTML = info[key];	
@@ -64,37 +63,37 @@ var getResources = function getResources(){
 
 var getMultipliers = function getMultipliers(){
 		$.get("/get_functions", {type: "get_multipliers", a: cityname}, function(data){
-				//console.log(data);
+				console.log(data);
 				updateOverview(data, "multipliers");
 		});
 };
 
 var getCityNames = function getCityNames(){
-		$.get("/get_functions", {type: "get_cityNames", a: username}, function(data){
-				updateOverview(data, "cities");
-		});
+$.get("/get_functions", {type: "get_cityNames", a: username}, function(data){
+updateOverview(data, "cities");
+});
 };
 
 var getFriends = function getFriends(){
-		$.get("/get_functions", {type: "get_friends", a: username}, function(data){
-				updateOverview(data, "friends");
-				updateSelect(data, "friends");
-		});
+$.get("/get_functions", {type: "get_friends", a: username}, function(data){
+updateOverview(data, "friends");
+updateSelect(data, "friends");
+});
 };
 
 var setupInfo = function setupInfo(){
-		getResources();
-		getMultipliers();
-		getCityNames();
-		getFriends();
+getResources();
+getMultipliers();
+getCityNames();
+getFriends();
 };
 
 
 var updateInfo = function updateInfo(){
-		$.get("/set_functions", {type: "update_resources", a: cityname}, function(){
-				getResources();
-				getMultipliers();
-		});
+$.get("/set_functions", {type: "update_resources", a: cityname}, function(){
+getResources();
+getMultipliers();
+});
 }
 
 

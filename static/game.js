@@ -42,27 +42,27 @@ var iso = Crafty.isometric.size(136);
 Crafty.c("tileC", {
     init: function(){
         this.areaMap([68,0],[136,32],[136,48],[68,84],[0,48],[0,32])
-        .addComponent("tile")
-        .bind("MouseOver", function(){
-		    this.removeComponent("tile");
-		    this.addComponent("tileS");//select sprite
-	    }).bind("MouseOut", function(){
-		    this.removeComponent("tileS");
-		    this.addComponent("tile");//regular sprite
-	    });
+						.addComponent("tile")
+						.bind("MouseOver", function(){
+								this.removeComponent("tile");
+								this.addComponent("tileS");//select sprite
+						}).bind("MouseOut", function(){
+								this.removeComponent("tileS");
+								this.addComponent("tile");//regular sprite
+						});
     }
 });
-Crafty.c("cityHallC", {
+Crafty.c("cityhallC", {
     init: function(){
         this.areaMap([21,52],[116,52],[118,232],[21,232])
-        .addComponent("cityHall")
-        .bind("MouseOver", function(){
-		    this.removeComponent("cityHall");
-		    this.addComponent("cityHallS");//select sprite
-	    }).bind("MouseOut", function(){
-		    this.removeComponent("cityHallS");
-		    this.addComponent("cityHall");//regular sprite
-	    });
+						.addComponent("cityHall")
+						.bind("MouseOver", function(){
+								this.removeComponent("cityHall");
+								this.addComponent("cityHallS");//select sprite
+						}).bind("MouseOut", function(){
+								this.removeComponent("cityHallS");
+								this.addComponent("cityHall");//regular sprite
+						});
     }
 });
 Crafty.c("mineC", {
@@ -180,13 +180,11 @@ Crafty.defineScene("smallMap", function(){
     	    .attr('z', (i+2 * y+1))//makes things look pretty
     	    .attr({xCord: i, yCord: y})
     	    .bind("Click", function(){
-        		generate(this);
-        		//when ready, use the following:
-        		//generate(this, currentBuilding, levelNumber, price);
-    	    });
-    	iso.place(i+2,y+1,0, gTile);
-        }
-    }
+							makeBuilding(this);
+    			});
+    				iso.place(i+2,y+1,0, gTile);
+				}
+		}
 });
 Crafty.defineScene("bigMap", function(){
     for(var i = 4; i >= 0; i--) {
@@ -194,7 +192,7 @@ Crafty.defineScene("bigMap", function(){
     	var gTile = Crafty.e("2D, DOM, tile, Mouse, tileC")
     	    .attr('z', (i+2 * y+1))//makes things look pretty
     	    .attr({xCord: i, yCord: y});
-    	iso.place(i,y,0, gTile);
+    				iso.place(i,y,0, gTile);
         }
     }
 });
@@ -215,12 +213,35 @@ function generate(thingy){
 }
 
 function generate1(floor, building, lvl, prc){
-    var final = Crafty.e("2D, DOM, Mouse")
-    .attr('z', (floor.xCord+2 * floor.yCord+1))//Z coordinate perspective
-    .attr({level:lvl, price:prc})//Level and price //Can be retreived with this.attr("level")
-    .bind("Click", function(){
-        //place click function here
-    });
-    final.addComponent("" + building + "C");//Check out the components section to find the name
-    iso.place(floor.xCord, floor.yCord, 5, final);//place the building
+		var final = Crafty.e("2D, DOM, Mouse")
+				.attr('z', (floor.xCord+2 * floor.yCord+1))//Z coordinate perspective
+				.attr({xCord: floor.xCord, yCord: floor.yCord})
+				.attr({level: lvl, food: prc["food"],
+							 gold: prc["gold"], wood: prc["wood"],
+							 iron: prc["iron"]})//Level and price //Can be retreived with this.attr("level")
+				.bind("Click", function(){
+						console.log("hello");
+				});
+		final.addComponent("" + building + "C");//Check out the components section to find the name
+		iso.place(floor.xCord + 2, floor.yCord + 1, 5, final);//place the building
+}
+
+
+function makeBuilding(floor){
+		var prices = {"food": "0", "wood": "0",
+									"gold": "0", "iron": "0"};
+		
+		if (isBuilding && typeof currentBuilding != 'undefined'){
+				console.log("Inside if");
+				var current = $("[data-list-type='" + currentBuilding +"']");
+				
+				current.each(function(index){
+						var type = this.data("price-type");
+						var value = this.data("price-value");
+						console.log(type);
+						console.log(value);
+						prices[type] = value;
+				});
+				generate1(floor, currentBuilding, "1", prices);
+		}
 }

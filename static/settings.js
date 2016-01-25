@@ -1,5 +1,7 @@
 console.log("These are the settings");
 
+var currentMap;
+
 /*Adds mouseover events to buttons
 	Mouse over and out on options button to view options
 	Mouse over options to view descriptions
@@ -11,14 +13,12 @@ var hoverOptions = function hoverOptions(){
 								$(this).fadeIn();
 				});
     });
-
     $("#sideoptions").mouseleave(function(){
 				$(".btn-option").each(function(i){
 						if (i > 0)
 								$(this).fadeOut();	
 				});
     });
-    
     $('[data-toggle="tooltip"]').tooltip();
 };
 
@@ -45,8 +45,17 @@ var clickOptions = function clickOptions(){
     });
 };
 
-var updateInterval;
 
+var switchMap = function switchMap(){
+		if (currentMap == "smallMap")
+				currentMap == "bigMap";
+		else
+				currentMap == "smallMap";
+		change(currentMap);
+}
+
+
+var updateInterval;
 $(document).ready(function(){
 		console.log("ready");
 		hoverOptions();
@@ -54,6 +63,9 @@ $(document).ready(function(){
 		setupChat();
 		setupBuild();
 		setupInfo();
+
+		var map = document.getElementById("map-icon");
+		map.addEventListener("click", switchMap);
 
 		//updateInterval = setInterval(updateInfo, 5000);
 		
