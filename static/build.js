@@ -87,7 +87,6 @@ var buildOptions = function buildOptions(e){
 		e.preventDefault();
 		if (e.target.className == "build-panel"){
 				currentBuilding = e.target.id;
-				//console.log(currentBuilding);
 				$(".build-panel").css("border-color", "white");
 				e.target.style.borderColor = "red";
 		}
@@ -195,7 +194,6 @@ var setupBuildings = function setupBuildings(data){
 
 
 var setupBuilding = function setupBuilding(building){
-		console.log("inside setupBuilding");
 		var prices = {"food": "0", "wood": "0",
 									"gold": "0", "iron": "0"};
 		var x, y, lvl, type, upgrade;
@@ -209,7 +207,6 @@ var setupBuilding = function setupBuilding(building){
 				if (upgrade.hasOwnProperty(key))
 						prices[key] = upgrade[key];
 		}
-		console.log("generate2");
 		generate2(x, y, type, lvl, prices);
-		console.log("finished generate2");
 };
+
