@@ -247,7 +247,12 @@ var generateCity = function generateCity(x, y, dictionary){
 		iso.place(x+2, y+1, 5, final);
 };
 
-var generate2 = function generate2(x, y, building, lvl, prc){
+/*
+	Creates new sprite of type building at location x, y
+	Sets attributes
+	When clicked, will populate upgrade-bar with upgrade data
+*/
+var generate1 = function generate1(x, y, building, lvl, prc){
 		console.log(prc);
 		var final = Crafty.e("2D, DOM, Mouse")
 				.attr('z', (x+2 * y+1))//Z coordinate perspective
@@ -272,17 +277,31 @@ var generate2 = function generate2(x, y, building, lvl, prc){
 		iso.place(x + 2, y + 1, 5, final);//place the building
 };
 
-var updateValues = function updateValues(x, y, building, lvl, prc){
-		Crafty("" + building + "C").each(function(){
+/*
+	Checks for existing building at position x, y 
+	If exists, updates enitity's attributes
+	Otherwise, generate new sprite
+*/
+var generate2 = function generate2(x, y, building, lvl, prc){
+		var found = false;
+		Crafty("" + building + "C").each(function(i, el){
 				if (this.attr("xCord") == x && this.attr("yCord") == y){
 						this.attr({level: lvl, food: prc["food"],
 											 gold: prc["gold"], wood: prc["wood"],
 											 iron: prc["iron"]});
+						found = true;
+						return false;
 				}
 		});
+		if (!found){
+				generate1(x, y, building, lvl, prc);
+		}
 };
 
-
+/* 
+	 Try to add a building to the database 
+   On success, retrieves building's new data
+*/
 function addBuilding(floor){
 		if (isBuilding && typeof currentBuilding != 'undefined'){
 				$.get("/set_functions", {
@@ -291,19 +310,24 @@ function addBuilding(floor){
 						c: floor.yCord, d: currentBuilding},
 							function(data){
 									if (JSON.parse(data))
-											getBuilding(floor.xCord, floor.yCord, true);
+											getBuilding(floor.xCord, floor.yCord);
 									else
 											alert("Not enough money");
 							});
 		}
 }
 
-var getBuilding = function getBuilding(x, y, first){
+/*
+	 Get stats of building at position x, y in cityname
+	 and calls setupBuilding to parse data
+	 Also updates building info in overview
+*/
+var getBuilding = function getBuilding(x, y){
 		$.get("/get_functions", {
 				type: "get_specific_building_stat",
 				a: cityname, b: x, c: y},
 					function(data){
-							setupBuilding(JSON.parse(data), first);
+							setupBuilding(JSON.parse(data));
 							$.get("/get_functions",
 										{type: "get_city_buildings", a: cityname},
 										function(data){

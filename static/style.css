@@ -320,9 +320,7 @@ a.select-item:active {
 		margin-bottom: 9%;
 		margin-left: auto;
 		margin-right: auto;
-		background-size: 100% 100%;
-		/*	background-image: url("http://static.guim.co.uk/sys-images/Guardian/Pix/pictures/2014/9/24/1411574454561/03085543-87de-47ab-a4eb-58e7e39d022e-620x372.jpeg");*/
-
+		
 		border-radius: 10px;
 		border-style: solid;
 		border-color: white;
@@ -331,6 +329,12 @@ a.select-item:active {
 		-moz-transition: all 0.5s ease;
 		-o-transition: all 0.5s ease;
 		transition: all 0.5s ease;
+
+		background-image: url("http://i.imgur.com/Bo8hhzg.png");
+    background-repeat: no-repeat;
+		
+    backgound-size: 100%;
+    /*background-position: 10.6% 30%;*/
 }
 
 

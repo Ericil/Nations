@@ -24,6 +24,9 @@ var build = function build(){
 		var bar = document.getElementById("build-bar");
 		bar.classList.toggle("slidein");
 		isBuilding = !isBuilding;
+		var upgrade = document.getElementsByClassName("upgrade-bar")[0];
+		if (upgrade.style.display == "block" && !isBuilding)
+				upgrade.style.display = "none";
 };
 
 
@@ -98,7 +101,7 @@ var buildOptions = function buildOptions(e){
 	price - object with prices corresponding to building 
 	destination - the DOM element to append to
 */
-var makePanel = function makePanel(building, price, destination, i){
+var makePanel = function makePanel(building, price, destination, pos){
 		var panel = document.createElement("div");
 		var content = "<div>Production Values</div><ul>";
 		var key, value;
@@ -128,8 +131,10 @@ var makePanel = function makePanel(building, price, destination, i){
 				"data-trigger": "hover",
 				"data-html": "true",
 				"data-container": "body",
-				"data-content": content,
+				"data-content": content
 		});
+		pos = String((pos + 1) * 10);
+		panel.style.backgroundPosition = "{}% 30%".format(pos);
 		destination.appendChild(panel);
 };
 
@@ -182,17 +187,22 @@ var setupBuild = function setupBuild(){
 };
 
 
+/*
+	Generates all buildings in city 
+*/
 var setupBuildings = function setupBuildings(data){
 		var info = JSON.parse(data);
 		var building;
 		for (var i = 0; i < info.length; i++){
 				building = info[i];
-				setupBuilding(building, true);
+				setupBuilding(building);
 		}
 };
 
-
-var setupBuilding = function setupBuilding(building, first){
+/*
+	Parses building data (a json object) and calls generate
+*/
+var setupBuilding = function setupBuilding(building){
 		console.log(building);
 		var prices = {"food": 0, "wood": 0,
 									"gold": 0, "iron": 0};
@@ -207,12 +217,14 @@ var setupBuilding = function setupBuilding(building, first){
 				if (upgrade.hasOwnProperty(key))
 						prices[key] = upgrade[key];
 		}
-		if (first)
-				generate2(x, y, type, lvl, prices);
-		else
-				updateValues(x, y, type, lvl, prices);
+		generate2(x, y, type, lvl, prices);
 };
 
+/*
+	Retrieves x and y coord of building to upgrade
+	If possible, level up building
+	Otherwise display error message
+*/
 var upgradeBuilding = function upgradeBuilding(){
 		var x = $(".upgrade-bar").data("x");
 		var y = $(".upgrade-bar").data("y");
@@ -220,9 +232,9 @@ var upgradeBuilding = function upgradeBuilding(){
 				type: "set_building", a: cityname, b: x, c: y},
 					function(data){
 							if (JSON.parse(data))
-									getBuilding(x, y, false);
+									getBuilding(x, y);
 							else
-									alert("Not enough money");
+									alert("Level too low or not enough resources");
 					});
 }
 
