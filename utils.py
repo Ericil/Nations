@@ -483,9 +483,9 @@ def getBuildingsIn(cityID):
     conn = sqlite3.connect("data.db")
     c = conn.cursor()
     buildings = []
-    p = c.execute("SELECT city_id, bx, by, type, level FROM buildings WHERE city_id = %s;" %(cityID))
+    p = c.execute("SELECT city_id, bx, by, type, level, building_id FROM buildings WHERE city_id = %s;" %(cityID))
     for r in p:
-        buildings.append({"city_id":r[0], "bx":r[1], "by":r[2],"type":r[3], "level":r[4], "upgradePrice":upgradePrice(buildingID)})
+        buildings.append({"city_id":r[0], "bx":r[1], "by":r[2],"type":r[3], "level":r[4], "upgradePrice":upgradePrice(r[5])})
     conn.close()
     return buildings
 
