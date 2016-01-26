@@ -187,12 +187,12 @@ var setupBuildings = function setupBuildings(data){
 		var building;
 		for (var i = 0; i < info.length; i++){
 				building = info[i];
-				setupBuilding(building);
+				setupBuilding(building, true);
 		}
 };
 
 
-var setupBuilding = function setupBuilding(building){
+var setupBuilding = function setupBuilding(building, first){
 		console.log(building);
 		var prices = {"food": 0, "wood": 0,
 									"gold": 0, "iron": 0};
@@ -207,20 +207,20 @@ var setupBuilding = function setupBuilding(building){
 				if (upgrade.hasOwnProperty(key))
 						prices[key] = upgrade[key];
 		}
-		generate2(x, y, type, lvl, prices);
+		if (first)
+				generate2(x, y, type, lvl, prices);
+		else
+				updateValues(x, y, type, lvl, prices);
 };
 
 var upgradeBuilding = function upgradeBuilding(){
 		var x = $(".upgrade-bar").data("x");
 		var y = $(".upgrade-bar").data("y");
-		console.log("inside upgrade");
-		console.log(x);
-		console.log(y);
 		$.get("/set_functions", {
 				type: "set_building", a: cityname, b: x, c: y},
 					function(data){
 							if (JSON.parse(data))
-									getBuilding(x, y);		
+									getBuilding(x, y, false);		
 					});
 }
 

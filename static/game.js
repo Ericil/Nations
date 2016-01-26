@@ -264,12 +264,20 @@ var generate2 = function generate2(x, y, building, lvl, prc){
 								$("#upgrade-iron").html("Iron: " + prc["iron"]);
 								$("#upgrade-food").html("Food: " + prc["food"]);
 								$(".upgrade-bar").data("x", x).data("y", y).fadeIn();
-								console.log(x);
-								console.log(y);
 						}
 				});
 		final.addComponent("" + building + "C");//Check out the components section to find the name
 		iso.place(x + 2, y + 1, 5, final);//place the building
+};
+
+var updateValues = function updateValues(x, y, building, lvl, prc){
+		Crafty("" + building + "C").each(function(){
+				if (this.attr("xCord") == x && this.attr("yCord") == y){
+						this.attr({level: lvl, food: prc["food"],
+											 gold: prc["gold"], wood: prc["wood"],
+											 iron: prc["iron"]});
+				}
+		});
 };
 
 
@@ -281,19 +289,19 @@ function addBuilding(floor){
 						c: floor.yCord, d: currentBuilding},
 							function(data){
 									if (JSON.parse(data))
-											getBuilding(floor.xCord, floor.yCord);
+											getBuilding(floor.xCord, floor.yCord, true);
 									else
 											$(".alert").show();
 							});
 		}
 }
 
-var getBuilding = function getBuilding(x, y){
+var getBuilding = function getBuilding(x, y, first){
 		$.get("/get_functions", {
 				type: "get_specific_building_stat",
 				a: cityname, b: x, c: y},
 					function(data){
-							setupBuilding(JSON.parse(data));
+							setupBuilding(JSON.parse(data), first);
 							$.get("/get_functions",
 										{type: "get_city_buildings", a: cityname},
 										function(data){
