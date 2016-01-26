@@ -258,12 +258,14 @@ var generate2 = function generate2(x, y, building, lvl, prc){
 				.bind("Click", function(){
 						if (isBuilding){
 								var head = document.getElementsByClassName("upgrade-head")[0];
-								head.innerHTML = "{} Level {}".format(building, lvl);
-								$("#upgrade-gold").html("Gold: " + prc["gold"]);
-								$("#upgrade-wood").html("Wood: " + prc["wood"]);
-								$("#upgrade-iron").html("Iron: " + prc["iron"]);
-								$("#upgrade-food").html("Food: " + prc["food"]);
-								$(".upgrade-bar").data("x", x).data("y", y).fadeIn();
+								head.innerHTML = "{} Level {}".format(building, this.attr("level"));
+								$("#upgrade-gold").html("Gold: " + this.attr("gold"));
+								$("#upgrade-wood").html("Wood: " + this.attr("wood"));
+								$("#upgrade-iron").html("Iron: " + this.attr("iron"));
+								$("#upgrade-food").html("Food: " + this.attr("food"));
+								$(".upgrade-bar").data("x", this.attr("xCord"))
+										.data("y", this.attr("yCord"))
+										.fadeIn();
 						}
 				});
 		final.addComponent("" + building + "C");//Check out the components section to find the name
@@ -291,7 +293,7 @@ function addBuilding(floor){
 									if (JSON.parse(data))
 											getBuilding(floor.xCord, floor.yCord, true);
 									else
-											$(".alert").show();
+											alert("Not enough money");
 							});
 		}
 }

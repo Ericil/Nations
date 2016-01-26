@@ -220,7 +220,9 @@ var upgradeBuilding = function upgradeBuilding(){
 				type: "set_building", a: cityname, b: x, c: y},
 					function(data){
 							if (JSON.parse(data))
-									getBuilding(x, y, false);		
+									getBuilding(x, y, false);
+							else
+									alert("Not enough money");
 					});
 }
 

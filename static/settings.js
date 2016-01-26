@@ -95,5 +95,4 @@ $(document).ready(function(){
 		map.addEventListener("click", switchMap);
 
 		updateInterval = setInterval(updateInfo, 5000);
-		
 });
