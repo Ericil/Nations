@@ -46,13 +46,13 @@ startfood = 2000
 
 allBuildings = [
 {"name":"house", "type":1, "housed":1000},# houses people, increase gold?
-{"name":"barracks", "type":2, "soldiers":.5},# makes soldiers
+{"name":"barracks", "type":2, "soldiers":2},# makes soldiers
 {"name":"city hall", "type":3},# dictates highest level
-{"name":"hospital", "type":4, "food":.5},# lowers disease, restores wounded soldiers, increase food?
-{"name":"mine", "type":5, "iron":.5},
-{"name":"woodmill", "type":6, "wood":.5},
-{"name":"farm", "type":7, "food":.5},
-{"name":"mall", "type":8, "gold":.5},# increases gold
+{"name":"hospital", "type":4, "food":2},# lowers disease, restores wounded soldiers, increase food?
+{"name":"mine", "type":5, "iron":2},
+{"name":"woodmill", "type":6, "wood":2},
+{"name":"farm", "type":7, "food":2},
+{"name":"mall", "type":8, "gold":2},# increases gold
 {"name":"park", "type":9, "happiness":.25}# increase happiness
 ]
 
@@ -398,6 +398,7 @@ def updateCity(cityID):
     r["happiness"]+rInc["happiness"])
     conn.commit()
     conn.close()
+    print r
 
 
 ## update all cities
@@ -522,6 +523,7 @@ def levelUpBuilding(buildingID):
     price = upgradePrice(buildingID)
     for key in price.keys():
         if price[key] > resources[key]:
+            print "False: Not enough resources"
             return False
 
     for key in price.keys():
@@ -540,8 +542,9 @@ def levelUpBuilding(buildingID):
         c.execute("UPDATE buildings SET level = ? WHERE building_id = ?;", (level+1, buildingID))
         conn.commit()
         conn.close()
-
+        print "True"
         return True
+    print "False: City level not high enough"
     return False
     # returns false if the price is too high or the level is too high
 
@@ -740,10 +743,10 @@ def updateStamp(userID):
 
 #createWorld()
 
-addAccount("test", "123", "")
-addBuilding(getCityID("testpolis"), 1, 1, 7)
-addAccount("milo", "123", " ")
-levelUpBuilding(getBuildingXY(getCityID("testpolis"), 1, 1))
-print getResources(getCityID("testpolis"))
-updateStamp(getCityID("testpolis"))
-print getResources(getCityID("testpolis"))
+#addAccount("test", "123", "")
+#addBuilding(getCityID("testpolis"), 1, 1, 7)
+#addAccount("milo", "123", " ")
+#levelUpBuilding(getBuildingXY(getCityID("testpolis"), 1, 1))
+#print getResources(getCityID("testpolis"))
+#updateStamp(getCityID("testpolis"))
+#print getResources(getCityID("testpolis"))
