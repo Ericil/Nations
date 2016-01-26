@@ -204,7 +204,6 @@ var setupBuildings = function setupBuildings(data){
 	Parses building data (a json object) and calls generate
 */
 var setupBuilding = function setupBuilding(building){
-		console.log(building);
 		var prices = {};
 		var x, y, lvl, type, upgrade;
 		
@@ -213,12 +212,12 @@ var setupBuilding = function setupBuilding(building){
 		type = building["type"];
 		lvl = building["level"];
 		upgrade = building["upgradePrice"];
-		console.log(upgrade);
 		for (var key in priceTypes){
-				if (upgrade.hasOwnProperty(key))
-						prices[key] = upgrade[key];
+				var pr = priceTypes[key];
+				if (upgrade.hasOwnProperty(pr))
+						prices[pr] = upgrade[pr];
 				else
-						prices[key] = 0;
+						prices[pr] = 0;
 		}
 		generate2(x, y, type, lvl, prices);
 };
