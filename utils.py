@@ -431,15 +431,8 @@ def findBuildingName(buildType):
 
 ## returns a dictionary of prices (can include wood, iron, gold, or food)
 def upgradePrice(buildingID):
-    conn = sqlite3.connect("data.db")
-    c = conn.cursor()
-    p = c.execute("SELECT type, level FROM buildings WHERE building_id = %s" %(buildingID))
-    type = 0
-    level = 0
-    for r in p:
-        type = r[0]
-        level = r[1]
-    conn.close()
+    type = getBuilding(buildingID)["type"]
+    level = getBuilding(buildingID)["level"]
     price = {}
     for key in prices[type-1].keys():
         if (key != "type"):
