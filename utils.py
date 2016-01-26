@@ -444,6 +444,7 @@ def upgradePrice(buildingID):
     for key in prices[type-1].keys():
         if (key != "type"):
             price[key] = prices[type-1][key]*(level+1)# multiplied by level
+    print price
     return price
 
 
