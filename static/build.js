@@ -4,8 +4,9 @@ var len;
 var pos = 6;
 var isBuilding = false;
 var currentBuilding;
-var proTypes = ["housed", "soldiers",
-								"food", "iron", "wood", "gold", "happiness"];
+var proTypes = ["housed", "soldiers","food",
+								"iron", "wood", "gold", "happiness"];
+
 var priceTypes = ["gold", "iron", "food", "wood"];
 
 
@@ -204,8 +205,7 @@ var setupBuildings = function setupBuildings(data){
 */
 var setupBuilding = function setupBuilding(building){
 		console.log(building);
-		var prices = {"food": 0, "wood": 0,
-									"gold": 0, "iron": 0};
+		var prices = {};
 		var x, y, lvl, type, upgrade;
 		
 		x = building["bx"];
@@ -213,9 +213,12 @@ var setupBuilding = function setupBuilding(building){
 		type = building["type"];
 		lvl = building["level"];
 		upgrade = building["upgradePrice"];
-		for (var key in upgrade){
+		console.log(upgrade);
+		for (var key in priceTypes){
 				if (upgrade.hasOwnProperty(key))
 						prices[key] = upgrade[key];
+				else
+						prices[key] = 0;
 		}
 		generate2(x, y, type, lvl, prices);
 };
