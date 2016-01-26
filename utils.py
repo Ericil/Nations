@@ -485,7 +485,7 @@ def getBuildingsIn(cityID):
     buildings = []
     p = c.execute("SELECT city_id, bx, by, type, level FROM buildings WHERE city_id = %s;" %(cityID))
     for r in p:
-        buildings.append({"city_id":r[0], "bx":r[1], "by":r[2],"type":r[3], "level":r[4]})
+        buildings.append({"city_id":r[0], "bx":r[1], "by":r[2],"type":r[3], "level":r[4], "upgradePrice":upgradePrice(buildingID)})
     conn.close()
     return buildings
 
@@ -528,7 +528,7 @@ def levelUpBuilding(buildingID):
             return False
 
     for key in price.keys():
-        c.execute("UPDATE cities SET %s = ? WHERE city_id = ?;" %(key), (price[key], cityID))
+        c.execute("UPDATE cities SET %s = ? WHERE city_id = ?;" %(key), (resources[key]-price[key], cityID))
     p = c.execute("SELECT city_id, level, type FROM buildings WHERE building_id = %s;" %(buildingID))
     for r in p:
         cityID = r[0]
