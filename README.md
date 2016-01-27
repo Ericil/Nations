@@ -8,6 +8,16 @@ Ever harbored dreams of world domination? Control cities and battle it out with 
 3. Make friends and chat with them.
 4. Attack other people and gain their resources.
 
+##How to Play
+1. First, you have to create an account using register. Currently, we don't have email authorization working, but we can change that in the future.
+2. Next, youll be redirected to a newly created city.
+3. In this city, there will be an already placed city hall to the upper left. This is a once placement building, and since its also the tallest, we have taken the liberty to place it in the upper left.
+4. Next, you should probably start by place resource buildings. These resource buildings can be access by hovering over the icon on the left hand side, and then clicking on the very last icon, the House. This will open a tab on the right hand side.
+5. From this tab you can select buildings to place, and then place them on the grid. Each building costs a set amount of resources to build and upgrade.
+6. Each building will produce an amount of resources, and it updates every 5 seconds. If you go offline, don't worry, the resources will update even if youre gone!
+6. You can also access the world map, where you will be able to look around and attack other cities.
+7. Thanks for playing!
+
 ##Digital Ocean IP:
 
 ##The Team
