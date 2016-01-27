@@ -19,6 +19,7 @@ Ever harbored dreams of world domination? Control cities and battle it out with 
 7. Thanks for playing!
 
 ##Digital Ocean IP:
+162.243.7.139:8000
 
 ##The Team
 Derry Li (Team Leader, Middle)  
