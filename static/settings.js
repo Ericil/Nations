@@ -59,6 +59,7 @@ var switchMap = function switchMap(){
 		if (currentMap == "smallMap"){
 				$("chatbox").hide();
 				$("#chat-select").hide();
+				$(".upgrade-bar").css("display", "none");
 				source = "https://lh3.googleusercontent.com/-A2vLgCVtq3Y/AAAAAAAAAAI/AAAAAAAAAAA/gt9E5dEILXM/photo.jpg";
 				currentMap = "bigMap";
 				$.get("/get_functions", {type: "get_map", a: cityname}, function(data){
@@ -95,5 +96,4 @@ $(document).ready(function(){
 		map.addEventListener("click", switchMap);
 
 		updateInterval = setInterval(updateInfo, 5000);
-		
 });

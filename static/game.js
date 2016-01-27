@@ -247,7 +247,12 @@ var generateCity = function generateCity(x, y, dictionary){
 		iso.place(x+2, y+1, 5, final);
 };
 
-var generate2 = function generate2(x, y, building, lvl, prc){
+/*
+	Creates new sprite of type building at location x, y
+	Sets attributes
+	When clicked, will populate upgrade-bar with upgrade data
+*/
+var generate1 = function generate1(x, y, building, lvl, prc){
 		console.log(prc);
 		var final = Crafty.e("2D, DOM, Mouse")
 				.attr('z', (x+2 * y+1))//Z coordinate perspective
@@ -258,21 +263,45 @@ var generate2 = function generate2(x, y, building, lvl, prc){
 				.bind("Click", function(){
 						if (isBuilding){
 								var head = document.getElementsByClassName("upgrade-head")[0];
-								head.innerHTML = "{} Level {}".format(building, lvl);
-								$("#upgrade-gold").html("Gold: " + prc["gold"]);
-								$("#upgrade-wood").html("Wood: " + prc["wood"]);
-								$("#upgrade-iron").html("Iron: " + prc["iron"]);
-								$("#upgrade-food").html("Food: " + prc["food"]);
-								$(".upgrade-bar").data("x", x).data("y", y).fadeIn();
-								console.log(x);
-								console.log(y);
+								head.innerHTML = "{} Level {}".format(building, this.attr("level"));
+								$("#upgrade-gold").html("Gold: " + this.attr("gold"));
+								$("#upgrade-wood").html("Wood: " + this.attr("wood"));
+								$("#upgrade-iron").html("Iron: " + this.attr("iron"));
+								$("#upgrade-food").html("Food: " + this.attr("food"));
+								$(".upgrade-bar").data("x", this.attr("xCord"))
+										.data("y", this.attr("yCord"))
+										.fadeIn();
 						}
 				});
 		final.addComponent("" + building + "C");//Check out the components section to find the name
 		iso.place(x + 2, y + 1, 5, final);//place the building
 };
 
+/*
+	Checks for existing building at position x, y 
+	If exists, updates enitity's attributes
+	Otherwise, generate new sprite
+*/
+var generate2 = function generate2(x, y, building, lvl, prc){
+		var found = false;
+		Crafty("" + building + "C").each(function(i, el){
+				if (this.attr("xCord") == x && this.attr("yCord") == y){
+						this.attr({level: lvl, food: prc["food"],
+											 gold: prc["gold"], wood: prc["wood"],
+											 iron: prc["iron"]});
+						found = true;
+						return false;
+				}
+		});
+		if (!found){
+				generate1(x, y, building, lvl, prc);
+		}
+};
 
+/* 
+	 Try to add a building to the database 
+   On success, retrieves building's new data
+*/
 function addBuilding(floor){
 		if (isBuilding && typeof currentBuilding != 'undefined'){
 				$.get("/set_functions", {
@@ -283,11 +312,16 @@ function addBuilding(floor){
 									if (JSON.parse(data))
 											getBuilding(floor.xCord, floor.yCord);
 									else
-											$(".alert").show();
+											alert("Not enough money");
 							});
 		}
 }
 
+/*
+	 Get stats of building at position x, y in cityname
+	 and calls setupBuilding to parse data
+	 Also updates building info in overview
+*/
 var getBuilding = function getBuilding(x, y){
 		$.get("/get_functions", {
 				type: "get_specific_building_stat",

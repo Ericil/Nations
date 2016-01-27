@@ -8,6 +8,7 @@ var cityname = document.getElementById("cityname").innerHTML;
  */
 var overview = function overview(){
 		$('#overview-form').modal();
+		$(".upgrade-bar").css("display", "none");
 };
 
 var updateOverview = function updatOverview(data, type){
